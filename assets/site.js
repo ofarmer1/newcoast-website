@@ -59,6 +59,19 @@
     });
   }
 
+  /* ---------- Sketch cards: the line drawing draws itself once, in view ----------
+     Cards inside the pinned home chapters are drawn by home.js when their
+     chapter comes up instead. Reduced motion: drawn and still from the start. */
+  const sketches = document.querySelectorAll('.sk-card');
+  if (!reduce && sketches.length) {
+    const skIO = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting || e.target.closest('.chapters.pin')) return;
+      e.target.classList.add('drawn');
+      skIO.unobserve(e.target);
+    }), { rootMargin: '0px 0px -20% 0px' });
+    sketches.forEach(c => { c.classList.add('armed'); skIO.observe(c); });
+  }
+
   /* ---------- Scroll state, from observers ---------- */
   // Nav: solid once the top 40px have scrolled away (an observer, not a scroll listener).
   const navSentinel = document.createElement('div');

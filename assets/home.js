@@ -56,7 +56,10 @@
   function setPin() {
     chWrap.classList.toggle('pin', canPin());
     chCur = -1;
-    if (!canPin()) chs.forEach(c => c.classList.remove('on', 'past'));
+    if (!canPin()) {
+      chs.forEach(c => c.classList.remove('on', 'past'));
+      $$('.sk-card', chWrap).forEach(c => c.classList.add('drawn'));
+    }
   }
   function chScroll() {
     if (!chWrap.classList.contains('pin')) return;
@@ -66,6 +69,8 @@
     if (i !== chCur) {
       chCur = i;
       chs.forEach((c, k) => { c.classList.toggle('on', k === i); c.classList.toggle('past', k < i); });
+      const card = $('.sk-card', chs[i]);
+      if (card) card.classList.add('drawn');
     }
     bars.forEach((b, k) => b.style.setProperty('--p', Math.min(1, Math.max(0, p - k)).toFixed(3)));
   }

@@ -48,15 +48,16 @@ for page,current in PAGES.items():
  assert re.findall(r'<link[^>]+rel="stylesheet"[^>]*>',html)==sheets and 'fonts.g' not in html,page
  # Smooth scrolling library is self-hosted and loads before the site script.
  assert html.index('src="assets/vendor/lenis.min.js"') < html.index('src="assets/site.js"'),page
- # Video only on the home page, and every video has its own pause/play button (WCAG 2.2.2).
+ # Video only on the home and portfolio pages, and every video has its own pause/play button (WCAG 2.2.2).
  vids=re.findall(r'<video id="(\w+)"',html)
- assert page=='index.html' or not vids,page
+ assert page in ('index.html','portfolio.html') or not vids,page
  for v in vids: assert f'data-video="{v}"' in html,(page,v)
  for t,d in a.nodes:
   if t=='video':
    for k in ('data-src','data-src-sm','poster'):
     if k in d: assert (root/d[k]).is_file(),(page,k)
- assert 'data-theme="light"' not in html,page
+ # Every themed section names one of the two token sets.
+ assert set(re.findall(r'data-theme="(\w+)"',html))<={'light','dark'},page
  # Draft media boxes: every photo or video slot is tagged for Myles.
  for m in re.finditer(r'<img [^>]*src="assets/img/(?:facilities|team)/[^>]+>',html):
   before=html[:m.start()]
@@ -98,17 +99,23 @@ assert len(faces)==2 and all((root/'assets'/f).is_file() for f in faces),faces
 for u in re.findall(r'url\("([^"]+)"\)',css+homecss):
  if u.startswith('data:'): continue
  assert (root/'assets'/u).is_file(),u
-colors=dict(re.findall(r'--([\w-]+):\s*(#[0-9A-Fa-f]{6})',css))
+light=dict(re.findall(r'--([\w-]+):\s*(#[0-9A-Fa-f]{6})',css[css.index(':root{'):css.index('}',css.index(':root{'))]))
+dk=css.index('[data-theme="dark"],html[data-nav="dark"] .nav')
+dark=dict(re.findall(r'--([\w-]+):\s*(#[0-9A-Fa-f]{6})',css[dk:css.index('}',dk)]))
 def rgb(h):return [int(h[i:i+2],16)/255 for i in (1,3,5)]
 def lum(c):return sum(w*(v/12.92 if v<=.04045 else ((v+.055)/1.055)**2.4)for v,w in zip(c,(.2126,.7152,.0722)))
 def ratio(f,b):
  x,y=sorted([lum(f),lum(b)]);return(y+.05)/(x+.05)
 results=[]
-for f,b in [('on-dark','char'),('on-dark-2','char'),('on-dark-3','char'),('on-dark-3','char-2'),('on-dark-3','char-3'),('on-dark-2','char-2'),('on-dark','char-2'),('on-dark','char-3'),('char','sodium'),('sodium','char')]:
- r=ratio(rgb(colors[f]),rgb(colors[b]));assert r>=4.5,(f,b,r);results.append([f,b,round(r,2)])
-for b in ['char','char-2','char-3']:
- r=ratio(rgb(colors['focus']),rgb(colors[b]));assert r>=3,(b,r);results.append(['focus',b,round(r,2)])
+# Text: body and muted text on every canvas, and text on the accent (buttons use --bg on --accent).
+for theme,colors in (('light',light),('dark',dark)):
+ for f,b in [('fg','bg'),('fg','bg-2'),('fg','bg-3'),('fg-2','bg'),('fg-2','bg-2'),('fg-2','bg-3'),('bg','accent'),('accent','bg'),('accent','bg-2')]:
+  r=ratio(rgb(colors[f]),rgb(colors[b]));assert r>=4.5,(theme,f,b,r);results.append([theme,f,b,round(r,2)])
+ for b in ['bg','bg-2','bg-3']:
+  r=ratio(rgb(colors['focus']),rgb(colors[b]));assert r>=3,(theme,b,r);results.append([theme,'focus',b,round(r,2)])
+# Map: facility states against the other states, and the hover/focus fill.
+r=ratio(rgb(light['accent']),rgb(light['bg-3']));assert r>=3;results.append(['light','accent','bg-3 (map land)',round(r,2)])
 for name,opacity in [('hero worst-case white frame',.72)]:
  bg=[v*opacity+(1-opacity)for v in rgb('#141311')]
- r=ratio(rgb(colors['on-dark']),bg);assert r>=4.5;results.append(['on-dark',name,round(r,2)])
+ r=ratio(rgb(dark['fg']),bg);assert r>=4.5;results.append(['dark','fg',name,round(r,2)])
 print(json.dumps({'pages':list(PAGES),'structure':'PASS','ids_and_references':'PASS','local_assets':'PASS','navigation':'PASS','static_content':'PASS','contrast_pairs':results},indent=2))
