@@ -78,27 +78,52 @@
     unrevealed = unrevealed.filter(el => el !== plH); revealIO.unobserve(plH);
   }
 
-  /* ---------- Team: click anywhere on a person to open their bio under them ----------
-     The bio floats over the row below, so nobody else moves. One open at a time. */
-  const members = [...document.querySelectorAll('.member')];
-  const closeMembers = except => members.forEach(o => {
-    if (o === except) return;
-    o.classList.remove('open'); o.querySelector('.m-btn').setAttribute('aria-expanded', 'false');
-  });
-  members.forEach(m => {
-    const btn = m.querySelector('.m-btn');
-    btn.addEventListener('click', () => {
-      const open = btn.getAttribute('aria-expanded') !== 'true';
-      closeMembers(m);
-      m.classList.toggle('open', open);
-      btn.setAttribute('aria-expanded', open);
+  /* ---------- Team: click anywhere on a person to open them in a popup ----------
+     As on newcoastre.com: photo and contact on the left, bio on the right,
+     arrows (or the arrow keys) step through the team. */
+  const memberDialog = document.getElementById('memberDialog');
+  if (memberDialog) {
+    const members = [...document.querySelectorAll('.member')];
+    const panel = memberDialog.querySelector('.md-in');
+    let cur = 0, opener = null;
+    const show = (i, dir) => {
+      cur = (i + members.length) % members.length;
+      const m = members[cur], btn = m.querySelector('.m-btn');
+      document.getElementById('md-img').src = m.querySelector('.m-photo img').src;
+      document.getElementById('md-name').textContent = btn.textContent;
+      document.getElementById('md-role').textContent = m.querySelector('.m-role').textContent;
+      document.getElementById('md-bio').innerHTML = document.getElementById(btn.dataset.bio).innerHTML;
+      const email = m.dataset.email;
+      document.getElementById('md-contact').innerHTML = (email ? `<a href="mailto:${email}">${email}</a>` : '') +
+        `<span class="ask-tag" data-ask="${email ? 'LinkedIn' : 'Email, LinkedIn'} · ask Myles"></span>`;
+      document.getElementById('mdCount').textContent = `${cur + 1} / ${members.length}`;
+      panel.scrollTop = 0;
+      if (dir && !reduce) {
+        panel.style.setProperty('--dir', dir > 0 ? '28px' : '-28px');
+        panel.classList.remove('swap'); void panel.offsetWidth; panel.classList.add('swap');
+      }
+    };
+    members.forEach((m, i) => m.querySelector('.m-btn').addEventListener('click', e => {
+      opener = e.currentTarget;
+      panel.classList.remove('swap');
+      show(i);
+      memberDialog.showModal();
+      if (window.ncLenis) window.ncLenis.stop();
+    }));
+    document.getElementById('mdPrev').addEventListener('click', () => show(cur - 1, -1));
+    document.getElementById('mdNext').addEventListener('click', () => show(cur + 1, 1));
+    document.getElementById('mdClose').addEventListener('click', () => memberDialog.close());
+    memberDialog.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') show(cur - 1, -1);
+      if (e.key === 'ArrowRight') show(cur + 1, 1);
     });
-  });
-  if (members.length) {
-    document.addEventListener('click', e => { if (!e.target.closest('.member')) closeMembers(null); });
-    document.addEventListener('keydown', e => {
-      const openOne = members.find(o => o.classList.contains('open'));
-      if (e.key === 'Escape' && openOne) { closeMembers(null); openOne.querySelector('.m-btn').focus(); }
+    // A click on the dimmed area outside the panel closes it.
+    memberDialog.addEventListener('click', e => { if (e.target === memberDialog) memberDialog.close(); });
+    memberDialog.addEventListener('close', () => {
+      if (window.ncLenis) window.ncLenis.start();
+      // Focus returns to whoever is now showing, so arrowing through then closing lands sensibly.
+      const back = members[cur] ? members[cur].querySelector('.m-btn') : opener;
+      (back || opener).focus();
     });
   }
 
