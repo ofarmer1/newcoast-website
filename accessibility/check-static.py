@@ -1,5 +1,6 @@
 """Source checks, not a browser audit or conformance certification."""
 from html.parser import HTMLParser
+V="r2b"  # asset version in every ?v= link
 from pathlib import Path
 import re,json
 root=Path(__file__).resolve().parent.parent
@@ -35,7 +36,7 @@ for page,current in PAGES.items():
    assert 'width' in d and 'height' in d,(page,d.get('src'))
   for attr in ('src','href'):
    v=d.get(attr,'')
-   if v.startswith('assets/'):assert(root/v).is_file(),(page,v)
+   if v.startswith('assets/'):assert(root/v.split('?')[0]).is_file(),(page,v)
  assert sum(t=='h1' for t,d in a.nodes)==1,page
  assert '<main id="main" tabindex="-1">'in html and '<a class="skip" href="#main">' in html,page
  # Each nav link is its own page, and the current page is marked.
@@ -44,10 +45,11 @@ for page,current in PAGES.items():
  marked=re.findall(r'href="([\w-]+)\.html" aria-current="page"',navlinks)
  assert marked==([current] if current else []),(page,marked)
  # One shared stylesheet and script, both local; no outside font request.
- sheets=['<link rel="stylesheet" href="assets/site.css">']+(['<link rel="stylesheet" href="assets/home.css">'] if page=='index.html' else [])
+ # A ?v= query busts the browser cache after each release.
+ sheets=['<link rel="stylesheet" href="assets/site.css?v=%s">'%V]+(['<link rel="stylesheet" href="assets/home.css?v=%s">'%V] if page=='index.html' else [])
  assert re.findall(r'<link[^>]+rel="stylesheet"[^>]*>',html)==sheets and 'fonts.g' not in html,page
  # Smooth scrolling library is self-hosted and loads before the site script.
- assert html.index('src="assets/vendor/lenis.min.js"') < html.index('src="assets/site.js"'),page
+ assert html.index('src="assets/vendor/lenis.min.js?v=%s"'%V) < html.index('src="assets/site.js?v=%s"'%V),page
  # Video only on the home and portfolio pages, and every video has its own pause/play button (WCAG 2.2.2).
  vids=re.findall(r'<video id="(\w+)"',html)
  assert page in ('index.html','portfolio.html') or not vids,page
