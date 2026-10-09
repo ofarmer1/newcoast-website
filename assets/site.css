@@ -482,8 +482,10 @@ html:not(.js) .bio-toggle{display:none}
 .m-btn:focus-visible{outline:none}
 .m-btn:focus-visible::after{outline:3px solid var(--focus);outline-offset:6px}
 .m-role{font:400 13px/1.5 var(--mono);letter-spacing:.06em;color:var(--on-dark-2)}
-.m-contact{margin-top:14px;min-height:20px}
-.m-contact .ask-tag{margin-left:0}
+.m-contact{margin-top:14px;display:grid;grid-template-columns:auto 1fr;gap:4px 18px;font:400 13px/1.6 var(--mono);letter-spacing:.04em}
+.m-contact .k{color:var(--on-dark-2)}
+.m-contact a{position:relative;z-index:2;justify-self:start;overflow-wrap:anywhere;text-decoration:underline;text-decoration-color:var(--hair);text-underline-offset:4px;transition:text-decoration-color .3s}
+.m-contact a:hover{text-decoration-color:currentColor}
 .m-bio{display:grid;gap:12px;margin-top:22px;max-width:62ch;color:var(--on-dark-2);font-size:var(--t-body);line-height:1.65}
 .m-bio p:first-child{color:var(--on-dark)}
 .js .m-bio{display:none}
@@ -506,9 +508,7 @@ html:not(.js) .bio-toggle{display:none}
 .md-side{display:grid;gap:18px;align-content:start}
 .md-photo{aspect-ratio:4/5;overflow:hidden;background:var(--char-3)}
 .md-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 20%}
-.md-contact{display:grid;gap:6px;font:400 14px/1.5 var(--mono);letter-spacing:.04em}
-.md-contact a{text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
-.md-contact .ask-tag{margin-left:0}
+.md-contact{margin-top:0}
 .md-text{display:grid;align-content:start;gap:10px;padding-right:40px}
 .md-name{font:500 clamp(22px,1rem + 1vw,30px)/1.15 var(--display);letter-spacing:-.02em}
 .md-role{font:400 14px/1.5 var(--mono);letter-spacing:.06em;color:var(--on-dark-2)}

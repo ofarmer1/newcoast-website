@@ -93,9 +93,7 @@
       document.getElementById('md-name').textContent = btn.textContent;
       document.getElementById('md-role').textContent = m.querySelector('.m-role').textContent;
       document.getElementById('md-bio').innerHTML = document.getElementById(btn.dataset.bio).innerHTML;
-      const email = m.dataset.email;
-      document.getElementById('md-contact').innerHTML = (email ? `<a href="mailto:${email}">${email}</a>` : '') +
-        `<span class="ask-tag" data-ask="${email ? 'LinkedIn' : 'Email, LinkedIn'} · ask Myles"></span>`;
+      document.getElementById('md-contact').innerHTML = m.querySelector('.m-contact').innerHTML;
       document.getElementById('mdCount').textContent = `${cur + 1} / ${members.length}`;
       panel.scrollTop = 0;
       if (dir && !reduce) {
