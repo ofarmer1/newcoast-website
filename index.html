@@ -13,27 +13,23 @@
 <meta property="og:site_name" content="Newcoast Real Estate">
 <meta property="og:title" content="Newcoast Real Estate | Self-storage investment">
 <meta property="og:description" content="Newcoast acquires value-add self-storage investments nationwide, combining a differentiated sourcing strategy with institutional-grade expertise.">
-<meta property="og:image" content="https://ofarmer1.github.io/newcoast-website/assets/build/poster.jpg">
-<meta property="og:image:alt" content="A finished self-storage facility at sunset.">
+<meta property="og:image" content="https://ofarmer1.github.io/newcoast-website/assets/video/hero-poster.jpg">
+<meta property="og:image:alt" content="Aerial view of a Newcoast self-storage facility.">
 <meta name="twitter:card" content="summary_large_image">
 <!-- Motion is opt-in: without JS every section renders fully visible. -->
 <script>document.documentElement.classList.add('js')</script>
-
-<!-- The poster is the LCP element, not the video. Fetch it first. -->
-<link rel="preload" as="image" href="assets/build/f00.webp" type="image/webp" fetchpriority="high">
-
+<link rel="preload" as="image" href="assets/video/hero-poster.jpg" fetchpriority="high">
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Geist-Variable.woff2" crossorigin>
-
 <link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/home.css">
 </head>
-<body>
+<body class="home">
 <noscript>
   <style>
     .nav{position:relative;flex-wrap:wrap;background:var(--char)}
     .nav-links{display:flex;flex-wrap:wrap;gap:12px}
-    .menu-btn,.filters{display:none}
+    .menu-btn,.film .vid-btn{display:none}
   </style>
-  <p style="padding:16px;color:var(--on-dark);background:var(--char)">The scroll animation requires JavaScript. Everything else works without it.</p>
 </noscript>
 <a class="skip" href="#main">Skip to content</a>
 
@@ -53,170 +49,243 @@
 
 <main id="main" tabindex="-1">
 
-  <!-- HERO: scroll-scrubbed build sequence -->
-  <section class="hero static" id="top" data-theme="dark" aria-label="Introduction">
-    <div class="hero-pin ask" data-ask="Video 01 · ask Myles">
-      <!-- Scrolling plays a self-storage facility from blueprint to opening night.
-           Reduced-motion and short screens get the finished frame as a still. -->
-      <canvas id="buildCanvas" aria-hidden="true"></canvas>
-      <p class="sr-only">Background animation: as you scroll, the picture moves from a site plan to a finished self-storage facility at sunset.</p>
+  <!-- 1 HERO FILM: the film holds still and the page slides up over it -->
+  <section class="film" id="film" data-theme="dark" aria-labelledby="hero-h">
+    <div class="film-media ask" data-ask="Video 01 · ask Myles for 4K original">
+      <!-- The script picks the 540p file for phones and the 720p file for larger screens. -->
+      <video id="heroVideo" muted loop playsinline preload="none" poster="assets/video/hero-poster.jpg" aria-hidden="true" data-src-sm="assets/video/hero-540.mp4" data-src="assets/video/hero.mp4"></video>
+    </div>
+    <div class="film-copy wrap" id="filmCopy">
+      <p class="label">Newcoast Real Estate · Self-storage investment</p>
+      <h1 id="hero-h" class="display">Next-generation self-storage investment platform.</h1>
+      <p class="film-lede">We acquire value-add self-storage investments nationwide, combining a differentiated sourcing strategy with institutional-grade expertise to deliver superior risk-adjusted returns.</p>
+      <a class="btn btn-sodium" href="about.html">Our story <span class="ic" aria-hidden="true">→</span></a>
+    </div>
+    <button class="vid-btn" type="button" data-video="heroVideo" aria-pressed="false" aria-label="Pause background video" hidden>
+      <svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12"/><rect x="9.5" y="2" width="3.5" height="12"/></svg>
+      <svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z"/></svg>
+    </button>
+  </section>
 
-      <div class="hero-ui">
-        <div>
-          <p class="label rv">Newcoast Real Estate · Self-storage investment</p>
-          <h1 class="display rv">Next-generation self-storage investment platform.</h1>
-          <ol class="hero-meta build-steps label rv" id="buildSteps" aria-label="How we create value">
-            <li><span class="n">01</span> Source</li>
-            <li><span class="n">02</span> Acquire</li>
-            <li><span class="n">03</span> Improve</li>
-            <li><span class="n">04</span> Operate</li>
-          </ol>
+  <div class="curtain">
+
+  <!-- 2 TRACK RECORD: figures count up once when they arrive -->
+  <section class="chapter stats" data-theme="dark" aria-labelledby="stats-h">
+    <div class="wrap">
+      <span class="eyebrow rv">Track record</span>
+      <h2 id="stats-h" class="display rv">A growing and proven investment track record.</h2>
+      <div class="stat-groups">
+        <div class="stat-group">
+          <h3 class="label rv">Team experience</h3>
+          <ul class="stat-list">
+            <li class="rv"><p class="v"><span class="sr-only">30+</span><span aria-hidden="true" data-count="30" data-suffix="+">30+</span></p><p class="l">Years of market experience</p></li>
+            <li class="rv"><p class="v"><span class="sr-only">$5B</span><span aria-hidden="true" data-count="5" data-prefix="$" data-suffix="B">$5B</span></p><p class="l">In transactions</p></li>
+            <li class="rv"><p class="v"><span class="sr-only">700+</span><span aria-hidden="true" data-count="700" data-suffix="+">700+</span></p><p class="l">Properties closed</p></li>
+          </ul>
         </div>
-        <div class="hero-ctrls">
-          <a class="ctrl primary" href="contact.html">Sell a facility <span class="ic" aria-hidden="true">→</span></a>
-          <a class="ctrl" href="about.html">Our story <span class="ic" aria-hidden="true">→</span></a>
+        <div class="stat-group">
+          <h3 class="label rv">Newcoast portfolio <span class="ask-tag" data-ask="As-of date · ask Myles"></span></h3>
+          <ul class="stat-list">
+            <li class="rv"><p class="v"><span class="sr-only">13</span><span aria-hidden="true" data-count="13">13</span></p><p class="l">Facilities acquired, 11 owned and 2 realized</p></li>
+            <li class="rv"><p class="v"><span class="sr-only">8</span><span aria-hidden="true" data-count="8">8</span></p><p class="l">States</p></li>
+            <li class="rv"><p class="v"><span class="sr-only">627K</span><span aria-hidden="true" data-count="627" data-suffix="K">627K</span></p><p class="l">Square feet acquired <span class="ask-tag" data-ask="627K or 579K · ask Myles"></span></p></li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 01 WHY SELF-STORAGE: four reasons in an asymmetrical bento, then the full story on About -->
-  <section class="chapter" data-theme="dark" aria-labelledby="why-h">
+  <!-- 3 WHY SELF STORAGE: the section holds still and steps through four chapters -->
+  <section class="chapter alt why" data-theme="dark" aria-labelledby="why-h">
     <div class="wrap">
       <div class="chapter-head">
         <div>
-          <span class="eyebrow rv">Why self-storage</span>
+          <span class="eyebrow rv">Why self storage</span>
           <h2 id="why-h" class="display rv">Why self storage continues to outperform.</h2>
         </div>
-        <div class="rv">
-          <p>We build our business on direct relationships with capital providers who value discipline and clarity.</p>
-          <a class="more" href="about.html">About us <span class="ic" aria-hidden="true">→</span></a>
-        </div>
+        <p class="rv">We build our business on direct relationships with capital providers who value discipline and clarity. Our track record speaks for itself.</p>
       </div>
-      <ul class="bento">
-        <li class="b-a rv"><div class="bezel"><div class="core cell">
-          <span class="n">01</span>
-          <p class="big">65%+<small>of facilities are owned outside the top 100 operators</small></p>
-          <div><h3>Fragmented marketplace</h3><p>Facilities often lack technological investment and operational sophistication.</p></div>
-        </div></div></li>
-        <li class="b-b rv"><div class="bezel"><div class="core cell">
-          <span class="n">02</span>
-          <div><h3>Resilience through cycles</h3><p>Need-based demand and rising utilization support outperformance.</p></div>
-        </div></div></li>
-        <li class="b-c rv"><div class="bezel"><div class="core cell">
-          <span class="n">03</span>
-          <div><h3>Sticky tenant base</h3><p>Tenant inertia produces recurring revenue that compounds over time. The average stay is about 19 months, and growing.</p></div>
-        </div></div></li>
-        <li class="b-d rv"><div class="bezel"><div class="core cell">
-          <div><span class="n">04</span><h3 style="margin-top:22px">Low costs, high margins</h3><p>One of the most attractive operating-margin profiles in commercial real estate.</p></div>
-        </div></div></li>
-      </ul>
+    </div>
+    <div class="chapters wrap" id="chapters">
+      <a class="skip-sec" href="#panels-h">Skip past the four reasons</a>
+      <div class="ch-stage">
+        <div class="ch" data-i="0">
+          <div class="ch-copy"><span class="ch-n label">01 / 04</span><h3>Fragmented marketplace</h3><p>Over 65% of storage facilities are owned by independent owner-operators outside of the top 100 operators. These facilities often lack the technological investment and operational sophistication necessary to compete in a rapidly consolidating market.</p></div>
+          <figure class="ch-fig ask" data-ask="Chapter photo · ask Myles"><img src="assets/img/facilities/phoenix.webp" alt="Newcoast self-storage facility in Phoenix, Arizona" loading="lazy" decoding="async" width="1000" height="738"></figure>
+        </div>
+        <div class="ch" data-i="1">
+          <div class="ch-copy"><span class="ch-n label">02 / 04</span><h3>Resilience through cycles</h3><p>Self-storage has generated the highest cumulative private market returns of any real estate asset class over the past 20 years. Need-based demand and increasing utilization rate have allowed storage to outperform through up and down markets.</p></div>
+          <figure class="ch-fig ask" data-ask="Chapter photo · ask Myles"><img src="assets/img/facilities/simsbury.webp" alt="Newcoast self-storage facility in Simsbury, Connecticut" loading="lazy" decoding="async" width="1000" height="750"></figure>
+        </div>
+        <div class="ch" data-i="2">
+          <div class="ch-copy"><span class="ch-n label">03 / 04</span><h3>Sticky tenant base</h3><p>The average self-storage tenant stays for nearly 19 months and growing as lifestyle changes and cost of living have made self-storage use a low-cost extension of home. Tenants’ inertia once in place results in reoccurring revenue that quietly compounds over time.</p></div>
+          <figure class="ch-fig ask" data-ask="Chapter photo · ask Myles"><img src="assets/img/facilities/ypsilanti.webp" alt="Aerial view of the Newcoast self-storage facility in Ypsilanti, Michigan" loading="lazy" decoding="async" width="954" height="546"></figure>
+        </div>
+        <div class="ch" data-i="3">
+          <div class="ch-copy"><span class="ch-n label">04 / 04</span><h3>Low costs, high margins</h3><p>No build-out costs, low maintenance, limited staffing needs, and minimal capital requirements result in one of the most attractive operating margin profiles across all of commercial real estate. More of each dollar earned reaches the bottom line in storage than almost any asset class.</p></div>
+          <figure class="ch-fig ask" data-ask="Chapter photo · ask Myles"><img src="assets/img/facilities/greenville.webp" alt="Newcoast self-storage facility in Greenville, South Carolina" loading="lazy" decoding="async" width="1000" height="470"></figure>
+        </div>
+        <div class="ch-progress" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      </div>
     </div>
   </section>
 
-  <!-- 02 WHY NEWCOAST: the three levers beside a Newcoast facility, then the approach on About -->
-  <section class="chapter alt" data-theme="dark" aria-labelledby="how-h">
+  <!-- 4 WHY NEWCOAST: three panels; opening one widens it -->
+  <section class="chapter panels-sec" data-theme="dark" aria-labelledby="panels-h">
     <div class="wrap">
       <div class="chapter-head">
         <div>
           <span class="eyebrow rv">Why Newcoast</span>
-          <h2 id="how-h" class="display rv">Driving returns through active asset management.</h2>
+          <h2 id="panels-h" class="display rv" tabindex="-1">Driving returns through active asset management.</h2>
         </div>
         <div class="rv">
           <p>Newcoast’s singular focus is finding the right opportunities paired with relentless execution to generate continued outperformance.</p>
           <a class="more" href="about.html">Our approach <span class="ic" aria-hidden="true">→</span></a>
         </div>
       </div>
-      <div class="split">
-        <ol class="levers">
-          <li class="bezel rv"><div class="core lever"><span class="n">01</span><div><h3>Best-in-class sourcing</h3><p>Direct owner outreach, using a proprietary database to identify overlooked assets before they reach a broader market.</p></div></div></li>
-          <li class="bezel rv"><div class="core lever"><span class="n">02</span><div><h3>Revenue optimization</h3><p>A data-driven philosophy that keeps pricing ahead of local competition, facility by facility.</p></div></div></li>
-          <li class="bezel rv"><div class="core lever"><span class="n">03</span><div><h3>Targeted capital improvements</h3><p>In-house development expertise, deployed only with a clear line of sight to value.</p></div></div></li>
-        </ol>
-        <div class="bezel photo rv"><figure class="core ask" data-ask="Photo 02 · ask Myles"><img src="assets/img/facilities/frankfort.webp" alt="Aerial view of the Newcoast self-storage facility in Frankfort, Illinois" loading="lazy" decoding="async" width="1600" height="900"></figure></div>
+      <div class="panels rv" id="panels">
+        <div class="panel">
+          <h3><button type="button" aria-expanded="false" aria-controls="pn1"><span class="pn-n label">01</span><span class="pn-t">Best-in-class sourcing</span><span class="pm" aria-hidden="true"></span></button></h3>
+          <p class="sum">Direct owner outreach using a proprietary database.</p>
+          <div class="more-body" id="pn1">
+            <div class="mb-copy"><p>Our differentiated sourcing strategy centers on direct owner outreach using a proprietary database to identify acquisition targets and engage them directly. The relationships developed using this approach are critical to investment success. Our ability to find overlooked assets drives outsized returns.</p><span class="ask-tag" data-ask="One example or 2–3 more sentences · ask Myles"></span></div>
+            <figure class="mb-fig ask" data-ask="Photo 02 · ask Myles"><img src="assets/img/facilities/frankfort.webp" alt="Aerial view of the Newcoast self-storage facility in Frankfort, Illinois" loading="lazy" decoding="async" width="1600" height="900"></figure>
+          </div>
+        </div>
+        <div class="panel">
+          <h3><button type="button" aria-expanded="false" aria-controls="pn2"><span class="pn-n label">02</span><span class="pn-t">Revenue optimization</span><span class="pm" aria-hidden="true"></span></button></h3>
+          <p class="sum">Data-driven pricing, adjusted in real time.</p>
+          <div class="more-body" id="pn2">
+            <div class="mb-copy"><p>A sophisticated, data-driven revenue management philosophy to every property in our portfolio. Pricing is adjusted in real time based on local market conditions that ensure consistent outperformance vs. the competition.</p><span class="ask-tag" data-ask="One example or 2–3 more sentences · ask Myles"></span></div>
+            <figure class="mb-fig ask" data-ask="Photo 05 · ask Myles"><img src="assets/img/facilities/austin.webp" alt="Newcoast self-storage facility in Austin, Texas" loading="lazy" decoding="async" width="1000" height="666"></figure>
+          </div>
+        </div>
+        <div class="panel">
+          <h3><button type="button" aria-expanded="false" aria-controls="pn3"><span class="pn-n label">03</span><span class="pn-t">Targeted capital improvements</span><span class="pm" aria-hidden="true"></span></button></h3>
+          <p class="sum">In-house development with a clear line to value.</p>
+          <div class="more-body" id="pn3">
+            <div class="mb-copy"><p>Whether it’s reconfiguring an existing unit mix to improve competitiveness or phased development to capture excess market demand and increase investor demand at exit, Newcoast’s in-house development expertise is deployed with a clear line of sight to value creation.</p><span class="ask-tag" data-ask="One before-and-after story · ask Myles"></span></div>
+            <figure class="mb-fig ask" data-ask="Video 02 · ask Myles">
+              <video id="buildVideo" muted loop playsinline preload="none" poster="assets/img/facilities/frankfort.webp" aria-label="Drone footage of new storage buildings under construction"><source src="assets/video/build.mp4" type="video/mp4"><source src="assets/video/build.webm" type="video/webm"></video>
+              <button class="vid-btn small" type="button" data-video="buildVideo" aria-pressed="true" aria-label="Play construction video">
+                <svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12"/><rect x="9.5" y="2" width="3.5" height="12"/></svg>
+                <svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z"/></svg>
+              </button>
+            </figure>
+          </div>
+        </div>
       </div>
-      <ul class="focus rv" aria-label="Investment focus" style="margin-top:clamp(40px,5vw,64px)">
-        <li>Targeting primary and secondary markets</li><li>Disciplined acquisition criteria</li><li>Scalable investment approach</li><li>Superior returns</li>
-      </ul>
     </div>
   </section>
 
-  <!-- 03 TRACK RECORD -->
-  <section class="chapter" data-theme="dark" aria-labelledby="rec-h">
+  <!-- 4b FILM SLOT: Oliver is sourcing this footage -->
+  <section class="slot-sec" data-theme="dark" aria-label="Self-storage film, coming soon">
+    <div class="slot" id="slot">
+      <div class="slot-in ask" data-ask="Video 03 · Oliver is sourcing">
+        <p class="label">Self-storage film</p>
+        <p class="slot-note">Muted, slow footage with nothing on top. It grows to the full width of the screen as you scroll.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 INVESTMENT FOCUS: a site plan draws itself, then the market figures fill in -->
+  <section class="chapter alt bp" id="bp" data-theme="dark" aria-labelledby="bp-h">
     <div class="wrap">
-      <div class="chapter-head">
+      <div class="bp-grid">
         <div>
-          <span class="eyebrow rv">Track record</span>
-          <h2 id="rec-h" class="display rv">A growing and proven investment track record.</h2>
+          <span class="eyebrow rv">Investment focus</span>
+          <h2 id="bp-h" class="display rv">Bringing institutional expertise to an inefficient marketplace.</h2>
+          <ol class="bp-list">
+            <li><span class="label">01</span>Targeting primary and secondary markets</li>
+            <li><span class="label">02</span>Disciplined acquisition criteria</li>
+            <li><span class="label">03</span>Scalable investment approach</li>
+            <li><span class="label">04</span>Superior returns</li>
+          </ol>
         </div>
+        <svg class="plan" viewBox="0 0 640 420" role="img" aria-label="Line drawing of a self-storage site plan: a fenced lot with four rows of unit buildings, drive aisles, a climate-controlled building, an office and a gate.">
+          <rect class="d" x="20" y="20" width="600" height="380" rx="4"/>
+          <rect class="d" x="60" y="60" width="380" height="44"/>
+          <rect class="d" x="60" y="146" width="380" height="44"/>
+          <rect class="d" x="60" y="232" width="380" height="44"/>
+          <rect class="d" x="60" y="318" width="380" height="44"/>
+          <rect class="d" x="480" y="60" width="100" height="216"/>
+          <rect class="d" x="480" y="318" width="64" height="44"/>
+          <path class="d thin" d="M60 82H440M60 168H440M60 254H440M60 340H440M530 60V276"/>
+          <path class="d thin" d="M90 60V104M120 60V104M150 60V104M180 60V104M210 60V104M240 60V104M270 60V104M300 60V104M330 60V104M360 60V104M390 60V104M420 60V104M90 146V190M120 146V190M150 146V190M180 146V190M210 146V190M240 146V190M270 146V190M300 146V190M330 146V190M360 146V190M390 146V190M420 146V190M90 232V276M120 232V276M150 232V276M180 232V276M210 232V276M240 232V276M270 232V276M300 232V276M330 232V276M360 232V276M390 232V276M420 232V276M90 318V362M120 318V362M150 318V362M180 318V362M210 318V362M240 318V362M270 318V362M300 318V362M330 318V362M360 318V362M390 318V362M420 318V362"/>
+          <path class="d thin" d="M580 400V376H620"/>
+          <g class="plan-labels" aria-hidden="true"><text x="62" y="128">DRIVE AISLE</text><text x="484" y="300">CLIMATE</text><text x="484" y="384">OFFICE</text><text x="560" y="414">GATE</text></g>
+        </svg>
       </div>
-      <ul class="figures">
-        <li class="bezel rv"><div class="core"><p class="v">13</p><p class="l">Facilities acquired, 2 realized</p></div></li>
-        <li class="bezel rv"><div class="core"><p class="v">627K</p><p class="l">Square feet acquired</p></div></li>
-        <li class="bezel rv"><div class="core"><p class="v">$5B</p><p class="l">In transactions across the team</p></div></li>
-        <li class="bezel rv"><div class="core"><p class="v">700+</p><p class="l">Properties closed across the team</p></div></li>
+      <ul class="tiles" aria-label="Self-storage market figures">
+        <li><span class="t-l">US self-storage market size</span><span class="t-v">Pending</span><span class="ask-tag" data-ask="Figure + source · ask Myles"></span></li>
+        <li><span class="t-l">National occupancy</span><span class="t-v">Pending</span><span class="ask-tag" data-ask="Figure + source · ask Myles"></span></li>
+        <li><span class="t-l">New supply under construction</span><span class="t-v">Pending</span><span class="ask-tag" data-ask="Figure + source · ask Myles"></span></li>
+        <li><span class="t-l">Facilities owned outside the top 100 operators</span><span class="t-v on">65%+</span><span class="ask-tag" data-ask="Source · ask Myles"></span></li>
       </ul>
     </div>
   </section>
 
-  <!-- 04 PORTFOLIO SNAPSHOT: three facilities, then the full list -->
-  <section class="chapter alt" data-theme="dark" aria-labelledby="snap-h">
-    <div class="wrap">
-      <div class="chapter-head">
-        <div>
-          <span class="eyebrow rv">Portfolio</span>
-          <h2 id="snap-h" class="display rv">We go where the opportunity is.</h2>
-        </div>
-        <div class="rv">
-          <p>Our team’s experience investing across geographies gives us the conviction to deploy capital where the data leads us.</p>
-          <a class="more" href="portfolio.html">View full portfolio <span class="ic" aria-hidden="true">→</span></a>
-        </div>
+  <!-- 6 PORTFOLIO MAP: only states with a facility can be selected -->
+  <section class="chapter map-sec" data-theme="dark" aria-labelledby="map-h">
+    <div class="wrap map-grid">
+      <div class="map-copy">
+        <span class="eyebrow rv">Portfolio snapshot</span>
+        <h2 id="map-h" class="display rv">We go where the opportunity is.</h2>
+        <p class="rv">Our team’s experience investing across geographies gives us the conviction to deploy capital where the data leads us.</p>
+        <p class="map-hint label rv" id="map-cap">Select a highlighted state to see its facilities</p>
+        <a class="more rv" href="portfolio.html">View full portfolio <span class="ic" aria-hidden="true">→</span></a>
       </div>
-      <ul class="snap">
-        <li class="rv"><a class="bezel" href="portfolio.html"><figure class="core ask" data-ask="Photo 05 · ask Myles"><img src="assets/img/facilities/austin.webp" alt="" loading="lazy" decoding="async" width="1000" height="666"><figcaption class="cap"><span>Austin, TX</span><span class="label">67,450 SF</span></figcaption></figure></a></li>
-        <li class="rv"><a class="bezel" href="portfolio.html"><figure class="core ask" data-ask="Photo 06 · ask Myles"><img src="assets/img/facilities/simsbury.webp" alt="" loading="lazy" decoding="async" width="1000" height="750"><figcaption class="cap"><span>Simsbury, CT</span><span class="label">66,120 SF</span></figcaption></figure></a></li>
-        <li class="rv"><a class="bezel" href="portfolio.html"><figure class="core ask" data-ask="Photo 09 · ask Myles"><img src="assets/img/facilities/greenville.webp" alt="" loading="lazy" decoding="async" width="1000" height="470"><figcaption class="cap"><span>Greenville, SC</span><span class="label">46,720 SF</span></figcaption></figure></a></li>
-      </ul>
+      <div class="map-wrap rv">
+<svg class="usmap" viewBox="0 0 975 600" role="group" aria-labelledby="map-cap">
+<g class="land" aria-hidden="true"><path d="M647,492L647,492L647,492ZM641,383L641,383L666,381L689,379L702,427L704,431L707,436L707,438L709,439L706,443L707,445L705,450L708,457L708,464L710,468L693,470L660,473L660,477L665,480L664,484L666,486L663,490L657,491L659,490L655,487L654,482L653,481L651,485L651,490L649,488L646,489L642,455L643,413L643,386Z"/><path d="M104,551L104,551L104,551ZM99,569L103,565L104,569L100,570ZM95,582L95,582L95,582ZM93,575L98,570L103,570L104,573L99,577L97,577L95,579ZM93,582L93,582L93,582ZM88,587L88,587L88,587ZM71,593L71,593L71,593ZM71,591L71,591L71,591ZM68,593L68,593L68,593ZM65,590L65,590L65,590ZM67,564L67,564L67,564ZM60,591L60,591L60,591ZM58,592L58,592L58,592ZM66,523L66,523L66,523ZM55,595L55,595L55,595ZM44,596L44,596L44,596ZM42,595L42,595L42,595ZM40,595L40,595L40,595ZM44,547L46,547L49,546L50,551L48,552L44,548ZM31,600L33,600L37,596L40,598L36,600ZM50,504L59,500L65,499L65,503L71,505L74,503L71,500L73,497L70,497L66,495L66,492L62,487L59,484L61,480L67,481L70,478L71,474L75,471L78,471L81,468L86,468L89,465L93,466L95,468L98,468L101,468L100,470L104,472L108,470L113,472L118,472L122,473L126,471L132,474L147,547L151,547L154,545L154,547L162,552L163,554L166,551L166,548L169,545L171,547L176,551L180,553L189,562L191,565L192,565L200,566L202,572L201,577L198,575L192,573L192,570L189,570L190,568L188,565L183,563L182,560L178,556L176,556L171,551L174,557L172,556L167,559L161,556L160,554L152,552L153,549L150,551L145,550L140,549L135,551L125,547L124,545L119,547L121,552L119,554L113,554L111,558L110,557L108,560L104,560L106,557L105,556L106,552L106,548L110,545L112,547L111,544L109,543L106,546L101,553L100,556L96,559L96,562L99,563L96,566L95,569L89,572L85,575L85,578L82,579L79,582L76,582L78,583L76,585L70,586L67,589L62,589L62,587L60,591L55,591L52,594L46,594L48,591L56,590L61,585L66,584L71,580L75,578L80,573L82,566L83,563L79,564L78,563L75,566L73,561L71,560L64,564L64,558L65,556L63,551L63,552L58,553L52,546L54,545L53,541L52,541L51,538L53,535L53,533L57,529L58,526L60,525L64,527L67,524L71,525L73,523L71,516L73,515L72,513L67,516L61,515L59,516L55,514L53,509L55,508L52,506ZM24,603L29,599L31,600ZM28,573L28,573L28,573ZM20,602L20,602L20,602ZM26,568L26,568L26,568ZM16,603L16,603L16,603ZM34,517L39,517L42,521L44,522L40,524L38,521ZM7,603L7,603L7,603ZM23,539L23,539L23,539ZM-0,602L-0,602L-0,602ZM-6,601L-0,601L-1,602ZM-10,599L-10,599L-10,599ZM-10,601L-10,601L-10,601ZM-15,601L-13,599L-11,600ZM-18,599L-18,599L-18,599ZM-20,597L-20,597L-20,597ZM-30,592L-30,592L-30,592ZM-35,593L-35,593L-35,593ZM-40,588L-40,588L-40,588ZM-55,576L-55,576L-55,576ZM-57,570L-54,571L-53,573L-56,573ZM197,577L197,577L197,577ZM196,577L196,577L196,577ZM194,574L194,574L194,574ZM187,570L187,570L187,570ZM187,569L187,569L187,569ZM186,576L186,576L186,576ZM184,573L184,569L186,569L194,575L195,580L189,577L189,576ZM182,574L182,574L182,574ZM180,567L181,564L185,564L188,566L186,568L183,568L183,572L182,572ZM174,555L176,557L178,556L181,562L179,565L178,563ZM173,564L174,562L177,563L179,568L180,572L176,568L175,565ZM173,565L173,565L173,565ZM169,561L171,557L175,558L177,562L173,562L173,564ZM120,555L123,550L124,550ZM120,551L120,551L120,551Z"/><path d="M277,237L301,240L333,243L361,246L395,249L393,271L389,340L372,339L348,337L315,334L278,329L264,327L268,301L268,298L271,279Z"/><path d="M814,594L814,594L814,594ZM812,595L812,595L812,595ZM807,599L807,599L807,599ZM793,604L794,602L800,597L805,600L796,604ZM789,605L789,605L789,605ZM786,605L786,605L786,605ZM777,558L777,558L777,558ZM770,606L770,606L770,606ZM720,495L720,495L720,495ZM710,468L714,474L765,471L767,476L769,475L769,470L768,466L770,464L774,466L780,466L782,475L787,486L794,499L806,513L804,517L806,521L811,529L815,536L820,544L822,549L822,554L823,574L821,573L820,579L822,582L821,586L819,589L819,586L817,586L813,588L806,589L804,587L805,585L800,577L798,576L793,574L791,575L788,570L787,566L785,563L781,561L780,559L781,555L780,551L778,553L779,555L777,556L772,550L769,545L766,542L771,533L764,529L764,531L767,534L766,536L764,537L761,533L761,527L763,520L763,517L761,511L761,510L758,505L755,504L754,506L752,503L751,502L749,500L746,498L745,494L742,494L740,490L732,486L727,487L725,489L726,492L722,492L716,497L711,498L713,500L709,499L707,499L708,496L705,493L695,488L688,486L680,485L667,488L663,490L666,486L664,484L665,480L660,477L660,473L693,470Z"/><path d="M689,379L712,376L725,375L734,373L734,375L731,378L731,381L738,385L741,385L744,391L748,396L754,399L756,402L759,403L761,405L761,407L763,408L765,411L771,414L773,418L773,422L776,423L780,429L781,433L786,434L786,435L782,442L782,447L781,450L781,454L779,456L778,460L780,461L780,466L774,466L770,464L768,466L769,470L769,475L767,476L765,471L714,474L710,468L708,464L708,457L705,450L707,445L706,443L709,439L707,438L707,436L704,431L702,427Z"/><path d="M640,229L642,231L647,230L651,227L669,225L685,223L685,225L688,247L692,284L691,285L693,291L690,292L687,294L685,293L682,295L683,298L680,301L680,303L677,305L675,311L674,312L669,310L668,308L665,311L665,314L662,315L660,313L656,315L655,318L650,315L648,316L646,315L646,318L645,316L639,319L637,317L640,311L639,310L641,308L644,303L644,299L646,298L646,292L643,287L645,283Z"/><path d="M393,271L422,273L443,274L464,274L495,275L509,275L511,277L516,277L517,281L516,280L513,285L516,289L518,293L522,295L522,343L489,343L458,343L432,342L389,340Z"/><path d="M939,114L939,114L939,114ZM937,116L937,116L937,116ZM936,112L936,112L936,112ZM932,116L932,116L932,116ZM933,124L933,124L933,124ZM931,119L932,117L934,119ZM930,116L930,116L930,116ZM910,150L907,149L907,147L904,145L894,114L890,102L891,101L894,103L894,99L897,98L895,96L896,92L899,90L898,88L900,86L898,82L898,76L899,73L899,67L905,47L908,47L909,51L912,52L916,48L919,47L919,45L922,45L929,49L937,74L938,79L944,79L944,82L946,84L946,86L949,89L951,88L957,94L955,99L952,98L950,105L946,104L946,107L943,108L943,110L941,109L941,112L938,113L937,109L935,111L937,114L935,117L934,114L931,114L931,110L929,113L929,120L930,122L925,125L924,127L921,128L919,132L918,130L915,134L915,136L912,138L912,142L911,143Z"/><path d="M927,186L933,186L930,187ZM918,188L921,184L924,186ZM870,167L884,164L902,160L906,155L909,154L911,158L914,158L909,165L910,168L911,167L917,171L917,174L919,174L921,177L924,177L928,175L928,171L930,176L924,179L922,182L920,183L917,179L917,181L915,182L915,185L912,186L910,182L909,182L907,181L905,176L898,178L898,177L871,183L870,183Z"/><path d="M479,70L510,70L510,62L513,62L515,64L517,73L517,75L520,77L524,77L524,78L530,78L531,81L536,80L540,78L543,78L547,80L547,82L551,82L553,87L554,84L558,83L558,86L563,87L565,90L570,89L574,86L576,85L578,88L587,87L591,90L593,89L596,90L590,94L581,97L579,99L572,105L569,109L565,113L558,119L560,121L559,120L555,122L556,135L555,136L551,139L547,144L547,147L549,147L551,149L549,153L550,161L549,165L553,169L556,170L559,172L563,174L564,177L569,181L572,182L575,187L575,190L576,193L549,194L515,195L490,195L490,154L487,151L484,147L488,142L489,139L488,130L486,127L485,123L485,118L485,116L484,102L480,89L480,86L480,80L481,77Z"/><path d="M849,245L849,244L850,241L854,238L854,236L860,230L853,226L852,223L850,223L849,220L851,216L849,213L852,208L853,205L854,204L870,208L869,216L868,217L866,218L866,221L871,222L872,224L873,237L869,247L867,250L865,257L862,259L862,253L860,253L858,254L851,249L849,246Z"/><path d="M864,329L864,329L864,329ZM863,349L863,348L870,343L871,344L867,346ZM755,333L780,331L812,325L840,319L858,315L860,320L865,328L863,327L859,318L855,317L858,320L862,325L859,322L857,324L854,322L857,325L853,327L850,329L846,330L847,332L852,330L852,331L855,329L859,329L858,332L860,336L860,329L863,329L865,334L865,337L863,337L859,344L853,344L850,341L851,344L843,343L854,347L852,351L849,354L845,353L846,354L850,355L854,352L859,353L857,355L855,360L862,349L862,349L857,357L856,362L855,361L851,360L843,364L837,370L834,376L833,384L829,383L822,386L798,368L777,371L777,368L774,365L772,367L771,364L749,367L745,368L734,373L725,375L712,376L712,371L717,369L717,365L721,362L726,361L732,355L734,355L737,350L740,348L740,350L743,349L744,347L747,345L750,345L752,341L755,338Z"/><path d="M376,65L404,67L420,68L444,69L479,70L481,77L480,80L480,86L480,89L484,102L485,116L485,118L485,123L486,127L488,130L489,139L459,139L442,138L412,137L392,135L371,134Z"/><path d="M372,339L389,340L432,342L458,343L489,343L522,343L522,355L526,380L526,420L519,418L517,415L512,413L511,415L506,415L506,414L500,416L499,415L492,417L491,419L490,417L485,414L483,416L481,413L476,418L475,414L472,416L470,414L466,412L463,415L460,414L461,412L459,412L457,409L453,408L451,410L450,408L446,409L442,406L438,406L438,403L435,401L434,402L431,401L429,402L425,398L423,398L425,353L396,352L371,350Z"/><path d="M756,208L759,207L767,200L768,206L800,200L824,195L840,192L843,194L844,194L847,196L849,202L853,202L854,204L853,205L852,208L849,213L851,216L849,220L850,223L852,223L853,226L860,230L854,236L854,238L850,241L846,241L844,244L816,250L782,256L764,259L761,239Z"/><path d="M369,155L369,155L371,134L392,135L412,137L442,138L459,139L489,139L488,142L484,147L487,151L490,154L490,195L488,195L489,197L488,199L490,203L489,205L489,210L487,211L490,218L487,217L486,214L481,212L479,211L476,209L470,210L467,209L465,211L457,207L456,206L434,205L403,203L365,201Z"/><path d="M369,155L365,201L361,246L333,243L301,240L277,237L252,233L243,232L247,209L256,153L257,142L263,143L298,147L339,152L339,152Z"/><path d="M502,261L521,262L544,261L570,259L576,264L575,268L575,272L578,279L582,283L584,285L589,289L591,297L593,298L594,296L600,298L599,301L600,303L597,309L597,313L606,320L607,319L611,323L614,326L613,327L615,332L613,333L618,339L618,338L621,339L621,340L620,349L617,348L616,351L615,351L614,351L615,354L612,357L614,360L611,363L600,363L602,359L605,357L603,352L586,353L549,354L522,355L522,343L522,295L518,293L516,289L513,285L516,280L517,281L516,277L511,277L509,275L507,273L507,270L504,268Z"/><path d="M733,294L737,293L737,290L739,289L738,285L741,279L743,282L745,281L744,277L746,273L748,273L749,269L751,270L753,269L757,263L759,256L759,252L760,246L760,243L758,241L761,239L764,259L782,256L784,268L787,265L789,261L792,261L794,257L797,258L800,258L801,255L804,253L807,254L810,254L810,256L813,260L812,264L802,259L802,266L796,276L794,275L791,283L790,285L787,285L783,282L783,286L780,294L779,297L776,302L775,305L777,306L776,309L773,311L772,310L768,313L767,312L766,315L761,318L758,316L755,319L753,320L749,318L746,314L747,313L744,313L740,311L739,308L736,305L733,301Z"/><path d="M264,327L278,329L315,334L348,337L372,339L371,350L370,350L366,407L364,429L362,453L338,451L317,449L295,446L294,449L296,452L264,448L262,458L246,456L251,423Z"/><path d="M522,355L549,354L586,353L603,352L605,357L602,359L600,363L611,363L613,365L611,365L612,367L608,369L610,371L607,373L604,377L606,377L605,380L607,383L605,383L602,386L604,388L598,393L600,394L598,395L598,400L595,401L594,406L592,407L593,409L589,410L591,415L588,415L589,418L587,417L589,419L587,420L587,423L589,425L590,429L588,430L589,433L569,433L535,434L534,422L532,421L528,422L526,420L526,380Z"/><path d="M77,374L81,376L81,379L78,378L78,376ZM74,384L78,389L75,388ZM65,358L65,358L65,358ZM58,374L58,374L58,374ZM56,355L62,358L56,357ZM50,355L54,355L54,357L51,358ZM46,353L46,353L46,353ZM32,159L46,164L62,168L83,174L100,179L83,245L156,356L156,359L158,363L159,369L162,373L160,376L156,377L153,380L153,385L152,389L149,391L148,391L148,394L147,400L150,400L150,403L148,406L145,407L99,401L99,399L97,398L98,393L98,387L96,382L92,376L86,369L84,370L82,369L82,367L81,362L76,361L69,356L69,354L65,349L59,347L54,345L48,344L46,340L48,334L47,333L49,328L45,324L47,321L45,319L43,314L41,313L37,299L34,296L35,292L36,288L38,288L39,285L38,281L35,281L31,274L32,270L31,266L33,260L35,260L34,265L38,270L38,265L36,261L37,259L35,257L39,256L37,253L35,253L35,256L33,259L29,254L26,253L28,250L27,243L24,239L23,235L20,228L21,226L21,219L23,215L24,209L21,201L18,197L18,193L26,183L27,178L31,172L31,165L30,164Z"/><path d="M849,245L849,246L849,245ZM844,244L846,241L850,241L849,244L848,246L849,249L852,252L854,258L859,262L861,262L863,270L852,272Z"/><path d="M825,266L826,265L829,267L827,269Z"/><path d="M305,584L308,581L310,577L308,575L309,572L315,575L322,578L326,581L326,584L327,584L328,586L332,589L328,593L325,594L321,595L317,598L313,603L309,600L308,598L309,593L308,590ZM291,557L293,555L296,558L299,557L306,560L305,563L298,565L297,564L296,561L293,560ZM291,566L294,565L294,566ZM283,558L287,558L289,560L285,562ZM278,553L279,551L291,552L287,555L283,553ZM258,543L261,542L264,540L267,544L267,545L271,549L267,550L266,549L261,549ZM226,532L227,530L230,528L235,528L236,530L235,534L233,536L229,535ZM216,536L220,533L219,535L217,538Z"/><path d="M490,195L515,195L549,194L576,193L576,196L579,198L577,201L578,206L579,210L585,212L587,215L590,218L591,221L595,223L595,231L593,232L593,236L588,239L581,240L580,244L583,247L583,251L581,254L581,257L577,259L576,264L570,259L544,261L521,262L502,261L499,258L501,255L498,244L499,241L496,239L496,233L494,229L490,218L487,211L489,210L489,205L490,203L488,199L489,197L488,195Z"/><path d="M621,339L620,337L624,334L631,337L633,335L631,332L632,329L639,327L637,323L639,319L645,316L646,318L646,315L648,316L650,315L655,318L656,315L660,313L662,315L665,314L665,311L668,308L669,310L674,312L675,311L677,305L680,303L680,301L683,298L682,295L685,293L687,294L690,292L693,291L691,285L692,284L693,283L696,284L698,283L700,284L703,289L710,290L713,292L716,290L720,292L723,291L724,288L726,287L728,291L730,292L733,294L733,301L736,305L739,308L740,311L744,313L747,313L741,320L735,324L735,326L733,328L733,330L729,331L728,334L719,338L719,339L704,340L692,341L681,342L672,343L644,346L640,345L641,349L618,351L616,351L617,348L620,349L621,340ZM615,351L614,351L615,351Z"/><path d="M849,284L848,285L849,284ZM847,281L847,281L847,281ZM782,256L816,250L844,244L852,272L863,270L862,280L856,282L855,283L851,285L851,281L847,275L847,278L845,279L841,274L841,271L846,271L840,267L842,266L841,263L839,266L839,261L841,262L841,259L839,259L840,254L842,253L842,248L840,249L841,251L839,254L836,254L837,257L836,258L837,262L836,268L838,273L840,276L840,279L843,282L843,284L840,283L838,281L834,281L831,279L829,277L826,280L825,277L827,273L827,269L829,267L826,265L825,266L821,264L818,264L818,261L816,260L813,260L810,256L810,254L807,254L804,253L801,255L800,258L797,258L794,257L792,261L789,261L787,265L784,268Z"/><path d="M644,493L644,493L644,493ZM639,492L639,492L639,492ZM635,493L635,493L635,493ZM631,493L631,493L631,493ZM589,433L588,430L590,429L589,425L587,423L587,420L589,419L587,417L589,418L588,415L591,415L589,410L593,409L592,407L594,406L595,401L598,400L598,395L600,394L598,393L604,388L602,386L618,385L641,383L643,386L643,413L642,455L646,489L644,490L636,489L633,490L626,493L624,495L622,493L621,489L617,484L619,477L605,477L582,479L583,478L582,473L584,472L583,470L585,470L584,466L586,465L587,461L590,456L592,455L592,453L590,451L595,448L593,445L590,444L592,441L590,441L591,439L589,439L591,435Z"/><path d="M198,39L210,41L232,46L265,51L302,57L325,60L340,62L364,64L376,65L371,134L369,155L369,155L339,152L339,152L298,147L263,143L257,142L256,153L253,151L252,147L249,147L249,151L243,149L239,150L236,148L234,150L228,148L226,151L224,149L224,141L220,140L219,138L220,134L218,132L216,127L216,122L216,121L214,118L211,121L208,122L205,119L206,117L205,114L208,113L208,109L210,101L213,96L208,95L208,93L204,89L205,88L201,82L200,79L197,78L195,74L197,74L195,71L196,68L193,61Z"/><path d="M886,110L886,105L887,103L890,103L890,102L894,114L904,145L907,147L907,149L910,150L909,154L906,155L902,160L884,164L882,163L882,157L880,145L883,132L881,127L885,126L887,122L887,119L885,116L886,112Z"/><path d="M720,223L720,223L720,223ZM718,222L718,222L718,222ZM685,225L708,221L715,223L717,225L719,223L723,226L725,227L732,223L737,223L741,218L748,213L756,208L761,239L758,241L760,243L760,246L759,252L759,256L757,263L753,269L751,270L749,269L748,273L746,273L744,277L745,281L743,282L741,279L738,285L739,289L737,290L737,293L733,294L730,292L728,291L726,287L724,288L723,291L720,292L716,290L713,292L710,290L703,289L700,284L698,283L696,284L693,283L692,284L688,247Z"/><path d="M70,70L74,73L76,73L79,76L80,79L78,86L86,91L93,89L98,90L102,93L102,94L112,93L113,95L118,96L122,94L130,94L136,95L138,94L170,102L171,106L175,109L175,112L170,118L169,121L166,124L166,126L164,129L161,129L157,136L157,139L160,141L161,143L157,150L148,190L121,184L100,179L83,174L62,168L46,164L32,159L31,156L31,149L33,146L32,139L35,136L38,131L42,125L45,120L52,102L53,98L57,92L61,81L62,75L63,73L63,68L64,70Z"/><path d="M611,363L614,360L612,357L615,354L614,351L615,351L616,351L618,351L641,349L640,345L644,346L672,343L681,342L692,341L704,340L719,339L719,338L727,337L755,333L755,338L752,341L750,345L747,345L744,347L743,349L740,350L740,348L737,350L734,355L732,355L726,361L721,362L717,365L717,369L712,371L712,376L689,379L666,381L641,383L641,383L618,385L602,386L605,383L607,383L605,380L606,377L604,377L607,373L610,371L608,369L612,367L611,365L613,365Z"/><path d="M197,201L200,201L247,209L243,232L252,233L277,237L271,279L268,298L268,301L264,327L239,324L202,318L176,313L176,310Z"/><path d="M855,283L856,282L862,280L861,284L859,284L858,288L858,292L856,301L854,303L852,300L852,292L855,285ZM849,284L848,285L849,284ZM747,313L746,314L749,318L753,320L755,319L758,316L761,318L766,315L767,312L768,313L772,310L773,311L776,309L777,306L775,305L776,302L779,297L780,294L783,286L783,282L787,285L790,285L791,283L794,275L796,276L802,266L802,259L812,264L813,260L816,260L818,261L818,264L821,264L825,266L827,269L827,273L825,275L824,278L825,280L829,278L831,282L838,282L840,285L845,287L845,289L846,293L842,293L840,291L838,290L842,294L846,294L848,300L845,298L846,302L849,305L847,308L842,305L841,303L840,304L846,310L849,310L848,308L854,308L858,315L840,319L812,325L780,331L755,333L727,337L719,338L728,334L729,331L733,330L733,328L735,326L735,324L741,320Z"/><path d="M93,50L94,47L94,51ZM98,24L98,24L98,24ZM98,20L98,20L98,20ZM97,23L97,23L97,23ZM95,31L98,27L99,30L95,31L97,32L97,36L98,35L99,36L98,39L96,35L96,33ZM95,17L95,17L95,17ZM93,19L93,19L93,19ZM95,12L95,12L95,12ZM91,21L95,19L98,21L95,26L91,23ZM91,19L91,19L91,19ZM183,35L178,58L170,92L170,94L171,98L170,102L138,94L136,95L130,94L122,94L118,96L113,95L112,93L102,94L102,93L98,90L93,89L86,91L78,86L80,79L79,76L76,73L74,73L70,70L68,68L65,69L64,65L65,59L65,63L67,62L67,60L69,59L65,57L66,54L70,53L66,51L67,44L66,43L67,34L65,30L66,23L68,20L69,20L76,27L80,28L87,31L88,30L90,33L94,32L93,34L94,38L92,41L88,44L91,43L96,39L95,46L93,47L92,52L96,51L96,46L97,41L101,37L100,32L98,34L98,31L101,31L98,25L100,27L102,20L99,19L98,15L100,14L114,18L140,25L166,31Z"/><path d="M365,201L403,203L434,205L456,206L457,207L465,211L467,209L470,210L476,209L479,211L481,212L486,214L487,217L490,218L494,229L496,233L496,239L499,241L498,244L501,255L499,258L502,261L504,268L507,270L507,273L509,275L495,275L464,274L443,274L422,273L393,271L395,249L361,246Z"/><path d="M170,102L171,98L170,94L170,92L178,58L183,35L198,39L193,61L196,68L195,71L197,74L195,74L197,78L200,79L201,82L205,88L204,89L208,93L208,95L213,96L210,101L208,109L208,113L205,114L206,117L205,119L208,122L211,121L214,118L216,121L216,122L216,127L218,132L220,134L219,138L220,140L224,141L224,149L226,151L228,148L234,150L236,148L239,150L243,149L249,151L249,147L252,147L253,151L256,153L247,209L200,201L197,201L159,193L148,190L157,150L161,143L160,141L157,139L157,136L161,129L164,129L166,126L166,124L169,121L170,118L175,112L175,109L171,106Z"/><path d="M100,179L121,184L148,190L159,193L197,201L176,310L176,313L172,331L169,334L168,334L166,331L163,330L159,331L159,337L159,342L158,345L158,352L156,356L83,245Z"/><path d="M857,117L873,113L886,110L886,112L885,116L887,119L887,122L885,126L881,127L883,132L880,145L882,157L882,163L884,164L870,167L870,165L867,150L865,148L863,148L864,145L861,139L862,133L860,128L859,127L858,122Z"/><path d="M637,497L637,497L637,497ZM628,497L631,495L631,498ZM623,510L623,510L623,510ZM609,520L609,520L609,520ZM605,521L605,521L605,521ZM602,522L602,522L602,522ZM576,511L579,510L582,512L580,513ZM535,434L569,433L589,433L591,435L589,439L591,439L590,441L592,441L590,444L593,445L595,448L590,451L592,453L592,455L590,456L587,461L586,465L584,466L585,470L583,470L584,472L582,473L583,478L582,479L605,477L619,477L617,484L621,489L622,493L624,495L619,498L618,501L621,500L623,502L623,499L625,497L628,501L629,499L630,502L628,502L627,507L622,507L622,509L626,513L632,513L634,517L634,521L631,519L628,523L630,519L623,515L619,515L612,521L609,516L608,515L605,517L600,522L597,519L595,519L590,517L591,516L594,518L594,516L591,514L590,515L589,512L587,513L585,510L583,510L584,507L579,508L578,505L574,508L572,507L574,511L570,513L564,512L553,508L547,508L542,509L540,510L538,507L543,502L542,493L542,490L545,484L546,479L545,476L541,469L539,466L539,462L535,457Z"/><path d="M910,182L912,186L909,188ZM908,188L908,188L908,188ZM906,195L906,195L906,195ZM901,193L902,191L898,178L905,176L907,181L909,182L906,181L908,188L907,190Z"/></g>
+<g class="st" data-st="IL" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Illinois, 6 facilities"><path d="M576,264L577,259L581,257L581,254L583,251L583,247L580,244L581,240L588,239L593,236L593,232L595,231L595,223L591,221L590,218L587,215L617,213L634,212L633,216L637,222L640,229L645,283L643,287L646,292L646,298L644,299L644,303L641,308L639,310L640,311L637,317L639,319L637,323L639,327L632,329L631,332L633,335L631,337L624,334L620,337L621,339L618,338L618,339L613,333L615,332L613,327L614,326L611,323L607,319L606,320L597,313L597,309L600,303L599,301L600,298L594,296L593,298L591,297L589,289L584,285L582,283L578,279L575,272L575,268Z"/><circle cx="626.9" cy="229.8" r="3.2"/><circle cx="633.6" cy="232.9" r="3.2"/><circle cx="635.3" cy="235.1" r="3.2"/><circle cx="626.7" cy="216.6" r="3.2"/><circle cx="631" cy="234.1" r="3.2"/><circle cx="629.1" cy="232.7" r="3.2"/></g>
+<g class="st" data-st="WI" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Wisconsin, 1 facility"><path d="M641,146L641,146L641,146ZM635,150L635,150L635,150ZM584,113L584,113L584,113ZM583,116L583,116L583,116ZM581,115L581,115L581,115ZM579,117L579,117L579,117ZM579,114L579,114L579,114ZM579,113L582,113L580,114ZM579,118L579,118L579,118ZM576,114L576,114L576,114ZM560,121L563,121L568,119L576,115L579,116L577,119L576,122L580,120L585,123L588,124L590,127L606,131L611,133L622,135L622,137L624,137L628,140L628,144L627,147L630,147L629,151L632,153L632,155L629,156L626,162L626,165L628,166L630,163L632,158L635,157L637,150L641,147L641,152L639,155L635,165L634,170L635,173L633,175L632,180L633,185L632,187L630,195L631,200L634,205L634,212L617,213L587,215L585,212L579,210L578,206L577,201L579,198L576,196L576,193L575,190L575,187L572,182L569,181L564,177L563,174L559,172L556,170L553,169L549,165L550,161L549,153L551,149L549,147L547,147L547,144L551,139L555,136L556,135L555,122L559,120Z"/><circle cx="625.4" cy="199.6" r="5"/></g>
+<g class="st" data-st="MI" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Michigan, 1 facility"><path d="M677,130L681,132L679,133ZM663,133L663,133L663,133ZM662,138L662,134L664,138ZM660,135L660,135L660,135ZM658,142L658,142L658,142ZM656,149L656,149L656,149ZM655,152L655,152L655,152ZM645,139L645,139L645,139ZM651,227L655,224L656,218L658,215L659,210L659,204L658,198L652,184L653,180L651,174L655,167L654,159L657,158L657,154L661,153L663,147L664,150L663,155L665,157L666,152L666,157L667,153L667,145L669,143L674,141L672,141L670,138L672,134L675,132L680,135L684,135L686,137L689,137L695,140L696,139L701,146L699,146L698,148L700,150L702,153L702,162L699,165L699,169L695,171L694,177L695,178L698,180L704,170L709,167L713,169L715,172L717,181L718,185L721,191L720,199L718,202L719,198L716,199L715,206L712,209L712,212L709,217L708,221L685,225L685,223L669,225ZM601,92L602,90L610,85L613,84L610,88L605,91L603,93ZM585,123L591,120L593,117L600,115L604,112L606,111L608,109L612,105L615,102L618,100L624,99L625,101L622,101L617,108L615,111L615,116L618,112L623,112L628,114L633,120L643,121L643,119L645,120L646,118L651,115L661,113L665,111L669,111L669,112L669,117L673,118L675,116L676,118L678,116L683,114L684,121L682,123L686,123L686,125L690,126L690,123L693,123L695,125L694,127L685,127L681,128L676,126L675,129L676,131L674,130L671,128L665,126L662,127L660,130L657,131L652,131L650,132L650,135L645,139L647,134L643,134L643,137L637,139L632,153L629,151L630,147L627,147L628,144L628,140L624,137L622,137L622,135L611,133L606,131L590,127L588,124Z"/><circle cx="704.1" cy="210.5" r="5"/></g>
+<g class="st" data-st="NY" role="button" tabindex="0" aria-haspopup="dialog" aria-label="New York, 1 facility"><path d="M899,195L899,195L899,195ZM896,198L896,198L896,198ZM868,217L868,220L866,221L866,218ZM815,153L815,153L815,153ZM814,153L814,153L814,153ZM767,200L776,192L777,188L780,186L778,182L776,182L774,175L783,171L792,170L795,170L799,171L801,170L809,169L812,166L816,161L819,161L819,158L816,154L819,152L814,150L814,146L820,141L822,137L828,127L832,124L845,121L857,117L858,122L859,127L860,128L862,133L861,139L864,145L863,148L865,148L867,150L870,165L870,167L870,183L871,183L874,200L875,202L872,206L874,208L873,211L877,208L881,208L882,206L890,204L894,199L899,201L903,199L895,205L885,212L877,216L874,217L871,219L869,216L870,208L854,204L853,202L849,202L847,196L844,194L843,194L840,192L824,195L800,200L768,206Z"/><circle cx="822.9" cy="169.5" r="5"/></g>
+<g class="st" data-st="CT" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Connecticut, 1 facility"><path d="M871,183L898,177L898,178L902,191L901,193L900,193L893,197L884,198L881,202L878,204L874,208L872,206L875,202L874,200Z"/><circle cx="883.3" cy="185.1" r="5"/></g>
+<g class="st" data-st="SC" role="button" tabindex="0" aria-haspopup="dialog" aria-label="South Carolina, 1 facility"><path d="M734,373L745,368L749,367L771,364L772,367L774,365L777,368L777,371L798,368L822,386L819,387L816,392L813,398L813,403L811,407L807,407L807,410L802,415L800,418L797,420L794,422L792,423L792,426L789,428L786,433L786,434L781,433L780,429L776,423L773,422L773,418L771,414L765,411L763,408L761,407L761,405L759,403L756,402L754,399L748,396L744,391L741,385L738,385L731,381L731,378L734,375Z"/><circle cx="748.4" cy="375.2" r="5"/></g>
+<g class="st" data-st="TX" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Texas, 1 facility"><path d="M371,350L396,352L425,353L423,398L425,398L429,402L431,401L434,402L435,401L438,403L438,406L442,406L446,409L450,408L451,410L453,408L457,409L459,412L461,412L460,414L463,415L466,412L470,414L472,416L475,414L476,418L481,413L483,416L485,414L490,417L491,419L492,417L499,415L500,416L506,414L506,415L511,415L512,413L517,415L519,418L526,420L528,422L532,421L534,422L535,434L535,457L539,462L539,466L541,469L545,476L546,479L545,484L542,490L542,493L543,502L538,507L540,510L534,511L522,517L526,513L522,514L523,509L521,509L520,511L518,510L517,513L519,515L519,519L515,522L514,524L521,518L523,518L517,523L510,529L491,539L489,541L485,544L480,548L475,555L471,561L470,566L470,574L473,587L474,592L471,581L469,576L469,568L471,560L475,553L480,546L486,542L489,541L488,539L484,541L482,539L481,544L479,546L477,544L473,547L477,546L474,552L472,551L468,551L470,554L472,555L469,564L467,563L464,565L469,565L467,575L469,583L471,587L471,591L474,592L474,595L469,596L469,597L466,596L464,593L460,592L453,592L451,592L447,588L443,588L440,585L434,583L431,574L427,569L428,566L427,564L427,559L425,555L423,555L419,552L418,547L416,544L412,540L410,533L405,526L405,521L403,518L398,515L398,513L394,511L393,508L390,505L385,505L382,504L377,504L373,502L372,504L370,504L366,505L363,509L361,517L359,517L356,521L353,521L348,517L345,515L342,513L340,513L337,510L329,503L327,497L328,491L325,486L324,482L322,479L315,475L312,469L309,467L306,462L301,459L298,453L296,452L294,449L295,446L317,449L338,451L362,453L364,429L366,407L370,350Z"/><circle cx="463.9" cy="497.4" r="5"/></g>
+<g class="st" data-st="AZ" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Arizona, 1 facility"><path d="M145,407L148,406L150,403L150,400L147,400L148,394L148,391L149,391L152,389L153,385L153,380L156,377L160,376L162,373L159,369L158,363L156,359L156,356L158,352L158,345L159,342L159,337L159,331L163,330L166,331L168,334L169,334L172,331L176,313L202,318L239,324L264,327L251,423L246,456L208,450L171,429L142,411L142,408Z"/><circle cx="197.2" cy="399.8" r="5"/></g>
+</svg>
+        <details class="map-list">
+          <summary>View as a list</summary>
+          <ul>
+            <li>Aurora, Illinois · 41,600 SF</li><li>Homer Glen, Illinois · 52,120 SF</li><li>Frankfort, Illinois · 71,250 SF</li><li>McHenry, Illinois · 23,150 SF</li><li>Crest Hill, Illinois · 20,000 SF · Realized</li><li>Plainfield, Illinois · 28,100 SF · Realized</li>
+            <li>Pewaukee, Wisconsin · 34,600 SF</li><li>Ypsilanti, Michigan · 45,000 SF</li><li>North Syracuse, New York · 59,275 SF</li><li>Simsbury, Connecticut · 66,120 SF</li><li>Greenville, South Carolina · 46,720 SF</li><li>Austin, Texas · 67,450 SF</li><li>Phoenix, Arizona · 71,600 SF</li>
+          </ul>
+        </details>
+      </div>
     </div>
   </section>
 
-  <!-- 05 TEAM -->
-  <section class="chapter" data-theme="dark" aria-labelledby="crew-h">
-    <div class="wrap">
-      <div class="chapter-head">
-        <div>
-          <span class="eyebrow rv">Our experts</span>
-          <h2 id="crew-h" class="display rv">Meet the Newcoast team.</h2>
-        </div>
-        <div class="rv">
-          <p>Together, 30+ years of market experience, $5B in transactions and 700+ properties closed.</p>
-          <a class="more" href="team.html">Full bios <span class="ic" aria-hidden="true">→</span></a>
-        </div>
-      </div>
-      <ul class="crew">
-        <li class="rv"><div class="bezel"><figure class="core ask" data-ask="Photo 15 · ask Myles"><img src="assets/img/team/craig-foreman.jpg" alt="" loading="lazy" decoding="async" width="300" height="240"></figure><p class="who"><b>Craig Foreman</b><span>Co-Founder, Managing Director</span></p></div></li>
-        <li class="rv"><div class="bezel"><figure class="core ask" data-ask="Photo 16 · ask Myles"><img src="assets/img/team/michael-mazur.jpg" alt="" loading="lazy" decoding="async" width="300" height="240"></figure><p class="who"><b>Michael Mazur</b><span>Co-Founder, Managing Director</span></p></div></li>
-        <li class="rv"><div class="bezel"><figure class="core ask" data-ask="Photo 17 · ask Myles"><img src="assets/img/team/jack-potts.jpg" alt="" loading="lazy" decoding="async" width="300" height="240"></figure><p class="who"><b>Jack Potts</b><span>Chief Financial Officer Advisor</span></p></div></li>
-        <li class="rv"><div class="bezel"><figure class="core ask" data-ask="Photo 18 · ask Myles"><img src="assets/img/team/shawn-gibbons.jpg" alt="" loading="lazy" decoding="async" width="300" height="240"></figure><p class="who"><b>Shawn Gibbons</b><span>VP of Acquisitions</span></p></div></li>
-        <li class="rv"><div class="bezel"><figure class="core ask" data-ask="Photo 19 · ask Myles"><img src="assets/img/team/myles-washington.jpg" alt="" loading="lazy" decoding="async" width="300" height="240"></figure><p class="who"><b>Myles Washington</b><span>Acquisitions &amp; Development Associate</span></p></div></li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 06 CLOSER -->
+  <!-- 7 CLOSER -->
   <section class="chapter alt closer" data-theme="dark" aria-labelledby="cl-h">
     <div class="wrap">
       <div class="bezel rv"><div class="core">
         <span class="eyebrow">Contact</span>
         <h2 id="cl-h" class="display">Newcoast is always looking for the next opportunity.</h2>
+        <p class="closer-l">Its next partner. Its next investor. Reach out below to start a conversation.</p>
         <div class="btn-row">
-          <a class="btn btn-sodium" href="contact.html">Sell a facility <span class="ic" aria-hidden="true">→</span></a>
-          <a class="btn btn-ghost" href="contact.html#invest">Invest with us <span class="ic" aria-hidden="true">→</span></a>
+          <a class="btn btn-sodium" href="contact.html">Contact us <span class="ic" aria-hidden="true">→</span></a>
         </div>
       </div></div>
     </div>
   </section>
+
+  </div>
 </main>
+
+<dialog class="sheet" id="sheet" aria-labelledby="sheet-h" data-lenis-prevent>
+  <div class="sheet-in">
+    <div class="sheet-head">
+      <div><p class="label" id="sheet-k">Portfolio</p><h2 id="sheet-h">State</h2></div>
+      <button class="x" type="button" id="sheetX" aria-label="Close">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13"/></svg>
+      </button>
+    </div>
+    <ul class="facs" id="facs"></ul>
+  </div>
+</dialog>
 
 <footer data-theme="dark">
   <div class="wrap">
@@ -229,6 +298,8 @@
   </div>
 </footer>
 
-<script src="assets/site.js"></script>
+<script src="assets/vendor/lenis.min.js" defer></script>
+<script src="assets/site.js" defer></script>
+<script src="assets/home.js" defer></script>
 </body>
 </html>

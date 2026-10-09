@@ -43,6 +43,10 @@
 
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+/* Smooth inertia scrolling (Lenis) takes over from CSS smooth scroll. */
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
 body{margin:0;background:var(--char);color:var(--on-dark);font:400 var(--t-body)/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 h1,h2,h3,h4,p,figure,ul,ol,dl,dd{margin:0;padding:0}
 ul,ol{list-style:none}
@@ -89,43 +93,6 @@ html[data-nav="light"] .nav.scrolled{background:color-mix(in oklab,var(--fog) 82
   .nav-links{display:none}
   .nav-links.open{display:flex;flex-direction:column;align-items:flex-start;gap:22px;position:absolute;top:100%;left:0;right:0;padding:28px var(--gutter) 36px;background:var(--char);color:var(--on-dark)}
   .menu-btn{display:grid}
-}
-
-/* =================================================================
-   01 HERO — footage first (R2). One restrained line of type.
-   ================================================================= */
-.hero{position:relative;height:100vh;height:100svh;min-height:600px;overflow:hidden;background:var(--char)}
-/* Static (no JS, reduced motion, short screens): the finished facility as a still. */
-.hero-pin{position:relative;width:100%;min-height:100svh;display:flex;align-items:flex-end;background:var(--char) url("build/poster.webp") center/cover no-repeat}
-.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:none}
-.hero canvas{transform:translateZ(0);backface-visibility:hidden}
-/* Scroll mode: the section is tall and the frame stays pinned while it scrolls past. */
-.hero.scrub{height:150vh;height:150svh;min-height:0;display:block;overflow:clip}
-.hero.scrub .hero-pin{position:sticky;top:0;height:100vh;height:100svh;min-height:0;overflow:hidden;background-image:url("build/f00.webp")}
-.hero.scrub canvas{display:block}
-.build-steps{list-style:none;padding:0}
-.build-steps li{transition:color .3s}
-.build-steps .n{color:var(--sodium);margin-right:4px}
-.hero.scrub .build-steps li:not(.on){color:var(--on-dark-2)}
-.hero.scrub .build-steps li.on{color:var(--on-dark)}
-.hero-pin::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,rgba(20,19,17,.84) 0%,rgba(20,19,17,.42) 32%,transparent 60%),linear-gradient(180deg,rgba(20,19,17,.45) 0%,transparent 18%)}
-.hero-ui{position:absolute;inset:auto 0 0 0;z-index:2;align-content:end;padding:0 calc(var(--gutter) + var(--rail)) 76px var(--gutter);display:grid;grid-template-columns:1fr auto;gap:28px;align-items:end}
-@media (max-width:1100px){.hero-ui{padding-right:var(--gutter)}}
-.hero h1{font-size:var(--t-hero);max-width:17ch;color:var(--on-dark);margin-top:14px;text-shadow:0 2px 30px rgba(0,0,0,.3)}
-.hero .label{color:var(--on-dark-2)}
-.hero-meta{margin-top:22px;display:flex;flex-wrap:wrap;gap:6px 22px;color:var(--on-dark-2)}
-.hero-ctrls{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-.ctrl{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 16px;border-radius:var(--r-ctl);border:1px solid rgba(241,240,236,.35);color:var(--on-dark);background:rgba(20,19,17,.6);font:500 var(--t-label)/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;transition:background .2s,border-color .2s,color .2s,transform .15s var(--ease)}
-.ctrl:hover{border-color:var(--on-dark);background:rgba(20,19,17,.6)}
-.ctrl.primary{background:var(--sodium);border-color:var(--sodium);color:var(--char)}
-.ctrl.primary:hover{background:var(--sodium-hi);border-color:var(--sodium-hi)}
-.ctrl svg{width:12px;height:12px}
-.ctrl .ic-play{display:none}
-.ctrl[aria-pressed="true"] .ic-pause{display:none}
-.ctrl[aria-pressed="true"] .ic-play{display:block}
-@media (max-width:760px){
-  .hero-ui{grid-template-columns:1fr}.hero-ctrls{justify-content:flex-start}
-  .hero-pin::after{background:linear-gradient(0deg,rgba(20,19,17,.9) 0%,rgba(20,19,17,.62) 48%,transparent 78%),linear-gradient(180deg,rgba(20,19,17,.45) 0%,transparent 16%)}
 }
 
 /* =================================================================
@@ -301,23 +268,6 @@ html[data-nav="dark"] .nav.scrolled{background:var(--char)}
 a,button{touch-action:manipulation}
 a:focus-visible,button:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
 .foot-cols a{display:flex;align-items:center;min-height:44px}
-/* Layered scrim instead of a flat film: dark where text sits (≥ .8 combined
-   alpha under the copy, ≥ 9:1 worst case), clear where the footage is. */
-.hero-pin::after{background:
-  linear-gradient(180deg,rgba(20,19,17,.8) 0,rgba(20,19,17,.72) 84px,transparent 220px),
-  linear-gradient(0deg,rgba(20,19,17,.92) 0%,rgba(20,19,17,.82) 30%,rgba(20,19,17,.55) 50%,transparent 72%),
-  linear-gradient(90deg,rgba(20,19,17,.55) 0%,rgba(20,19,17,.25) 45%,transparent 70%)}
-@media (max-width:760px){
-  .hero-pin::after{background:
-    linear-gradient(180deg,rgba(20,19,17,.8) 0,rgba(20,19,17,.72) 72px,transparent 200px),
-    linear-gradient(0deg,rgba(20,19,17,.94) 0%,rgba(20,19,17,.84) 45%,rgba(20,19,17,.6) 65%,transparent 88%)}
-}
-.hero .label{color:var(--on-dark)}
-.ctrl:not(.primary){background:var(--char);border-color:var(--on-dark-2)}
-.hero-ui{position:relative;min-height:100%;padding-top:120px;padding-bottom:60px}
-.hero:not(.scrub){height:auto;min-height:100svh;min-height:100dvh;display:flex;align-items:flex-end}
-.hero-ui{width:100%}
-.hero-ui>div{min-width:0}
 @media(max-width:600px){
   .foot-cols{grid-template-columns:1fr}
   .hero-ui{padding-top:110px}

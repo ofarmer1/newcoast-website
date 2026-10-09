@@ -5,6 +5,8 @@ import re,json
 root=Path(__file__).resolve().parent.parent
 css=(root/'assets/site.css').read_text()
 js=(root/'assets/site.js').read_text()
+homejs=(root/'assets/home.js').read_text()
+homecss=(root/'assets/home.css').read_text()
 PAGES={'index.html':None,'about.html':'about','portfolio.html':'portfolio','team.html':'team','contact.html':'contact'}
 class Audit(HTMLParser):
  def __init__(self): super().__init__();self.stack=[];self.nodes=[];self.errors=[]
@@ -42,9 +44,18 @@ for page,current in PAGES.items():
  marked=re.findall(r'href="([\w-]+)\.html" aria-current="page"',navlinks)
  assert marked==([current] if current else []),(page,marked)
  # One shared stylesheet and script, both local; no outside font request.
- assert re.findall(r'<link[^>]+rel="stylesheet"[^>]*>',html)==['<link rel="stylesheet" href="assets/site.css">'] and 'fonts.g' not in html,page
- assert '<script src="assets/site.js"></script>' in html,page
- assert '<video' not in html,page
+ sheets=['<link rel="stylesheet" href="assets/site.css">']+(['<link rel="stylesheet" href="assets/home.css">'] if page=='index.html' else [])
+ assert re.findall(r'<link[^>]+rel="stylesheet"[^>]*>',html)==sheets and 'fonts.g' not in html,page
+ # Smooth scrolling library is self-hosted and loads before the site script.
+ assert html.index('src="assets/vendor/lenis.min.js"') < html.index('src="assets/site.js"'),page
+ # Video only on the home page, and every video has its own pause/play button (WCAG 2.2.2).
+ vids=re.findall(r'<video id="(\w+)"',html)
+ assert page=='index.html' or not vids,page
+ for v in vids: assert f'data-video="{v}"' in html,(page,v)
+ for t,d in a.nodes:
+  if t=='video':
+   for k in ('data-src','data-src-sm','poster'):
+    if k in d: assert (root/d[k]).is_file(),(page,k)
  assert 'data-theme="light"' not in html,page
  # Draft media boxes: every photo or video slot is tagged for Myles.
  for m in re.finditer(r'<img [^>]*src="assets/img/(?:facilities|team)/[^>]+>',html):
@@ -66,12 +77,25 @@ assert 'content:attr(data-ask) / ""' in css
 assert all(re.search(r'@media \(prefers-reduced-motion:no-preference\)[^{]*\{\s*'+sel,css) for sel in (r'\.beat\{animation',r'\.platform h1\.words'))
 # The lever being read never dims below .6 opacity (on-dark at .6 over the canvas is still above 4.5:1).
 assert re.search(r'@keyframes beat-focus\{0%,100%\{opacity:\.6\}',css)
-# No per-frame scroll listener outside the hero; nav state comes from an observer.
-assert js.count("addEventListener('scroll'")==1 and "addEventListener('scrollend'" in js
+# The shared script has no scroll listener (nav state comes from an observer); the home page batches
+# all position-linked motion into one listener drawn once per frame.
+assert js.count("addEventListener('scroll'")==0 and "addEventListener('scrollend'" in js
+assert homejs.count("addEventListener('scroll'")==1 and 'requestAnimationFrame(() => { ticking = false;' in homejs
+# Smooth scrolling never runs for people who ask for reduced motion.
+assert "if (!reduce && window.Lenis)" in js
+# Home motion has a still version: pinning, the site-plan drawing and the film slot check reduced motion.
+assert 'const canPin = () => motion.matches' in homejs and "if (motion.matches) {\n    bp.classList.add('armed')" in homejs and "if (!motion.matches) { slot.style.setProperty('--g', 1)" in homejs
+assert '@media (prefers-reduced-motion:reduce)' in homecss
+# Map: only the eight Newcoast states are focusable buttons, and each names its facility count.
+home=(root/'index.html').read_text()
+states=re.findall(r'<g class="st" data-st="(\w\w)" role="button" tabindex="0" aria-haspopup="dialog" aria-label="([^"]+)"',home)
+assert [s for s,_ in states]==['IL','WI','MI','NY','CT','SC','TX','AZ'] and states[0][1]=='Illinois, 6 facilities',states
+assert home.count('tabindex="0"')==8 and '<g class="land" aria-hidden="true">' in home
+assert home.count('<li>',home.index('class="map-list"'))>=13
 # Self-hosted fonts and every CSS url() resolve (relative to assets/).
 faces=re.findall(r'@font-face\{[^}]*url\("([^"]+)"\)[^}]*font-display:swap',css)
 assert len(faces)==2 and all((root/'assets'/f).is_file() for f in faces),faces
-for u in re.findall(r'url\("([^"]+)"\)',css):
+for u in re.findall(r'url\("([^"]+)"\)',css+homecss):
  if u.startswith('data:'): continue
  assert (root/'assets'/u).is_file(),u
 colors=dict(re.findall(r'--([\w-]+):\s*(#[0-9A-Fa-f]{6})',css))

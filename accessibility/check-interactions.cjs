@@ -22,8 +22,7 @@ class Element {
   querySelector() {return null;}
   querySelectorAll() {return [];}
 }
-const ids = Object.fromEntries(['nav','menuBtn','navLinks','buildCanvas','portfolioStatus','facilities','main','about','approach','portfolio','team','contact'].map(x => [x, new Element(x)]));
-ids.buildCanvas.getContext = () => ({drawImage() {}});
+const ids = Object.fromEntries(['nav','menuBtn','navLinks','portfolioStatus','facilities','main','about','approach','portfolio','team','contact'].map(x => [x, new Element(x)]));
 
 // Nav links, keyed by href, so the current-section indicator can be checked.
 const navAnchors = ['#about', '#portfolio', '#team', '#contact'].map(href => {const e = new Element(); e.attrs.href = href; return e;});
@@ -49,23 +48,24 @@ const matchMedia = q => {if (!media.has(q)) {const e = new Element(); e.matches 
 const observers = [];
 class IO {constructor(cb, opts) {this.cb = cb; this.opts = opts; this.els = []; observers.push(this);} observe(el) {this.els.push(el);} unobserve() {} disconnect() {}}
 const winEvents = {};
-vm.runInNewContext(script, {document: doc, matchMedia, navigator: {}, IntersectionObserver: IO, addEventListener(k, cb) {(winEvents[k] ??= new Set()).add(cb);}, removeEventListener(k, cb) {winEvents[k]?.delete(cb);}, setTimeout: () => 0, clearTimeout() {}, requestAnimationFrame: cb => cb(), performance: {now: () => 0}, console, Promise, Set, Object});
+let lenisMade = 0;
+const win = {Lenis: class {constructor() {lenisMade++;}}};
+vm.runInNewContext(script, {window: win, document: doc, matchMedia, navigator: {}, IntersectionObserver: IO, addEventListener(k, cb) {(winEvents[k] ??= new Set()).add(cb);}, removeEventListener(k, cb) {winEvents[k]?.delete(cb);}, setTimeout: () => 0, clearTimeout() {}, requestAnimationFrame: cb => cb(), performance: {now: () => 0}, console, Promise, Set, Object});
 
 (async () => {
-  // Reduced motion: the hero stays a still frame and no frames are requested (Image is undefined here, so loading would throw).
-  assert(hero.classes.has('static') && !hero.classes.has('scrub'), 'reduced motion keeps the hero static');
+  // Reduced motion: smooth inertia scrolling is never started; the page scrolls natively.
+  assert.equal(lenisMade, 0, 'no smooth scrolling under reduced motion');
+  assert.equal(win.ncLenis, undefined);
 
   // Nav turns solid from an observer once the top of the page scrolls away; no scroll listener.
   const navIO2 = observers.find(o => o.els.length === 1 && o.els[0] === doc.body.children[0]);
   navIO2.cb([{isIntersecting: false}]); assert(ids.nav.classes.has('scrolled'));
   navIO2.cb([{isIntersecting: true}]); assert(!ids.nav.classes.has('scrolled'));
-  // The only scroll listener is the hero's, and it exists only while the hero is on screen.
-  const heroScrollIO = observers.filter(o => o.els.length === 1 && o.els[0] === hero).find(o => !o.opts);
-  heroScrollIO.cb([{isIntersecting: true}]); assert.equal(winEvents.scroll?.size, 1);
-  heroScrollIO.cb([{isIntersecting: false}]); assert.equal(winEvents.scroll?.size, 0, 'scroll listener removed once the hero is off screen');
+  // The shared script never listens to scroll; nav state and reveals come from observers.
+  assert.equal(winEvents.scroll?.size ?? 0, 0, 'no scroll listener in the shared script');
 
-  // No video on the page any more, so nothing can autoplay.
-  assert(!/getElementById\('flightVideo'\)/.test(script), 'no approach video script');
+  // Video lives only on the home page, in home.js, with its own pause buttons.
+  assert(!/<video|\.play\(/.test(script), 'no video handling in the shared script');
 
   // Menu disclosure, Escape, and in-page links moving focus.
   ids.menuBtn.dispatch('click'); assert.equal(ids.menuBtn.attrs['aria-expanded'], 'true');
@@ -81,9 +81,5 @@ vm.runInNewContext(script, {document: doc, matchMedia, navigator: {}, Intersecti
   filters[1].dispatch('click'); assert.equal(items.filter(x => !x.hidden).length, 11); assert.match(ids.portfolioStatus.textContent, /11 active/);
   filters[0].dispatch('click'); assert.equal(items.filter(x => !x.hidden).length, 13); assert(!ids.facilities.classes.has('filtered'));
 
-  // Turning on reduced motion mid-visit keeps the hero static.
-  media.get('(prefers-reduced-motion: reduce)').dispatch('change', {matches: true});
-  assert(hero.classes.has('static'));
-
-  console.log('PASS: reduced motion (static hero, no frame downloads), no video, observer-driven nav, hero-only scroll listener, menu disclosure/Escape, anchor focus, pages marked in markup, facility filters with count announcements.');
+  console.log('PASS: reduced motion (no smooth scrolling), no video in the shared script, observer-driven nav, no scroll listener, menu disclosure/Escape, anchor focus, pages marked in markup, facility filters with count announcements.');
 })().catch(e => {console.error(e); process.exitCode = 1;});
