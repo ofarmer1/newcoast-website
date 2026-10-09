@@ -71,7 +71,9 @@ assert js.count("addEventListener('scroll'")==1 and "addEventListener('scrollend
 # Self-hosted fonts and every CSS url() resolve (relative to assets/).
 faces=re.findall(r'@font-face\{[^}]*url\("([^"]+)"\)[^}]*font-display:swap',css)
 assert len(faces)==2 and all((root/'assets'/f).is_file() for f in faces),faces
-for u in re.findall(r'url\("([^"]+)"\)',css): assert (root/'assets'/u).is_file(),u
+for u in re.findall(r'url\("([^"]+)"\)',css):
+ if u.startswith('data:'): continue
+ assert (root/'assets'/u).is_file(),u
 colors=dict(re.findall(r'--([\w-]+):\s*(#[0-9A-Fa-f]{6})',css))
 def rgb(h):return [int(h[i:i+2],16)/255 for i in (1,3,5)]
 def lum(c):return sum(w*(v/12.92 if v<=.04045 else ((v+.055)/1.055)**2.4)for v,w in zip(c,(.2126,.7152,.0722)))

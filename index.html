@@ -40,14 +40,14 @@
 <header class="nav" id="nav">
   <a class="wordmark" href="index.html" aria-label="Newcoast home">NEWCOAST</a>
   <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h18M3 16h18"/></svg>
+    <span class="bar" aria-hidden="true"></span><span class="bar" aria-hidden="true"></span>
   </button>
   <nav class="nav-links label" id="navLinks" aria-label="Primary">
     <a href="about.html">About</a>
     <a href="portfolio.html">Portfolio</a>
     <a href="team.html">Team</a>
     <a href="contact.html">Contact</a>
-    <a class="login" href="https://newcoastre.investnext.com/">Investor login</a>
+    <a class="login" href="https://newcoastre.investnext.com/">Investor login <span class="ic" aria-hidden="true">↗</span></a>
   </nav>
 </header>
 
@@ -73,45 +73,147 @@
           </ol>
         </div>
         <div class="hero-ctrls">
-          <a class="ctrl primary" href="contact.html">Sell a facility</a>
-          <a class="ctrl" href="contact.html#invest">Invest with us</a>
+          <a class="ctrl primary" href="contact.html">Sell a facility <span class="ic" aria-hidden="true">→</span></a>
+          <a class="ctrl" href="about.html">Our story <span class="ic" aria-hidden="true">→</span></a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- BRANCHES: the home page leads into the rest of the site -->
-  <section class="branches" data-theme="dark" aria-labelledby="br-h">
+  <!-- 01 WHY SELF-STORAGE: four reasons in an asymmetrical bento, then the full story on About -->
+  <section class="chapter" data-theme="dark" aria-labelledby="why-h">
     <div class="wrap">
-      <h2 id="br-h" class="display rv">Built to acquire and operate high-quality self-storage assets.</h2>
-      <ul class="branch-grid">
-        <li class="branch wide rv"><a href="about.html">
-          <figure class="ask" data-ask="Photo 02 · ask Myles"><img src="assets/img/facilities/frankfort.webp" alt="" loading="lazy" decoding="async" width="1600" height="900"></figure>
-          <span class="label">About</span>
-          <h3>A disciplined approach to self-storage investment.</h3>
-          <span class="go label">Our approach <span aria-hidden="true">→</span></span>
-        </a></li>
-        <li class="branch rv"><a href="portfolio.html">
-          <figure class="ask" data-ask="Photo 05 · ask Myles"><img src="assets/img/facilities/austin.webp" alt="" loading="lazy" decoding="async" width="1000" height="666"></figure>
-          <span class="label">Portfolio</span>
-          <h3>Thirteen facilities across eight states.</h3>
-          <span class="go label">See the portfolio <span aria-hidden="true">→</span></span>
-        </a></li>
-        <li class="branch rv"><a href="team.html">
-          <div class="faces ask" data-ask="Photos 15 to 19 · ask Myles"><img src="assets/img/team/craig-foreman.jpg" alt="" loading="lazy" decoding="async" width="300" height="240"><img src="assets/img/team/michael-mazur.jpg" alt="" loading="lazy" decoding="async" width="300" height="240"><img src="assets/img/team/jack-potts.jpg" alt="" loading="lazy" decoding="async" width="300" height="240"><img src="assets/img/team/shawn-gibbons.jpg" alt="" loading="lazy" decoding="async" width="300" height="240"><img src="assets/img/team/myles-washington.jpg" alt="" loading="lazy" decoding="async" width="300" height="240"></div>
-          <span class="label">Team</span>
-          <h3>30+ years of market experience, $5B in transactions and 700+ properties closed.</h3>
-          <span class="go label">Meet the team <span aria-hidden="true">→</span></span>
-        </a></li>
+      <div class="chapter-head">
+        <div>
+          <span class="eyebrow rv">Why self-storage</span>
+          <h2 id="why-h" class="display rv">Why self storage continues to outperform.</h2>
+        </div>
+        <div class="rv">
+          <p>We build our business on direct relationships with capital providers who value discipline and clarity.</p>
+          <a class="more" href="about.html">About us <span class="ic" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <ul class="bento">
+        <li class="b-a rv"><div class="bezel"><div class="core cell">
+          <span class="n">01</span>
+          <p class="big">65%+<small>of facilities are owned outside the top 100 operators</small></p>
+          <div><h3>Fragmented marketplace</h3><p>Facilities often lack technological investment and operational sophistication.</p></div>
+        </div></div></li>
+        <li class="b-b rv"><div class="bezel"><div class="core cell">
+          <span class="n">02</span>
+          <div><h3>Resilience through cycles</h3><p>Need-based demand and rising utilization support outperformance.</p></div>
+        </div></div></li>
+        <li class="b-c rv"><div class="bezel"><div class="core cell">
+          <span class="n">03</span>
+          <div><h3>Sticky tenant base</h3><p>Tenant inertia produces recurring revenue that compounds over time. The average stay is about 19 months, and growing.</p></div>
+        </div></div></li>
+        <li class="b-d rv"><div class="bezel"><div class="core cell">
+          <div><span class="n">04</span><h3 style="margin-top:22px">Low costs, high margins</h3><p>One of the most attractive operating-margin profiles in commercial real estate.</p></div>
+        </div></div></li>
       </ul>
     </div>
   </section>
 
-  <!-- CONTACT BAND -->
-  <section class="band" data-theme="dark" aria-labelledby="band-h">
+  <!-- 02 WHY NEWCOAST: the three levers beside a Newcoast facility, then the approach on About -->
+  <section class="chapter alt" data-theme="dark" aria-labelledby="how-h">
     <div class="wrap">
-      <h2 id="band-h" class="display rv">Newcoast is always looking for the next opportunity.</h2>
-      <a class="btn btn-sodium rv" href="contact.html">Contact Newcoast <span aria-hidden="true">→</span></a>
+      <div class="chapter-head">
+        <div>
+          <span class="eyebrow rv">Why Newcoast</span>
+          <h2 id="how-h" class="display rv">Driving returns through active asset management.</h2>
+        </div>
+        <div class="rv">
+          <p>Newcoast’s singular focus is finding the right opportunities paired with relentless execution to generate continued outperformance.</p>
+          <a class="more" href="about.html">Our approach <span class="ic" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div class="split">
+        <ol class="levers">
+          <li class="bezel rv"><div class="core lever"><span class="n">01</span><div><h3>Best-in-class sourcing</h3><p>Direct owner outreach, using a proprietary database to identify overlooked assets before they reach a broader market.</p></div></div></li>
+          <li class="bezel rv"><div class="core lever"><span class="n">02</span><div><h3>Revenue optimization</h3><p>A data-driven philosophy that keeps pricing ahead of local competition, facility by facility.</p></div></div></li>
+          <li class="bezel rv"><div class="core lever"><span class="n">03</span><div><h3>Targeted capital improvements</h3><p>In-house development expertise, deployed only with a clear line of sight to value.</p></div></div></li>
+        </ol>
+        <div class="bezel photo rv"><figure class="core ask" data-ask="Photo 02 · ask Myles"><img src="assets/img/facilities/frankfort.webp" alt="Aerial view of the Newcoast self-storage facility in Frankfort, Illinois" loading="lazy" decoding="async" width="1600" height="900"></figure></div>
+      </div>
+      <ul class="focus rv" aria-label="Investment focus" style="margin-top:clamp(40px,5vw,64px)">
+        <li>Targeting primary and secondary markets</li><li>Disciplined acquisition criteria</li><li>Scalable investment approach</li><li>Superior returns</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 03 TRACK RECORD -->
+  <section class="chapter" data-theme="dark" aria-labelledby="rec-h">
+    <div class="wrap">
+      <div class="chapter-head">
+        <div>
+          <span class="eyebrow rv">Track record</span>
+          <h2 id="rec-h" class="display rv">A growing and proven investment track record.</h2>
+        </div>
+      </div>
+      <ul class="figures">
+        <li class="bezel rv"><div class="core"><p class="v">13</p><p class="l">Facilities acquired, 2 realized</p></div></li>
+        <li class="bezel rv"><div class="core"><p class="v">627K</p><p class="l">Square feet acquired</p></div></li>
+        <li class="bezel rv"><div class="core"><p class="v">$5B</p><p class="l">In transactions across the team</p></div></li>
+        <li class="bezel rv"><div class="core"><p class="v">700+</p><p class="l">Properties closed across the team</p></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 04 PORTFOLIO SNAPSHOT: three facilities, then the full list -->
+  <section class="chapter alt" data-theme="dark" aria-labelledby="snap-h">
+    <div class="wrap">
+      <div class="chapter-head">
+        <div>
+          <span class="eyebrow rv">Portfolio</span>
+          <h2 id="snap-h" class="display rv">We go where the opportunity is.</h2>
+        </div>
+        <div class="rv">
+          <p>Our team’s experience investing across geographies gives us the conviction to deploy capital where the data leads us.</p>
+          <a class="more" href="portfolio.html">View full portfolio <span class="ic" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <ul class="snap">
+        <li class="rv"><a class="bezel" href="portfolio.html"><figure class="core ask" data-ask="Photo 05 · ask Myles"><img src="assets/img/facilities/austin.webp" alt="" loading="lazy" decoding="async" width="1000" height="666"><figcaption class="cap"><span>Austin, TX</span><span class="label">67,450 SF</span></figcaption></figure></a></li>
+        <li class="rv"><a class="bezel" href="portfolio.html"><figure class="core ask" data-ask="Photo 06 · ask Myles"><img src="assets/img/facilities/simsbury.webp" alt="" loading="lazy" decoding="async" width="1000" height="750"><figcaption class="cap"><span>Simsbury, CT</span><span class="label">66,120 SF</span></figcaption></figure></a></li>
+        <li class="rv"><a class="bezel" href="portfolio.html"><figure class="core ask" data-ask="Photo 09 · ask Myles"><img src="assets/img/facilities/greenville.webp" alt="" loading="lazy" decoding="async" width="1000" height="470"><figcaption class="cap"><span>Greenville, SC</span><span class="label">46,720 SF</span></figcaption></figure></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 05 TEAM -->
+  <section class="chapter" data-theme="dark" aria-labelledby="crew-h">
+    <div class="wrap">
+      <div class="chapter-head">
+        <div>
+          <span class="eyebrow rv">Our experts</span>
+          <h2 id="crew-h" class="display rv">Meet the Newcoast team.</h2>
+        </div>
+        <div class="rv">
+          <p>Together, 30+ years of market experience, $5B in transactions and 700+ properties closed.</p>
+          <a class="more" href="team.html">Full bios <span class="ic" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <ul class="crew">
+        <li class="rv"><div class="bezel"><figure class="core ask" data-ask="Photo 15 · ask Myles"><img src="assets/img/team/craig-foreman.jpg" alt="" loading="lazy" decoding="async" width="300" height="240"></figure><p class="who"><b>Craig Foreman</b><span>Co-Founder, Managing Director</span></p></div></li>
+        <li class="rv"><div class="bezel"><figure class="core ask" data-ask="Photo 16 · ask Myles"><img src="assets/img/team/michael-mazur.jpg" alt="" loading="lazy" decoding="async" width="300" height="240"></figure><p class="who"><b>Michael Mazur</b><span>Co-Founder, Managing Director</span></p></div></li>
+        <li class="rv"><div class="bezel"><figure class="core ask" data-ask="Photo 17 · ask Myles"><img src="assets/img/team/jack-potts.jpg" alt="" loading="lazy" decoding="async" width="300" height="240"></figure><p class="who"><b>Jack Potts</b><span>Chief Financial Officer Advisor</span></p></div></li>
+        <li class="rv"><div class="bezel"><figure class="core ask" data-ask="Photo 18 · ask Myles"><img src="assets/img/team/shawn-gibbons.jpg" alt="" loading="lazy" decoding="async" width="300" height="240"></figure><p class="who"><b>Shawn Gibbons</b><span>VP of Acquisitions</span></p></div></li>
+        <li class="rv"><div class="bezel"><figure class="core ask" data-ask="Photo 19 · ask Myles"><img src="assets/img/team/myles-washington.jpg" alt="" loading="lazy" decoding="async" width="300" height="240"></figure><p class="who"><b>Myles Washington</b><span>Acquisitions &amp; Development Associate</span></p></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 06 CLOSER -->
+  <section class="chapter alt closer" data-theme="dark" aria-labelledby="cl-h">
+    <div class="wrap">
+      <div class="bezel rv"><div class="core">
+        <span class="eyebrow">Contact</span>
+        <h2 id="cl-h" class="display">Newcoast is always looking for the next opportunity.</h2>
+        <div class="btn-row">
+          <a class="btn btn-sodium" href="contact.html">Sell a facility <span class="ic" aria-hidden="true">→</span></a>
+          <a class="btn btn-ghost" href="contact.html#invest">Invest with us <span class="ic" aria-hidden="true">→</span></a>
+        </div>
+      </div></div>
     </div>
   </section>
 </main>

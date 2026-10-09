@@ -177,6 +177,19 @@
     unrevealed = unrevealed.filter(el => el !== plH); revealIO.unobserve(plH);
   }
 
+  /* ---------- Team bios: Read more opens the full bio in place ---------- */
+  document.querySelectorAll('.bio-toggle').forEach(btn => {
+    const bio = document.getElementById(btn.getAttribute('aria-controls'));
+    if (!bio) return;
+    bio.hidden = true;
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') !== 'true';
+      btn.setAttribute('aria-expanded', open);
+      bio.hidden = !open;
+      btn.firstChild.textContent = open ? 'Show less' : 'Read more';
+    });
+  });
+
   /* ---------- Portfolio filters ---------- */
   const facilities = [...document.querySelectorAll('#facilities li')];
   document.querySelectorAll('.filters button').forEach(btn => btn.addEventListener('click', () => {
