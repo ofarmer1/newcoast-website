@@ -194,7 +194,7 @@ html[data-nav="light"] .nav.scrolled{background:color-mix(in oklab,var(--fog) 82
 .record-photo{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;filter:grayscale(.35)}
 /* Scrim ≥ .78 everywhere (headline ≥ 8:1 on a white frame); the card adds .9 under the numbers. */
 .record::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(20,19,17,.9) 0%,rgba(20,19,17,.78) 45%,rgba(20,19,17,.86) 100%)}
-.record-card{margin-top:clamp(40px,5vw,72px);padding:clamp(24px,3vw,44px);border:1px solid var(--line-d);border-radius:var(--r-media);background:rgba(27,26,24,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.record-card{margin-top:clamp(40px,5vw,72px);padding:clamp(24px,3vw,44px);border:1px solid var(--line-d);border-radius:var(--r-media);background:rgba(27,26,24,.92)}
 .record-head{display:grid;gap:0}
 .record h2{font-size:var(--t-h2);max-width:14ch}
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr)}
@@ -475,6 +475,24 @@ a.bezel:hover figure.core img,.bezel:hover>figure.core img{transform:scale(1.03)
 html:not(.js) .bio-toggle{display:none}
 .bio{margin-top:14px;color:var(--on-dark-2);font-size:14px;line-height:1.6}
 .bio p+p{margin-top:10px}
+
+
+/* Inner pages share the same hardware: eyebrow over the h1, pill filters,
+   and a bezel (drawn with two box-shadow rings, so no extra wrapper) on
+   cards, frames and photos. */
+.page-eyebrow{margin-bottom:22px;width:max-content;justify-self:start;align-self:start}
+.ring{box-shadow:0 0 0 6px var(--shell),0 0 0 7px var(--hair)}
+.door,.record-card{border:0;border-radius:var(--r-core);background:var(--core);box-shadow:0 0 0 6px var(--shell),0 0 0 7px var(--hair),inset 0 1px 0 rgba(255,255,255,.06)}
+.doors{gap:28px}
+.record-card{background:rgba(32,31,29,.94)}
+.flight-frame{border-radius:var(--r-core);box-shadow:0 0 0 6px var(--shell),0 0 0 7px var(--hair)}
+.filters{gap:8px}
+.filters button{border:0;border-radius:999px;padding:0 18px;box-shadow:0 0 0 1px var(--hair);transition:background .5s var(--spring),color .5s var(--spring),transform .6s var(--spring)}
+.filters button:hover{box-shadow:0 0 0 1px var(--on-dark-2)}
+.facilities figure{padding:6px;border-radius:var(--r-shell);background:var(--shell);box-shadow:0 0 0 1px var(--hair)}
+.facilities img{border-radius:var(--r-core);transition:transform 1.2s var(--spring)}
+.person>span.ask,.person>span:first-child{padding:6px;border-radius:var(--r-shell);background:var(--shell);box-shadow:0 0 0 1px var(--hair)}
+.person img{border-radius:var(--r-core)}
 
 /* =================================================================
    DRAFT: media to confirm with Myles. Every photo and video slot gets a
