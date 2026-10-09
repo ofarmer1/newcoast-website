@@ -47,7 +47,9 @@
     el.style.transitionDelay = (reduce ? 0 : Math.min(sib.indexOf(el), 5) * 70) + 'ms';
     el.classList.add('in');
     revealIO.unobserve(el);
-  }), { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  }), { threshold: 0 });
+  // Anything already on screen when the page opens appears straight away, even
+  // if only its top edge shows, so no slot on the first screen sits empty.
   document.querySelectorAll('.rv').forEach(el => revealIO.observe(el));
   let unrevealed = [...document.querySelectorAll('.rv')];
   function sweepReveals() {
