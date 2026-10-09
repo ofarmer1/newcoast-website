@@ -78,29 +78,27 @@
     unrevealed = unrevealed.filter(el => el !== plH); revealIO.unobserve(plH);
   }
 
-  /* ---------- Team: clicking a person opens them in a panel over the page ---------- */
-  const memberDialog = document.getElementById('memberDialog');
-  if (memberDialog) {
-    let opener = null;
-    document.querySelectorAll('.member').forEach(m => {
-      const btn = m.querySelector('.m-btn');
-      btn.addEventListener('click', () => {
-        opener = btn;
-        const img = m.querySelector('.m-photo img');
-        document.getElementById('md-img').src = img.src;
-        document.getElementById('md-name').textContent = btn.textContent;
-        document.getElementById('md-role').textContent = m.querySelector('.m-role').textContent;
-        document.getElementById('md-bio').innerHTML = document.getElementById(btn.dataset.bio).innerHTML;
-        memberDialog.showModal();
-        memberDialog.scrollTop = 0;
-        if (window.ncLenis) window.ncLenis.stop();
-      });
+  /* ---------- Team: click anywhere on a person to open their bio under them ----------
+     The bio floats over the row below, so nobody else moves. One open at a time. */
+  const members = [...document.querySelectorAll('.member')];
+  const closeMembers = except => members.forEach(o => {
+    if (o === except) return;
+    o.classList.remove('open'); o.querySelector('.m-btn').setAttribute('aria-expanded', 'false');
+  });
+  members.forEach(m => {
+    const btn = m.querySelector('.m-btn');
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') !== 'true';
+      closeMembers(m);
+      m.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', open);
     });
-    document.getElementById('mdClose').addEventListener('click', () => memberDialog.close());
-    memberDialog.addEventListener('click', e => { if (e.target === memberDialog) memberDialog.close(); });
-    memberDialog.addEventListener('close', () => {
-      if (window.ncLenis) window.ncLenis.start();
-      if (opener) opener.focus();
+  });
+  if (members.length) {
+    document.addEventListener('click', e => { if (!e.target.closest('.member')) closeMembers(null); });
+    document.addEventListener('keydown', e => {
+      const openOne = members.find(o => o.classList.contains('open'));
+      if (e.key === 'Escape' && openOne) { closeMembers(null); openOne.querySelector('.m-btn').focus(); }
     });
   }
 
