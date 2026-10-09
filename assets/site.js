@@ -78,23 +78,31 @@
     unrevealed = unrevealed.filter(el => el !== plH); revealIO.unobserve(plH);
   }
 
-  /* ---------- Team: clicking a person opens them across the full row ---------- */
-  const members = [...document.querySelectorAll('.member')];
-  members.forEach(m => {
-    const btn = m.querySelector('.m-btn');
-    btn.addEventListener('click', () => {
-      const open = btn.getAttribute('aria-expanded') !== 'true';
-      const apply = () => {
-        members.forEach(o => { o.classList.remove('open'); o.querySelector('.m-btn').setAttribute('aria-expanded', 'false'); });
-        if (open) { m.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
-      };
-      // The grid reflows as one smooth move where the browser supports it.
-      if (!reduce && document.startViewTransition) {
-        members.forEach((o, i) => { o.style.viewTransitionName = 'member-' + i; });
-        document.startViewTransition(apply).finished.then(() => members.forEach(o => { o.style.viewTransitionName = ''; }));
-      } else apply();
+  /* ---------- Team: clicking a person opens them in a panel over the page ---------- */
+  const memberDialog = document.getElementById('memberDialog');
+  if (memberDialog) {
+    let opener = null;
+    document.querySelectorAll('.member').forEach(m => {
+      const btn = m.querySelector('.m-btn');
+      btn.addEventListener('click', () => {
+        opener = btn;
+        const img = m.querySelector('.m-photo img');
+        document.getElementById('md-img').src = img.src;
+        document.getElementById('md-name').textContent = btn.textContent;
+        document.getElementById('md-role').textContent = m.querySelector('.m-role').textContent;
+        document.getElementById('md-bio').innerHTML = document.getElementById(btn.dataset.bio).innerHTML;
+        memberDialog.showModal();
+        memberDialog.scrollTop = 0;
+        if (window.ncLenis) window.ncLenis.stop();
+      });
     });
-  });
+    document.getElementById('mdClose').addEventListener('click', () => memberDialog.close());
+    memberDialog.addEventListener('click', e => { if (e.target === memberDialog) memberDialog.close(); });
+    memberDialog.addEventListener('close', () => {
+      if (window.ncLenis) window.ncLenis.start();
+      if (opener) opener.focus();
+    });
+  }
 
   /* ---------- Portfolio filters ---------- */
   const facilities = [...document.querySelectorAll('#facilities li')];
