@@ -78,16 +78,21 @@
     unrevealed = unrevealed.filter(el => el !== plH); revealIO.unobserve(plH);
   }
 
-  /* ---------- Team bios: Read more opens the full bio in place ---------- */
-  document.querySelectorAll('.bio-toggle').forEach(btn => {
-    const bio = document.getElementById(btn.getAttribute('aria-controls'));
-    if (!bio) return;
-    bio.hidden = true;
+  /* ---------- Team: clicking a person opens them across the full row ---------- */
+  const members = [...document.querySelectorAll('.member')];
+  members.forEach(m => {
+    const btn = m.querySelector('.m-btn');
     btn.addEventListener('click', () => {
       const open = btn.getAttribute('aria-expanded') !== 'true';
-      btn.setAttribute('aria-expanded', open);
-      bio.hidden = !open;
-      btn.firstChild.textContent = open ? 'Show less' : 'Read more';
+      const apply = () => {
+        members.forEach(o => { o.classList.remove('open'); o.querySelector('.m-btn').setAttribute('aria-expanded', 'false'); });
+        if (open) { m.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
+      };
+      // The grid reflows as one smooth move where the browser supports it.
+      if (!reduce && document.startViewTransition) {
+        members.forEach((o, i) => { o.style.viewTransitionName = 'member-' + i; });
+        document.startViewTransition(apply).finished.then(() => members.forEach(o => { o.style.viewTransitionName = ''; }));
+      } else apply();
     });
   });
 
