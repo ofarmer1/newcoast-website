@@ -76,24 +76,27 @@
   }
 
   /* ---------- 4 Panels: opening one widens it, the others become strips ---------- */
-  const panels = $('#panels'), buildVideo = $('#buildVideo');
+  const panels = $('#panels');
   $$('.panel', panels).forEach(panel => {
     const btn = $('button', panel);
     btn.addEventListener('click', () => {
       const open = !panel.classList.contains('open');
       $$('.panel', panels).forEach(p => { p.classList.remove('open'); $('button', p).setAttribute('aria-expanded', 'false'); });
-      buildVideo.pause();
       if (open) {
         panel.classList.add('open');
         btn.setAttribute('aria-expanded', 'true');
-        if (panel.contains(buildVideo) && motion.matches && !saveData && !userPaused.has(buildVideo)) buildVideo.play().catch(() => {});
       }
       panels.classList.toggle('has-open', open);
     });
   });
 
-  /* ---------- 4b Film slot grows to full width ---------- */
-  const slot = $('#slot');
+  /* ---------- 4b Film: grows to full width, plays only while on screen ---------- */
+  const slot = $('#slot'), slotVideo = $('#slotVideo');
+  slotVideo.src = slotVideo.canPlayType('video/mp4; codecs="avc1.640028"') ? slotVideo.dataset.src : slotVideo.dataset.src.replace(/\.mp4$/, '.webm');
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting && motion.matches && !saveData && !userPaused.has(slotVideo)) slotVideo.play().catch(() => {});
+    else if (!e.isIntersecting && !slotVideo.paused) slotVideo.pause();
+  }, { threshold: 0.25 }).observe(slotVideo);
   function slotScroll() {
     if (!motion.matches) { slot.style.setProperty('--g', 1); return; }
     const r = slot.getBoundingClientRect();

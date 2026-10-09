@@ -209,3 +209,32 @@ dialog.sheet[open]{animation:sheet-in .6s var(--spring)}
 }
 .closer .core{background:var(--bg)}
 .closer{padding-bottom:clamp(56px,7vw,96px)}
+
+/* ---------- Why Newcoast, round 2: every tile keeps one height; opening a
+   tile only widens it. Each tile carries a storage sketch. ---------- */
+@media (min-width:901px){
+  .panels{height:clamp(500px,62svh,580px);min-height:0}
+  .panel{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto}
+  .panel>h3{grid-column:1/-1}
+  .panel.open{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);grid-template-rows:auto minmax(0,1fr)}
+  .panel.open .more-body{grid-column:1;grid-row:2;display:block;padding:0 28px 28px;overflow:auto}
+  .panel.open .pn-fig{grid-column:2;grid-row:2;padding:0 28px 28px 0}
+  .panels.has-open .panel:not(.open) .pn-fig{display:none}
+  .panels.has-open .panel:not(.open)>h3{grid-row:1/-1;height:100%}
+}
+.pn-fig{min-height:0;padding:0 20px}
+.pn-fig .sk-frame{aspect-ratio:auto;height:100%;min-height:180px;box-shadow:none;background:transparent;border-radius:12px}
+.pn-fig .sketch{-webkit-mask-image:radial-gradient(ellipse 62% 64% at 50% 50%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 62% 64% at 50% 50%,#000 55%,transparent 100%)}
+.panel:not(.open) .pn-fig .sk-pin{display:none}
+.panel.open .pn-fig .sk-frame{background:var(--bg-2)}
+.mb-copy p{max-width:46ch}
+@media (max-width:900px){
+  .panel{flex:none}
+  .pn-fig .sk-frame{aspect-ratio:3/2;height:auto}
+  .panels.has-open .panel:not(.open) .pn-fig{display:none}
+}
+
+/* Film section: the construction clip, full width. */
+.slot-in{position:relative;margin:0;padding:0;background:var(--bg-3)}
+.slot-in video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+@media (max-width:640px){.slot-in{aspect-ratio:4/3}}
