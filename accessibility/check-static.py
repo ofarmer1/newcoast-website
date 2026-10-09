@@ -1,0 +1,88 @@
+"""Source checks, not a browser audit or conformance certification."""
+from html.parser import HTMLParser
+from pathlib import Path
+import re,json
+root=Path(__file__).resolve().parent.parent
+css=(root/'assets/site.css').read_text()
+js=(root/'assets/site.js').read_text()
+PAGES={'index.html':None,'about.html':'about','portfolio.html':'portfolio','team.html':'team','contact.html':'contact'}
+class Audit(HTMLParser):
+ def __init__(self): super().__init__();self.stack=[];self.nodes=[];self.errors=[]
+ def handle_starttag(self,t,a):
+  d=dict(a);self.nodes.append((t,d))
+  if t not in {'area','base','br','col','embed','hr','img','input','link','meta','param','source','track','wbr'}:self.stack.append(t)
+ def handle_endtag(self,t):
+  if not self.stack or self.stack[-1]!=t:self.errors.append((self.getpos(),t))
+  else:self.stack.pop()
+nodes={}
+for page,current in PAGES.items():
+ html=(root/page).read_text()
+ a=Audit();a.feed(html);nodes[page]=a.nodes
+ assert not a.errors and not a.stack,(page,a.errors,a.stack)
+ ids=[d['id'] for t,d in a.nodes if 'id'in d]
+ assert len(ids)==len(set(ids)),page
+ for t,d in a.nodes:
+  for key in ('aria-labelledby','aria-describedby','aria-controls'):
+   for ref in d.get(key,'').split():assert ref in ids,(page,t,key,ref)
+  if t=='a' and d.get('href','').startswith('#'):assert d['href'][1:] in ids,(page,d['href'])
+  # Links between pages point at pages that exist.
+  if t=='a' and re.match(r'^[\w-]+\.html',d.get('href','')):assert (root/d['href'].split('#')[0]).is_file(),(page,d['href'])
+  if t=='img':
+   assert 'alt' in d,(page,d.get('src'))
+   # Width and height on every image, so nothing shifts while photos load.
+   assert 'width' in d and 'height' in d,(page,d.get('src'))
+  for attr in ('src','href'):
+   v=d.get(attr,'')
+   if v.startswith('assets/'):assert(root/v).is_file(),(page,v)
+ assert sum(t=='h1' for t,d in a.nodes)==1,page
+ assert '<main id="main" tabindex="-1">'in html and '<a class="skip" href="#main">' in html,page
+ # Each nav link is its own page, and the current page is marked.
+ navlinks=re.search(r'<nav class="nav-links.*?</nav>',html,re.S).group(0)
+ assert not re.search(r'href="#',navlinks),page
+ marked=re.findall(r'href="([\w-]+)\.html" aria-current="page"',navlinks)
+ assert marked==([current] if current else []),(page,marked)
+ # One shared stylesheet and script, both local; no outside font request.
+ assert re.findall(r'<link[^>]+rel="stylesheet"[^>]*>',html)==['<link rel="stylesheet" href="assets/site.css">'] and 'fonts.g' not in html,page
+ assert '<script src="assets/site.js"></script>' in html,page
+ assert '<video' not in html,page
+ assert 'data-theme="light"' not in html,page
+ # Draft media boxes: every photo or video slot is tagged for Myles.
+ for m in re.finditer(r'<img [^>]*src="assets/img/(?:facilities|team)/[^>]+>',html):
+  before=html[:m.start()]
+  assert before.rfind('class="') > -1 and re.search(r'class="[^"]*\bask\b[^"]*" data-ask="[^"]+"[^<]*(?:<[^>]*>[^<]*){0,1}$',before[-400:]) or 'class="faces ask"' in before[-1600:],(page,m.group(0)[:80])
+ # No em or en dashes in anything a visitor reads or hears (comments excluded).
+ visible=re.sub(r'<!--.*?-->|<style>.*?</style>|<script>.*?</script>|data-ask="[^"]*"','',html,flags=re.S)
+ assert not re.search('[–—]',visible),(page,re.findall('.{20}[–—].{20}',visible))
+p=nodes['portfolio.html']
+assert sum(t=='li' and 'data-s'in d for t,d in p)==13
+assert sum(t=='li' and d.get('data-s')=='active' for t,d in p)==11
+assert sum(t=='li' and d.get('data-s')=='realized' for t,d in p)==2
+assert 'role="status" aria-live="polite"' in (root/'portfolio.html').read_text()
+# Team photos are shown in color, as on newcoastre.com.
+assert not re.search(r'\.person img\{[^}]*grayscale',css)
+# Review tags are hidden from screen readers (empty alt text for generated content).
+assert 'content:attr(data-ask) / ""' in css
+# Scroll-linked motion is opt-in: only under prefers-reduced-motion: no-preference.
+assert all(re.search(r'@media \(prefers-reduced-motion:no-preference\)[^{]*\{\s*'+sel,css) for sel in (r'\.beat\{animation',r'\.platform h1\.words'))
+# The lever being read never dims below .6 opacity (on-dark at .6 over the canvas is still above 4.5:1).
+assert re.search(r'@keyframes beat-focus\{0%,100%\{opacity:\.6\}',css)
+# No per-frame scroll listener outside the hero; nav state comes from an observer.
+assert js.count("addEventListener('scroll'")==1 and "addEventListener('scrollend'" in js
+# Self-hosted fonts and every CSS url() resolve (relative to assets/).
+faces=re.findall(r'@font-face\{[^}]*url\("([^"]+)"\)[^}]*font-display:swap',css)
+assert len(faces)==2 and all((root/'assets'/f).is_file() for f in faces),faces
+for u in re.findall(r'url\("([^"]+)"\)',css): assert (root/'assets'/u).is_file(),u
+colors=dict(re.findall(r'--([\w-]+):\s*(#[0-9A-Fa-f]{6})',css))
+def rgb(h):return [int(h[i:i+2],16)/255 for i in (1,3,5)]
+def lum(c):return sum(w*(v/12.92 if v<=.04045 else ((v+.055)/1.055)**2.4)for v,w in zip(c,(.2126,.7152,.0722)))
+def ratio(f,b):
+ x,y=sorted([lum(f),lum(b)]);return(y+.05)/(x+.05)
+results=[]
+for f,b in [('on-dark','char'),('on-dark-2','char'),('on-dark-3','char'),('on-dark-3','char-2'),('on-dark-3','char-3'),('on-dark-2','char-2'),('on-dark','char-2'),('on-dark','char-3'),('char','sodium'),('sodium','char')]:
+ r=ratio(rgb(colors[f]),rgb(colors[b]));assert r>=4.5,(f,b,r);results.append([f,b,round(r,2)])
+for b in ['char','char-2','char-3']:
+ r=ratio(rgb(colors['focus']),rgb(colors[b]));assert r>=3,(b,r);results.append(['focus',b,round(r,2)])
+for name,opacity in [('hero worst-case white frame',.72)]:
+ bg=[v*opacity+(1-opacity)for v in rgb('#141311')]
+ r=ratio(rgb(colors['on-dark']),bg);assert r>=4.5;results.append(['on-dark',name,round(r,2)])
+print(json.dumps({'pages':list(PAGES),'structure':'PASS','ids_and_references':'PASS','local_assets':'PASS','navigation':'PASS','static_content':'PASS','contrast_pairs':results},indent=2))

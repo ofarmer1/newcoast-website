@@ -1,0 +1,103 @@
+{
+  "structure": "PASS",
+  "ids_and_references": "PASS",
+  "local_assets": "PASS",
+  "static_content": "PASS",
+  "contrast_pairs": [
+    [
+      "ink",
+      "fog",
+      16.0
+    ],
+    [
+      "ink-2",
+      "fog",
+      6.92
+    ],
+    [
+      "ink-3",
+      "fog",
+      5.23
+    ],
+    [
+      "ink-2",
+      "paper",
+      7.49
+    ],
+    [
+      "amber-ink",
+      "fog",
+      5.0
+    ],
+    [
+      "amber-ink",
+      "paper",
+      5.42
+    ],
+    [
+      "on-dark",
+      "char",
+      15.25
+    ],
+    [
+      "on-dark-2",
+      "char",
+      7.88
+    ],
+    [
+      "on-dark-3",
+      "char",
+      7.88
+    ],
+    [
+      "on-dark-3",
+      "char-2",
+      7.2
+    ],
+    [
+      "on-dark-3",
+      "char-3",
+      6.4
+    ],
+    [
+      "on-dark",
+      "char-3",
+      12.38
+    ],
+    [
+      "char",
+      "sodium",
+      8.15
+    ],
+    [
+      "focus",
+      "char",
+      4.74
+    ],
+    [
+      "focus",
+      "fog",
+      3.22
+    ],
+    [
+      "focus",
+      "paper",
+      3.48
+    ],
+    [
+      "focus",
+      "char-3",
+      3.85
+    ],
+    [
+      "on-dark",
+      "hero worst-case white video frame",
+      6.52
+    ],
+    [
+      "on-dark",
+      "approach worst-case white image",
+      9.45
+    ]
+  ]
+}

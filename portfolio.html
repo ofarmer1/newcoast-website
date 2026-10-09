@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en" data-nav="dark" data-review>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Draft: keep out of search results until launch. Remove this line when the site goes live. -->
+<meta name="robots" content="noindex, nofollow">
+<title>Portfolio | Newcoast Real Estate</title>
+<meta name="description" content="Newcoast acquires value-add self-storage investments nationwide, combining a differentiated sourcing strategy with institutional-grade expertise.">
+<meta name="theme-color" content="#1B1A18">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Newcoast Real Estate">
+<meta property="og:title" content="Newcoast Real Estate | Self-storage investment">
+<meta property="og:description" content="Newcoast acquires value-add self-storage investments nationwide, combining a differentiated sourcing strategy with institutional-grade expertise.">
+<meta property="og:image" content="https://ofarmer1.github.io/newcoast-website/assets/build/poster.jpg">
+<meta property="og:image:alt" content="A finished self-storage facility at sunset.">
+<meta name="twitter:card" content="summary_large_image">
+<!-- Motion is opt-in: without JS every section renders fully visible. -->
+<script>document.documentElement.classList.add('js')</script>
+
+
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/Geist-Variable.woff2" crossorigin>
+
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<noscript>
+  <style>
+    .nav{position:relative;flex-wrap:wrap;background:var(--char)}
+    .nav-links{display:flex;flex-wrap:wrap;gap:12px}
+    .menu-btn,.filters{display:none}
+  </style>
+  <p style="padding:16px;color:var(--on-dark);background:var(--char)">The portfolio filters require JavaScript. Every facility is listed below.</p>
+</noscript>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <a class="wordmark" href="index.html" aria-label="Newcoast home">NEWCOAST</a>
+  <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h18M3 16h18"/></svg>
+  </button>
+  <nav class="nav-links label" id="navLinks" aria-label="Primary">
+    <a href="about.html">About</a>
+    <a href="portfolio.html" aria-current="page">Portfolio</a>
+    <a href="team.html">Team</a>
+    <a href="contact.html">Contact</a>
+    <a class="login" href="https://newcoastre.investnext.com/">Investor login</a>
+  </nav>
+</header>
+
+<main id="main" tabindex="-1">
+
+  <!-- 04 ─ PORTFOLIO: every facility, photographed -->
+  <section class="portfolio page-top" id="portfolio" data-theme="dark" aria-labelledby="pf-h">
+    <div class="wrap">
+      <div class="pf-head">
+        <h1 id="pf-h" class="display rv">A growing portfolio, facility by facility.</h1>
+        <p class="rv">We invest where the data leads, with a home base in Chicagoland, where six of our facilities sit.</p>
+      </div>
+
+      <div class="filters" role="group" aria-label="Filter facilities">
+        <button type="button" data-f="all" aria-pressed="true">All <span class="count">13</span></button>
+        <button type="button" data-f="active" aria-pressed="false">Active <span class="count">11</span></button>
+        <button type="button" data-f="realized" aria-pressed="false">Realized <span class="count">2</span></button>
+      </div>
+      <p id="portfolioStatus" class="sr-only" role="status" aria-live="polite" aria-atomic="true">Showing all 13 facilities.</p>
+
+      <ul class="facilities" id="facilities">
+        <li class="lead" data-s="active"><figure class="ask" data-ask="Photo 02 · ask Myles"><img loading="lazy" decoding="async" src="assets/img/facilities/frankfort.webp" width="1600" height="900" alt="Aerial view of the Newcoast self-storage facility in Frankfort, Illinois"></figure><p class="city">Frankfort, IL</p><p class="meta label"><span>71,250 SF</span><span class="status">Active</span></p></li>
+        <li data-s="active"><figure class="ask" data-ask="Photo 04 · ask Myles"><img loading="lazy" decoding="async" src="assets/img/facilities/phoenix.webp" width="1000" height="738" alt="Newcoast self-storage facility in Phoenix, Arizona"></figure><p class="city">Phoenix, AZ</p><p class="meta label"><span>71,600 SF</span><span class="status">Active</span></p></li>
+        <li data-s="active"><figure class="ask" data-ask="Photo 05 · ask Myles"><img loading="lazy" decoding="async" src="assets/img/facilities/austin.webp" width="1000" height="666" alt="Newcoast self-storage facility in Austin, Texas"></figure><p class="city">Austin, TX</p><p class="meta label"><span>67,450 SF</span><span class="status">Active</span></p></li>
+        <li data-s="active"><figure class="ask" data-ask="Photo 06 · ask Myles"><img loading="lazy" decoding="async" src="assets/img/facilities/simsbury.webp" width="1000" height="750" alt="Newcoast self-storage facility in Simsbury, Connecticut"></figure><p class="city">Simsbury, CT</p><p class="meta label"><span>66,120 SF</span><span class="status">Active</span></p></li>
+        <li data-s="active"><figure class="ask" data-ask="Photo 07 · ask Myles"><img loading="lazy" decoding="async" src="assets/img/facilities/north-syracuse.webp" width="1000" height="612" alt="Newcoast self-storage facility in North Syracuse, New York"></figure><p class="city">North Syracuse, NY</p><p class="meta label"><span>59,275 SF</span><span class="status">Active</span></p></li>
+        <li data-s="active"><figure class="ask" data-ask="Photo 08 · ask Myles"><img loading="lazy" decoding="async" src="assets/img/facilities/homer-glen.webp" width="992" height="655" alt="Newcoast self-storage facility in Homer Glen, Illinois"></figure><p class="city">Homer Glen, IL</p><p class="meta label"><span>52,120 SF</span><span class="status">Active</span></p></li>
+        <li data-s="active"><figure class="ask" data-ask="Photo 09 · ask Myles"><img loading="lazy" decoding="async" src="assets/img/facilities/greenville.webp" width="1000" height="470" alt="Newcoast self-storage facility in Greenville, South Carolina"></figure><p class="city">Greenville, SC</p><p class="meta label"><span>46,720 SF</span><span class="status">Active</span></p></li>
+        <li data-s="active"><figure class="ask" data-ask="Photo 10 · ask Myles"><img loading="lazy" decoding="async" src="assets/img/facilities/ypsilanti.webp" width="954" height="546" alt="Aerial view of the Newcoast self-storage facility in Ypsilanti, Michigan"></figure><p class="city">Ypsilanti, MI</p><p class="meta label"><span>45,000 SF</span><span class="status">Active</span></p></li>
+        <li data-s="active"><figure class="ask" data-ask="Photo 11 · ask Myles"><img loading="lazy" decoding="async" src="assets/img/facilities/aurora.webp" width="1000" height="668" alt="Newcoast self-storage facility in Aurora, Illinois"></figure><p class="city">Aurora, IL</p><p class="meta label"><span>41,600 SF</span><span class="status">Active</span></p></li>
+        <li data-s="active"><figure class="ask" data-ask="Photo 12 · ask Myles"><img loading="lazy" decoding="async" src="assets/img/facilities/pewaukee.webp" width="1000" height="593" alt="Newcoast self-storage facility in Pewaukee, Wisconsin"></figure><p class="city">Pewaukee, WI</p><p class="meta label"><span>34,600 SF</span><span class="status">Active</span></p></li>
+        <li data-s="active"><figure class="ask" data-ask="Photo 13 · ask Myles"><img loading="lazy" decoding="async" src="assets/img/facilities/mchenry.webp" width="1000" height="522" alt="Newcoast self-storage facility in McHenry, Illinois"></figure><p class="city">McHenry, IL</p><p class="meta label"><span>23,150 SF</span><span class="status">Active</span></p></li>
+        <li data-s="realized"><figure class="ask" data-ask="Photo 03 · ask Myles"><img loading="lazy" decoding="async" src="assets/img/facilities/plainfield.webp" width="1000" height="562" alt="Aerial view of the self-storage facility in Plainfield, Illinois"></figure><p class="city">Plainfield, IL</p><p class="meta label"><span>28,100 SF</span><span class="status">Realized</span></p></li>
+        <li data-s="realized"><figure class="ask" data-ask="Photo 14 · ask Myles"><img loading="lazy" decoding="async" src="assets/img/facilities/crest-hill.webp" width="1000" height="750" alt="Self-storage facility in Crest Hill, Illinois"></figure><p class="city">Crest Hill, IL</p><p class="meta label"><span>20,000 SF</span><span class="status">Realized</span></p></li>
+      </ul>
+      <p class="pf-foot label"><span>578,885 SF active</span><span>626,985 SF acquired to date</span></p>
+    </div>
+  </section>
+</main>
+
+<footer data-theme="dark">
+  <div class="wrap">
+    <div class="foot-cols">
+      <div><span class="label">Headquarters</span><p>922 Davis St, Suite 3N<br>Evanston, IL 60201</p></div>
+      <div><span class="label">Contact</span><a href="mailto:contact@newcoastre.com">contact@newcoastre.com</a></div>
+      <div><span class="label">Legal</span><a href="https://newcoastre.com/privacy-policy/">Privacy</a><a href="accessibility.html">Accessibility</a></div>
+    </div>
+    <div class="foot-bottom label"><span>© 2026 Newcoast Real Estate</span><span>Value-add self-storage, nationwide</span></div>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+</body>
+</html>
