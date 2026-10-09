@@ -7,7 +7,7 @@
    controls use --r-ctl.
    ================================================================= */
 :root{
-  --bg:#FFFFFF; --bg-2:#F7F2E8; --bg-3:#EEE5D4; --bg-4:#E0D3BC;
+  --bg:#FFFFFF; --bg-2:#F3F5F3; --bg-3:#E5EAE6; --bg-4:#D2DBD5;
   --fg:#141A17; --fg-2:#4B534E; --fg-3:#4B534E;
   --line:rgba(20,26,23,.14);
   --accent:#1B2723; --accent-hi:#34493F;
@@ -506,7 +506,7 @@ html:not(.js) .bio-toggle{display:none}
 /* Open: a popup over the page, as on newcoastre.com, with arrows to step
    through the team. The grid behind it never moves. */
 .m-dialog{border:0;padding:0;margin:0;width:100%;height:100%;max-width:none;max-height:none;background:transparent;color:var(--fg);overflow:hidden}
-.m-dialog::backdrop{background:rgba(238,229,212,.86);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.m-dialog::backdrop{background:rgba(229,234,230,.86);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .m-dialog[open]{display:grid;place-items:center}
 .m-dialog[open]::backdrop{animation:md-fade .5s var(--ease) both}
 .md-in{position:relative;width:min(1120px,calc(100% - 160px));max-height:calc(100dvh - 120px);overflow:auto;overscroll-behavior:contain;display:grid;grid-template-columns:minmax(0,4fr) minmax(0,6fr);gap:clamp(24px,4vw,56px);padding:clamp(28px,4vw,56px);background:var(--bg);box-shadow:0 0 0 1px var(--hair),0 40px 120px rgba(20,26,23,.28)}
