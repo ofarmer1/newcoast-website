@@ -667,3 +667,55 @@ html:not(.js) .bio-toggle{display:none}
 .pf-film{position:relative;aspect-ratio:16/10;border-radius:var(--r-core);overflow:hidden;background:var(--bg-3);box-shadow:0 0 0 6px var(--shell),0 0 0 7px var(--hair)}
 .pf-film video{width:100%;height:100%;object-fit:cover}
 @media (max-width:900px){.pf-head{grid-template-columns:1fr}}
+
+/* Plan sheets: Newcoast's own development drawings, redrawn as clean line art
+   on a dotted blueprint grid. Older layers sit back; the new layer draws on. */
+.sheet .sk-frame{background-color:var(--bg-2);background-image:radial-gradient(color-mix(in srgb,var(--fg) 16%,transparent) 1px,transparent 1.4px);background-size:22px 22px}
+.sheet .sketch{inset:5% 4% 13%;width:92%;height:82%;-webkit-mask-image:none;mask-image:none}
+.sheet .sketch path{stroke:var(--accent);stroke-width:1.2}
+.sheet .ly.old{opacity:.4}
+.sheet .pl{stroke-width:1.8}
+.sheet .pl.c,.sheet .sb.c{stroke-dasharray:6 4 1.5 4;stroke-width:1}
+.sheet .sb.c{stroke-dasharray:2 4;stroke-opacity:.6}
+.sheet .ex{fill:color-mix(in srgb,var(--accent) 14%,transparent);stroke-opacity:.7}
+.sheet .rd{stroke-opacity:.5}
+.sheet .rd.c{stroke-dasharray:10 8}
+.sheet .na{stroke-width:1;fill:none}
+.sheet .pv{fill:color-mix(in srgb,var(--accent) 8%,transparent);stroke-opacity:.55;stroke-width:1}
+.sheet .nw{fill:var(--bg);stroke-width:2}
+.sheet .nw.t,.sheet .dr.t{stroke-width:.8;stroke-opacity:.5;fill:none}
+.sheet .gt{stroke-width:3}
+.sheet .u1,.sheet .u2,.sheet .u3{stroke-width:.6;stroke-opacity:.6}
+.sheet .u1{fill:color-mix(in srgb,var(--accent) 12%,transparent)}
+.sheet .u2{fill:color-mix(in srgb,var(--accent) 30%,transparent)}
+.sheet .u3{fill:color-mix(in srgb,var(--accent) 55%,transparent)}
+.sheet .wt{fill:color-mix(in srgb,var(--accent) 6%,transparent);stroke-width:1}
+.sheet .wt.c{stroke-dasharray:3 3;fill:none;stroke-opacity:.6}
+.sheet .tc{fill:var(--bg);stroke-opacity:.8;stroke-width:1}
+.sheet .tc.c{fill:none}
+.sheet .gd{stroke-width:2}
+.sheet .ro{fill:color-mix(in srgb,var(--accent) 70%,transparent)}
+.sheet .wl{fill:var(--bg)}
+.sheet .dr{fill:color-mix(in srgb,var(--accent) 22%,transparent);stroke-opacity:.9}
+.sheet .st.c{fill:color-mix(in srgb,var(--accent) 16%,transparent);stroke-opacity:.6}
+.sheet .rb.c{stroke-opacity:.3;stroke-width:.8}
+.sheet .dm{stroke-width:.8;stroke-opacity:.7}
+.sheet .rv{fill:none}
+.sheet text{fill:var(--accent);font:500 9px var(--mono);letter-spacing:.12em}
+.sheet text.lg{font-size:12px;letter-spacing:.16em}
+.sh-tb{position:absolute;left:4%;right:4%;bottom:4%;z-index:2;display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-top:10px;border-top:1px solid color-mix(in srgb,var(--accent) 40%,transparent);font:500 11px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.sh-tb b{font:600 clamp(15px,.8rem + .4vw,19px)/1.2 var(--display);letter-spacing:-.01em;text-transform:none;color:var(--fg)}
+.sh-key{display:flex;gap:14px;flex-wrap:wrap;list-style:none;margin:0;padding:0;text-transform:none;letter-spacing:.04em}
+.sh-key li{display:flex;align-items:center;gap:6px}
+.sh-key i{width:12px;height:12px;border-radius:2px;border:1px solid var(--accent)}
+.sh-key .k1{background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.sh-key .k2{background:color-mix(in srgb,var(--accent) 30%,transparent)}
+.sh-key .k3{background:color-mix(in srgb,var(--accent) 55%,transparent)}
+.js .sk-card.sheet.armed .sketch text{opacity:0;transition:opacity .8s var(--ease) 1.2s}
+.js .sk-card.sheet.armed.drawn .sketch text{opacity:1}
+.js .sk-card.sheet.armed .ly.old path{stroke-dashoffset:0;fill-opacity:1;transition:none}
+.js .sk-card.sheet.armed .ly.old .c{opacity:1}
+.js .sk-card.sheet.armed .ly.old text{opacity:1;transition:none}
+@media (max-width:767px){.sheet .sk-frame{aspect-ratio:4/3}.sh-tb{flex-direction:column;gap:4px}.sh-key{display:none}}
+.sheet .sk-src{font:400 14px/1.5 var(--sans);letter-spacing:0;text-transform:none;color:var(--fg-2);max-width:60ch}
+.sheet .sk-src .sh-t{color:var(--fg);font-weight:600}
