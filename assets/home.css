@@ -23,7 +23,7 @@
 .op-plan path,.op-plan circle{fill:none;stroke:var(--accent);stroke-width:var(--sw,.4);stroke-opacity:.85}
 .op-plan .t,.op-plan .rd{stroke-opacity:.45}
 .op-plan .rd.c,.op-plan .lot{stroke-dasharray:.006 .008}
-.op-plan .tc{stroke-opacity:.5}
+.op-plan .tc{stroke-opacity:.5}.op-plan .hl{stroke-width:calc(var(--sw,.4) * .55);stroke-opacity:.6}.op-plan .rd.hl{stroke-opacity:.35}.op-plan .c:not(.rd){stroke-dasharray:.008 .01}
 .op-labels text{fill:var(--accent);font:500 3.6px var(--mono);letter-spacing:.3px}
 .op-film{position:absolute;inset:0}
 .op-film video{width:100%;height:100%;object-fit:cover}
@@ -35,7 +35,7 @@
 .opening.pin .op-stage{position:sticky;top:0;height:100svh;padding-block:clamp(96px,13vh,140px) clamp(32px,6vh,72px)}
 .opening.pin .op-svg{opacity:1}
 .opening.pin .op-plan path:not(.c):not(.lot),.opening.pin .op-plan circle{stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--pd,0))}
-.opening.pin .op-labels{opacity:var(--lb,0)}
+.opening.pin .op-labels{opacity:var(--lb,0)}.opening.pin .op-plan .c:not(.rd){opacity:var(--pd,0)}
 .opening.pin .op-iso path:not(.c):not(.fn){stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--id,0))}
 .opening.pin .op-iso path{fill-opacity:var(--if,0)}
 .opening.pin .op-iso{opacity:var(--io,0)}

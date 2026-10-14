@@ -571,6 +571,16 @@ html:not(.js) .bio-toggle{display:none}
 .sketch .pk{stroke-opacity:.28}
 .sketch .tc{fill:var(--bg);stroke-opacity:.42}
 .sketch .tk,.sketch .tt{stroke-opacity:.32}
+.sketch .hl{stroke-width:.6;stroke-opacity:.42}
+.sketch .rd.hl{stroke-opacity:.2}
+.sketch .pk.hl{stroke-opacity:.24}
+.sketch .fc{stroke-width:.7;stroke-opacity:.42}
+.sketch .gt{fill:var(--bg-2);stroke-opacity:.6}
+.sketch .sl{fill:var(--bg-2);stroke-opacity:.4}
+.sketch .sg{fill:var(--bg-3);stroke-opacity:.5}
+.sketch .sb{fill:var(--bg-2);stroke-width:.7;stroke-opacity:.36}
+.sketch .tsh{fill:color-mix(in srgb,var(--fg) 4%,transparent);stroke:none}
+.sketch .rg{stroke:var(--accent);stroke-width:.9;stroke-opacity:.55;stroke-dasharray:.01 .012}
 
 /* Callout pin: a dot on the building, a line up, a tag and a name. */
 .sk-pin{position:absolute;left:var(--x);top:var(--y);width:0;height:0;z-index:2}
