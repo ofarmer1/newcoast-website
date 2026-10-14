@@ -6,30 +6,47 @@
    still version under prefers-reduced-motion and without JS.
    ================================================================= */
 
-/* ---------- 1 Hero film: stays put while the page slides up over it ---------- */
-.film{position:sticky;top:0;height:100svh;min-height:560px;overflow:hidden;background:var(--bg);isolation:isolate}
-.film-media{position:absolute;inset:0;z-index:-1}
-.film-media video{width:100%;height:100%;object-fit:cover}
-.film-media::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:
-  linear-gradient(180deg,rgba(20,19,17,.8) 0,rgba(20,19,17,.6) 84px,transparent 220px),
-  linear-gradient(0deg,rgba(20,19,17,.92) 0%,rgba(20,19,17,.82) 30%,rgba(20,19,17,.55) 50%,transparent 72%),
-  linear-gradient(90deg,rgba(20,19,17,.55) 0%,rgba(20,19,17,.25) 45%,transparent 70%)}
-@media (max-width:760px){.film-media::before{background:
-  linear-gradient(180deg,rgba(20,19,17,.8) 0,rgba(20,19,17,.6) 72px,transparent 200px),
-  linear-gradient(0deg,rgba(20,19,17,.94) 0%,rgba(20,19,17,.84) 45%,rgba(20,19,17,.6) 65%,transparent 88%)}}
-[data-review] .film-media.ask{position:absolute;outline-offset:-6px}
-[data-review] .film-media.ask::after{top:auto;bottom:24px;left:auto;right:84px}
-.film-copy{position:absolute;inset-inline:0;bottom:clamp(48px,10vh,112px);display:grid;gap:22px;justify-items:start;will-change:transform,opacity}
-.film-copy .label{color:var(--fg-2)}
-.film-copy h1{font-size:var(--t-hero);max-width:16ch}
-.film-lede{max-width:52ch;font-size:var(--t-lede);line-height:1.5;color:color-mix(in srgb,var(--fg) 86%,transparent)}
-.film-copy .btn{margin-top:6px}
+/* ---------- 1 Opening: blueprint to building to film ----------
+   Default (no JS, reduced motion, short screens): copy beside the boxed
+   film. With motion on, the stage holds still for a few screens while
+   the site plan draws, tilts up into the 3D facility, and the film fades
+   in over it. The film always stays in its box. */
+.opening{position:relative;background:var(--bg)}
+.op-stage{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(28px,4vw,72px);align-items:center;max-width:var(--max);margin-inline:auto;padding:clamp(120px,15vh,160px) var(--gutter) clamp(56px,8vh,96px)}
+.op-copy{display:grid;gap:22px;justify-items:start}
+.op-copy .label{color:var(--fg-2)}
+.op-copy h1{font-size:var(--t-hero);max-width:16ch}
+.op-lede{max-width:46ch;font-size:var(--t-lede);line-height:1.5;color:var(--fg-2)}
+.op-copy .btn{margin-top:6px}
+.op-box{position:relative;margin:0;aspect-ratio:16/10;border-radius:var(--r-shell);overflow:hidden;background-color:var(--bg-2);background-image:radial-gradient(color-mix(in srgb,var(--fg) 16%,transparent) 1px,transparent 1.4px);background-size:22px 22px;box-shadow:0 0 0 1px var(--hair),0 40px 80px -56px rgba(20,26,23,.5)}
+.op-svg{position:absolute;inset:4%;width:92%;height:92%;-webkit-mask-image:none;mask-image:none;opacity:0}
+.op-plan path,.op-plan circle{fill:none;stroke:var(--accent);stroke-width:var(--sw,.4);stroke-opacity:.85}
+.op-plan .t,.op-plan .rd{stroke-opacity:.45}
+.op-plan .rd.c,.op-plan .lot{stroke-dasharray:.006 .008}
+.op-plan .tc{stroke-opacity:.5}
+.op-labels text{fill:var(--accent);font:500 3.6px var(--mono);letter-spacing:.3px}
+.op-film{position:absolute;inset:0}
+.op-film video{width:100%;height:100%;object-fit:cover}
+[data-review] .op-film.ask{position:absolute}
+@media (max-width:900px){.op-stage{grid-template-columns:1fr;padding-top:112px}}
 
-
-/* The rest of the page is a sheet that rises over the film. */
-.curtain{position:relative;z-index:2;background:var(--bg);border-radius:28px 28px 0 0;box-shadow:0 -30px 80px rgba(20,26,23,.28)}
-.curtain>.chapter:first-child{border-radius:28px 28px 0 0}
-.home footer{position:relative;z-index:2}
+/* Pinned version, switched on by home.js. */
+.opening.pin{height:330svh}
+.opening.pin .op-stage{position:sticky;top:0;height:100svh;padding-block:clamp(96px,13vh,140px) clamp(32px,6vh,72px)}
+.opening.pin .op-svg{opacity:1}
+.opening.pin .op-plan path:not(.c):not(.lot),.opening.pin .op-plan circle{stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--pd,0))}
+.opening.pin .op-labels{opacity:var(--lb,0)}
+.opening.pin .op-iso path:not(.c):not(.fn){stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--id,0))}
+.opening.pin .op-iso path{fill-opacity:var(--if,0)}
+.opening.pin .op-iso{opacity:var(--io,0)}
+.opening.pin .op-film{opacity:var(--fo,0)}
+@media (max-width:900px){
+  .opening.pin .op-stage{grid-template-rows:auto minmax(0,1fr);align-items:start;gap:20px;padding-top:96px}
+  .opening.pin .op-lede{font-size:15px}
+  .opening.pin .op-copy{gap:14px}
+  .opening.pin .op-box{aspect-ratio:auto;height:100%;max-height:60svh}
+}
+.home footer{position:relative}
 
 /* ---------- 2 Track record ---------- */
 .stats h2{font-size:var(--t-h2);max-width:18ch;margin-top:22px}
@@ -201,8 +218,6 @@ dialog.sheet[open]{animation:sheet-in .6s var(--spring)}
 
 /* ---------- Reduced motion: everything still and complete ---------- */
 @media (prefers-reduced-motion:reduce){
-  .film{position:relative}
-  .curtain{border-radius:0;box-shadow:none}
   .slot{transform:none;border-radius:10px}
   .panel,.panel .pm,.pm::after{transition:none}
   .panel.open .more-body,dialog.sheet[open]{animation:none}
