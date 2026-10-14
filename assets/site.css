@@ -672,91 +672,95 @@ html:not(.js) .bio-toggle{display:none}
    on a dotted blueprint grid. Older layers sit back; the new layer draws on. */
 .sheet .sk-frame{background-color:var(--bg-2);background-image:radial-gradient(color-mix(in srgb,var(--fg) 16%,transparent) 1px,transparent 1.4px);background-size:22px 22px}
 .sheet .sketch{inset:3% 3% 12%;width:94%;height:85%;-webkit-mask-image:none;mask-image:none}
-.sheet path{fill:none;stroke:var(--accent);stroke-width:1.1;stroke-linejoin:round;stroke-linecap:round}
-.sheet .ly.old{opacity:.38}
-.sheet .pl{stroke-width:2}
-.sheet .pl.c{stroke-dasharray:8 4 1.5 4;stroke-width:1}
-.sheet .sb.c{stroke-dasharray:2 3.5;stroke-opacity:.6;stroke-width:.9}
-.sheet .rw.c{stroke-dasharray:14 5;stroke-opacity:.45;stroke-width:.8}
-.sheet .rd{stroke-opacity:.6}
-.sheet .rd.c{stroke-dasharray:10 8;stroke-opacity:.5}
-.sheet .ut{stroke-width:.8;stroke-opacity:.7}
-.sheet .ut.c{stroke-dasharray:1 5;stroke-opacity:.35}
-.sheet .ct.c{stroke-dasharray:5 3;stroke-opacity:.32;stroke-width:.7}
-.sheet .ct.c.mj{stroke-dasharray:none;stroke-opacity:.42;stroke-width:.9}
-.sheet .nb.c{stroke-dasharray:4 4;stroke-opacity:.4;stroke-width:.8}
-.sheet .pc{fill:var(--bg);stroke-width:.9}
-.sheet .fe{stroke-width:.8;stroke-opacity:.75}
-.sheet .tl.c{stroke-opacity:.4;stroke-dasharray:1.5 3}
-.sheet .ex{fill:color-mix(in srgb,var(--accent) 10%,transparent);stroke-width:1.3;stroke-opacity:.85}
-.sheet .h.c{stroke-width:.5;stroke-opacity:.45}
-.sheet .dm{stroke-width:.6;stroke-opacity:.7}
-.sheet .na{stroke-width:1}
+.sheet path{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round}
+.sheet .ly.old{opacity:.4}
+.sheet .pl{stroke-width:3}
+.sheet .pl.c{stroke-dasharray:14 6 2 6;stroke-width:1.4}
+.sheet .pl.t{stroke-width:1.2;stroke-opacity:.7}
+.sheet .tk{stroke-width:1;stroke-opacity:.6}
+.sheet .sb.c{stroke-dasharray:8 6;stroke-opacity:.55;stroke-width:1.2}
+.sheet .sbr.c{stroke-dasharray:14 5 2 5;stroke-opacity:.6;stroke-width:1.2}
+.sheet .rw.c{stroke-dasharray:18 8;stroke-opacity:.4;stroke-width:1.1}
+.sheet .rd{stroke-opacity:.65;stroke-width:1.4}
+.sheet .rdp{fill:color-mix(in srgb,var(--accent) 14%,transparent);stroke-opacity:.6;stroke-width:1.2}
+.sheet .pw.c{stroke-dasharray:16 5 2 5;stroke-opacity:.7;stroke-width:1.3}
+.sheet .wm.c{stroke-dasharray:6 6;stroke-opacity:.4;stroke-width:1.1}
+.sheet .nb{stroke-width:1.3;stroke-opacity:.7}
+.sheet .nb.c{stroke-dasharray:12 6;stroke-opacity:.45}
+.sheet .lf{fill:color-mix(in srgb,var(--accent) 30%,transparent);stroke-width:1.1}
+.sheet .pc{fill:var(--bg);stroke-width:1.3}
+.sheet .ex{fill:color-mix(in srgb,var(--accent) 14%,transparent);stroke-width:1.8;stroke-opacity:.9}
+.sheet .pd.c{fill:color-mix(in srgb,var(--accent) 6%,transparent);stroke-dasharray:3 3;stroke-opacity:.5;stroke-width:1}
+.sheet .h.c{stroke-width:.8;stroke-opacity:.5}
+.sheet .dm{stroke-width:1;stroke-opacity:.7}
+.sheet .na{stroke-width:1.4}
 .sheet .nf{fill:var(--accent)}
-.sheet .lgb{fill:var(--bg);stroke-width:.8;stroke-opacity:.6}
-.sheet .pv{fill:color-mix(in srgb,var(--accent) 7%,transparent);stroke-opacity:.6;stroke-width:.9}
-.sheet .cb{stroke-width:1.2}
-.sheet .cb.t{stroke-width:.6;stroke-opacity:.45}
-.sheet .ap{fill:color-mix(in srgb,var(--accent) 12%,transparent);stroke-width:.9}
-.sheet .ss{fill:var(--bg);stroke-width:.9}
-.sheet .nw{fill:var(--bg);stroke-width:1.9}
-.sheet .nw.t{stroke-width:.7;stroke-opacity:.6;fill:none}
-.sheet .lv{stroke-width:.8}
-.sheet .gt{stroke-width:3}
-.sheet .gs.c{stroke-dasharray:2 2;stroke-opacity:.6;stroke-width:.8}
-.sheet .rw2{stroke-width:1}
-.sheet .sw.c{stroke-dasharray:6 3 1 3;stroke-opacity:.5;stroke-width:.8}
-.sheet .ar{stroke-width:1}
-.sheet .lp{fill:var(--bg);stroke-width:.8}
-.sheet .lb2.c{stroke-dasharray:3 3;stroke-opacity:.5;stroke-width:.8}
-.sheet .u1,.sheet .u2,.sheet .u3,.sheet .u4{stroke-width:.5;stroke-opacity:.7}
-.sheet .u1{fill:color-mix(in srgb,var(--accent) 10%,transparent)}
-.sheet .u2{fill:color-mix(in srgb,var(--accent) 24%,transparent)}
-.sheet .u3{fill:color-mix(in srgb,var(--accent) 42%,transparent)}
-.sheet .u4{fill:color-mix(in srgb,var(--accent) 62%,transparent)}
-.sheet .dk{stroke-width:2.2}
-.sheet .dp{fill:color-mix(in srgb,var(--accent) 30%,transparent);stroke-width:.9}
-.sheet .wt{fill:color-mix(in srgb,var(--accent) 5%,transparent);stroke-width:1.1}
-.sheet .wt.c{stroke-dasharray:3 3;fill:none;stroke-opacity:.55;stroke-width:.8}
-.sheet .wt.c.hw{stroke-dasharray:8 3;stroke-opacity:.7}
-.sheet .sp.c{stroke-width:1.5;stroke-opacity:.45}
-.sheet .bm.c{stroke-dasharray:2 3;stroke-opacity:.5;stroke-width:.8}
-.sheet .tc{fill:var(--bg);stroke-width:.9}
-.sheet .tc.c{fill:none;stroke-width:.6;stroke-opacity:.6}
-.sheet .te{fill:color-mix(in srgb,var(--accent) 8%,transparent);stroke-width:.9}
-.sheet .to{fill:var(--bg);stroke-width:.9}
-.sheet .to.c{fill:color-mix(in srgb,var(--accent) 14%,transparent);stroke-opacity:.6}
-.sheet .sh{fill:color-mix(in srgb,var(--accent) 16%,transparent);stroke-width:.7}
-.sheet .gd{stroke-width:2.2}
-.sheet .gh.c{stroke-width:.6;stroke-opacity:.5}
-.sheet .ro{fill:color-mix(in srgb,var(--accent) 72%,transparent);stroke-width:1.1}
-.sheet .rs.c{stroke:var(--bg);stroke-width:.6;stroke-opacity:.6}
-.sheet .tr{stroke-width:1.4}
-.sheet .rv{stroke-width:1.1}
-.sheet .wl{fill:var(--bg);stroke-width:1.3}
-.sheet .rb.c{stroke-opacity:.22;stroke-width:.6}
-.sheet .dr{fill:color-mix(in srgb,var(--accent) 20%,var(--bg));stroke-width:.9}
-.sheet .dr.t{stroke-width:.45;stroke-opacity:.55;fill:none}
-.sheet .md{fill:color-mix(in srgb,var(--accent) 40%,var(--bg));stroke-width:.9}
-.sheet .md.t{fill:var(--bg);stroke-width:.6}
-.sheet .lt{fill:var(--accent);stroke-width:.5}
-.sheet .dsp{stroke-width:1.6;stroke-opacity:.6}
-.sheet .ld{stroke-width:.6;stroke-opacity:.8}
-.sheet .bb{fill:var(--bg);stroke-width:.9}
-.sheet .st{fill:color-mix(in srgb,var(--accent) 14%,transparent);stroke-width:1}
-.sheet .sc.c{stroke-width:.5;stroke-opacity:.5}
-.sheet text{fill:var(--accent);font:500 9px var(--mono);letter-spacing:.12em}
-.sheet text.lg{font-size:12px;letter-spacing:.16em}
-.sheet text.sm{font-size:7px;letter-spacing:.1em}
+.sheet .pv{fill:color-mix(in srgb,var(--accent) 12%,transparent);stroke-width:1.3;stroke-opacity:.7}
+.sheet .cb{stroke-width:2}
+.sheet .ap{fill:color-mix(in srgb,var(--accent) 24%,transparent);stroke-width:1.3}
+.sheet .sw{fill:color-mix(in srgb,var(--accent) 30%,transparent);stroke-width:1}
+.sheet .rw2{stroke-width:2.6}
+.sheet .fe{stroke-width:1.2;stroke-opacity:.8}
+.sheet .fp{fill:var(--bg);stroke-width:1}
+.sheet .gt{stroke-width:2.4;stroke-dasharray:6 3 2 3}
+.sheet .ss{fill:var(--accent);stroke-width:1}
+.sheet .sg{fill:var(--accent)}
+.sheet .nw{fill:var(--bg);stroke-width:2.4}
+.sheet .nw.t{stroke-width:1;stroke-opacity:.6;fill:none}
+.sheet .ur,.sheet .ug,.sheet .uc,.sheet .uy,.sheet .uo,.sheet .ub,.sheet .up,.sheet .uh{stroke-width:.8;stroke-opacity:.75}
+.sheet .up{fill:color-mix(in srgb,var(--accent) 6%,transparent)}
+.sheet .ug{fill:color-mix(in srgb,var(--accent) 10%,var(--bg))}
+.sheet .ur{fill:color-mix(in srgb,var(--accent) 18%,var(--bg))}
+.sheet .uc{fill:color-mix(in srgb,var(--accent) 30%,var(--bg))}
+.sheet .uy{fill:color-mix(in srgb,var(--accent) 42%,var(--bg))}
+.sheet .uo{fill:color-mix(in srgb,var(--accent) 58%,var(--bg))}
+.sheet .uh{fill:color-mix(in srgb,var(--accent) 22%,var(--bg))}
+.sheet .ub{fill:color-mix(in srgb,var(--accent) 75%,var(--bg))}
+.sheet .hall{fill:var(--bg);stroke-width:.6;stroke-opacity:.5}
+.sheet .uhl{stroke-dasharray:3 3;stroke-width:.8;stroke-opacity:.6}
+.sheet .dk{stroke-width:3}
+.sheet .dp{fill:var(--accent);stroke-width:1}
+.sheet .tc{fill:var(--bg);stroke-width:1.3}
+.sheet .tc.c{fill:var(--accent);stroke:none}
+.sheet .te{fill:color-mix(in srgb,var(--accent) 10%,transparent);stroke-width:1.1}
+.sheet .to{fill:var(--bg);stroke-width:1.1}
+.sheet .sh{fill:color-mix(in srgb,var(--accent) 18%,transparent);stroke-width:.9}
+.sheet .wt{fill:color-mix(in srgb,var(--accent) 5%,transparent);stroke-width:2}
+.sheet .wt.c{fill:none;stroke-dasharray:5 4;stroke-opacity:.55;stroke-width:1.1}
+.sheet .sp.c{stroke-width:2;stroke-opacity:.45}
+.sheet .gd{stroke-width:3}
+.sheet .ro{fill:color-mix(in srgb,var(--accent) 78%,var(--bg));stroke-width:1.4}
+.sheet .rs.c{stroke:var(--bg);stroke-width:.8;stroke-opacity:.35}
+.sheet .rv{fill:color-mix(in srgb,var(--accent) 78%,var(--bg));stroke-width:1.2}
+.sheet .wl{fill:color-mix(in srgb,var(--accent) 8%,var(--bg));stroke-width:1.6}
+.sheet .rb.c{stroke-opacity:.18;stroke-width:.8}
+.sheet .fr{fill:color-mix(in srgb,var(--accent) 55%,var(--bg));stroke-width:1}
+.sheet .dr{fill:color-mix(in srgb,var(--accent) 82%,var(--bg));stroke-width:1}
+.sheet .dr.t{stroke:var(--bg);stroke-width:.8;stroke-opacity:.45;fill:none}
+.sheet .md{fill:color-mix(in srgb,var(--accent) 55%,var(--bg));stroke-width:1.2}
+.sheet .md.t{fill:var(--bg);stroke-width:.8}
+.sheet .st{fill:color-mix(in srgb,var(--accent) 24%,var(--bg));stroke-width:1.3}
+.sheet .sc.c{stroke-width:.7;stroke-opacity:.45}
+.sheet .bk{fill:color-mix(in srgb,var(--accent) 70%,var(--bg));stroke-width:1.2}
+.sheet .bkw{stroke-width:3;stroke-opacity:.8}
+.sheet .vt{fill:var(--accent)}
+.sheet .ds{stroke-width:3;stroke-opacity:.75}
+.sheet .bb{fill:var(--bg);stroke-width:1.4}
+.sheet .ld{stroke-width:2.4}
+.sheet text{fill:var(--accent);font:500 15px var(--mono);letter-spacing:.1em}
+.sheet text.lg{font-size:20px;letter-spacing:.14em;font-weight:600}
+.sheet text.sm{font-size:12px}
+.sheet text.xs{font-size:9px;letter-spacing:.06em}
 .sh-tb{position:absolute;left:4%;right:4%;bottom:4%;z-index:2;display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-top:10px;border-top:1px solid color-mix(in srgb,var(--accent) 40%,transparent);font:500 11px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
 .sh-tb b{font:600 clamp(15px,.8rem + .4vw,19px)/1.2 var(--display);letter-spacing:-.01em;text-transform:none;color:var(--fg)}
 .sh-key{display:flex;gap:14px;flex-wrap:wrap;list-style:none;margin:0;padding:0;text-transform:none;letter-spacing:.04em}
 .sh-key li{display:flex;align-items:center;gap:6px}
 .sh-key i{width:12px;height:12px;border-radius:2px;border:1px solid var(--accent)}
-.sh-key .k1{background:color-mix(in srgb,var(--accent) 10%,transparent)}
-.sh-key .k2{background:color-mix(in srgb,var(--accent) 24%,transparent)}
-.sh-key .k3{background:color-mix(in srgb,var(--accent) 42%,transparent)}
-.sh-key .k4{background:color-mix(in srgb,var(--accent) 62%,transparent)}
+.sh-key .k1{background:color-mix(in srgb,var(--accent) 10%,var(--bg))}
+.sh-key .k2{background:color-mix(in srgb,var(--accent) 18%,var(--bg))}
+.sh-key .k3{background:color-mix(in srgb,var(--accent) 30%,var(--bg))}
+.sh-key .k4{background:color-mix(in srgb,var(--accent) 42%,var(--bg))}
+.sh-key .k5{background:color-mix(in srgb,var(--accent) 58%,var(--bg))}
 .js .sk-card.sheet.armed .sketch text{opacity:0;transition:opacity .8s var(--ease) 1.2s}
 .js .sk-card.sheet.armed.drawn .sketch text{opacity:1}
 .js .sk-card.sheet.armed .ly.old path{stroke-dashoffset:0;fill-opacity:1;transition:none}
