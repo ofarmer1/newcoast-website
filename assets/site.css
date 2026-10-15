@@ -777,5 +777,9 @@ html:not(.js) .bio-toggle{display:none}
 .js .sk-card.sheet.armed .ly.old .c{opacity:1}
 .js .sk-card.sheet.armed .ly.old text{opacity:1;transition:none}
 @media (max-width:767px){.sheet .sk-frame{aspect-ratio:4/3}.sh-tb{flex-direction:column;gap:4px}.sh-key{display:none}}
-.sheet .sk-src{font:400 14px/1.5 var(--sans);letter-spacing:0;text-transform:none;color:var(--fg-2);max-width:60ch}
-.sheet .sk-src .sh-t{color:var(--fg);font-weight:600}
+.sheet .sk-src,.op-card .sk-src{font:400 14px/1.5 var(--sans);letter-spacing:0;text-transform:none;color:var(--fg-2);max-width:60ch}
+.sheet .sk-src .sh-t,.op-card .sk-src .sh-t{color:var(--fg);font-weight:600}
+.stats-k{color:var(--accent);margin-top:8px}
+.record-copy .stats-row.three{grid-template-columns:repeat(3,1fr)}
+.record-copy .stats-row.three>div:nth-child(3){padding-left:24px;border-left:1px solid var(--line)}
+@media (max-width:760px){.record-copy .stats-row.three{grid-template-columns:1fr 1fr}.record-copy .stats-row.three>div:nth-child(3){padding-left:0;border-left:0}}
