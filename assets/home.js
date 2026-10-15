@@ -25,21 +25,56 @@
     syncBtn(btn, video);
   });
 
-  /* ---------- 1 Hero film ---------- */
-  const heroVideo = $('#heroVideo'), filmCopy = $('#filmCopy');
+  /* ---------- 1 Hero: blueprint, push down the drive aisle, then the film ---------- */
+  const film = $('#film'), heroVideo = $('#heroVideo'), filmCopy = $('#filmCopy'), fpSvg = $('.fp-svg', film), fpG = $('.fp-g', film);
   // MP4 (H.264) everywhere it plays; WebM for the few browsers without it.
   const heroSrc = matchMedia('(max-width: 760px)').matches ? heroVideo.dataset.srcSm : heroVideo.dataset.src;
   heroVideo.src = heroVideo.canPlayType('video/mp4; codecs="avc1.640028"') ? heroSrc : heroSrc.replace(/\.mp4$/, '.webm');
-  if (motion.matches && !saveData) heroVideo.play().catch(() => {});
-  function heroScroll() {
-    const p = Math.min(1.5, scrollY / innerHeight);
-    if (motion.matches) {
-      filmCopy.style.opacity = Math.max(0, 1 - p * 1.25).toFixed(3);
-      filmCopy.style.transform = `translate3d(0,${(-p * 80).toFixed(1)}px,0)`;
+  const clamp = v => Math.min(1, Math.max(0, v));
+  const ease = v => v * v * (3 - 2 * v);
+  const ZOOM = 8; // at this scale the centre aisle and its two roofs fill the frame like the clip
+  let heroPinned = false, fpDraw = 0, fpStarted = false;
+  function setHeroPin() {
+    heroPinned = motion.matches && innerHeight >= 600;
+    film.classList.toggle('pin', heroPinned);
+    if (heroPinned && !fpStarted) {
+      // The plan draws itself once on arrival; scrolling then takes over.
+      fpStarted = true;
+      const t0 = performance.now();
+      const step = t => { fpDraw = ease(clamp((t - t0) / 2000)); heroScroll(); if (fpDraw < 1) requestAnimationFrame(step); };
+      requestAnimationFrame(step);
     }
-    // Once the page has covered the film, stop playing it; start again on the way back.
-    if (p >= 1 && !heroVideo.paused) { heroVideo.pause(); heroVideo.dataset.auto = '1'; }
-    else if (p < 1 && heroVideo.paused && heroVideo.dataset.auto && !userPaused.has(heroVideo)) { delete heroVideo.dataset.auto; heroVideo.play().catch(() => {}); }
+  }
+  function heroScroll() {
+    const H = innerHeight;
+    let filmShown = true, fade = scrollY / H;
+    if (heroPinned) {
+      const p = scrollY / (2 * H);                     // 0..1 while the stage holds
+      const z = ease(clamp((p - 0.04) / 0.56)), s = Math.pow(ZOOM, z);
+      fpG.setAttribute('transform', `translate(800 500) scale(${s.toFixed(4)}) translate(-800 -500)`);
+      const ppu = Math.max(fpSvg.clientWidth / 1600, fpSvg.clientHeight / 1000) || 1;
+      const fo = clamp((p - 0.56) / 0.2), st = film.style;
+      st.setProperty('--sw', (1.2 / (s * ppu)).toFixed(4));
+      st.setProperty('--pd', fpDraw.toFixed(3));
+      st.setProperty('--zl', clamp(z * 2.5).toFixed(3));
+      st.setProperty('--zs', clamp((z - 0.45) / 0.3).toFixed(3));
+      st.setProperty('--fo', fo.toFixed(3));
+      filmShown = fo > 0.05;
+      // Before the hand-over the clip waits on its first frame, which matches the drawn aisle.
+      if (fo < 0.02 && heroVideo.currentTime > 0.1 && !userPaused.has(heroVideo)) { heroVideo.pause(); heroVideo.currentTime = 0; }
+      fade = (scrollY - 2.2 * H) / H;                  // the copy leaves as the page slides over
+    }
+    if (motion.matches) {
+      const q = Math.max(0, fade);
+      filmCopy.style.opacity = Math.max(0, 1 - q * 1.25).toFixed(3);
+      filmCopy.style.transform = `translate3d(0,${(-q * 80).toFixed(1)}px,0)`;
+    }
+    // The film plays only while it can be seen: never under reduced motion or data saver,
+    // and not once the page has covered it.
+    const covered = scrollY >= (heroPinned ? 3 : 1) * H;
+    const play = filmShown && !covered && motion.matches && !saveData && !userPaused.has(heroVideo);
+    if (play && heroVideo.paused) heroVideo.play().catch(() => {});
+    else if (!play && !heroVideo.paused && !userPaused.has(heroVideo)) heroVideo.pause();
   }
 
   /* ---------- 1b Chapter 01: the plan draws, rises into the facility, then plays as a drawn film ---------- */
@@ -47,8 +82,6 @@
   const opAnims = $$('.op-a', opSvg), isoT = opPlan.getAttribute('transform');
   const [u0, u1, tx0, ty0] = ['u0', 'u1', 'tx0', 'ty0'].map(k => +opSvg.dataset[k]);
   const vbW = opSvg.viewBox.baseVal.width;
-  const clamp = v => Math.min(1, Math.max(0, v));
-  const ease = v => v * v * (3 - 2 * v);
   let intro = 0, introStarted = false, loopOn = false, loopStarted = false, opUserPaused = false, opSeen = false;
   opSvg.pauseAnimations();
   function syncOpBtn() {
@@ -194,15 +227,15 @@
     requestAnimationFrame(() => { ticking = false; heroScroll(); chScroll(); slotScroll(); });
   }
   addEventListener('scroll', onScroll, { passive: true });
-  addEventListener('resize', () => { setPin(); onScroll(); });
+  addEventListener('resize', () => { setHeroPin(); setPin(); onScroll(); });
   motion.addEventListener('change', () => {
-    setPin();
+    setHeroPin(); setPin();
     opBtn.hidden = !motion.matches;
     if (!motion.matches) { filmCopy.style.opacity = ''; filmCopy.style.transform = ''; bp.classList.remove('armed'); }
     onScroll();
   });
   opBtn.hidden = !motion.matches; syncOpBtn();
-  setPin(); onScroll();
+  setHeroPin(); setPin(); onScroll();
 
   /* ---------- 6 Map: only states with a facility open the sheet ---------- */
   const STATES = {

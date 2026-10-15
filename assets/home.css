@@ -26,6 +26,32 @@
 .film-copy .btn{margin-top:6px}
 
 
+.film-stage{position:absolute;inset:0;overflow:hidden;isolation:isolate}
+.film-plan{display:none}
+
+/* Pinned hero (motion on, tall enough screen): blueprint first, then the film.
+   The section is four screens tall; the stage holds for three, and the page
+   slides up over the film on the last. */
+.film.pin{position:relative;height:400svh;margin-bottom:-100svh;min-height:0;overflow:visible}
+.film.pin .film-stage{position:sticky;top:0;height:100svh;min-height:560px}
+.film.pin .film-plan{display:block;position:absolute;inset:0;z-index:0;opacity:calc(1 - var(--fo,0));background-color:#18231f;background-image:radial-gradient(rgba(255,255,255,.09) 1px,transparent 1.4px);background-size:24px 24px}
+.film.pin .film-media video{transform:scale(calc(1.14 - .14 * var(--fo,0)))}
+.fp-svg{position:absolute;inset:0;width:100%;height:100%}
+.fp-svg path,.fp-svg circle{fill:none;stroke:#E7EEE9;stroke-width:var(--sw,1.2);stroke-opacity:.8;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--pd,1))}
+.fp-svg .t,.fp-svg .h{stroke-opacity:.42;stroke-width:calc(var(--sw,1.2) * .7)}
+.fp-svg .s{stroke-opacity:calc(.35 * var(--zs,0));stroke-width:calc(var(--sw,1.2) * .6);stroke-dasharray:none}
+.fp-svg .d{stroke-opacity:.7;stroke-width:calc(var(--sw,1.2) * 1.4)}
+.fp-svg .rd{stroke-opacity:.5}
+.fp-svg .c{stroke-dasharray:.004 .006;stroke-dashoffset:0;opacity:var(--pd,1)}
+.fp-svg .tc{stroke-opacity:.55}
+.fp-svg .g{stroke-width:calc(var(--sw,1.2) * 2.4)}
+.fp-lb{opacity:calc(var(--pd,1) * (1 - var(--zl,0)))}
+.fp-lb text{fill:#E7EEE9;font:500 13px var(--mono);letter-spacing:.14em}
+.fp-lb .v{font-size:11px}
+/* The copy keeps a dark wash behind it over the plan too. */
+.film.pin .film-plan::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(20,26,23,.82) 0%,rgba(20,26,23,.55) 38%,transparent 62%),linear-gradient(0deg,rgba(20,26,23,.6) 0%,transparent 45%)}
+@media (max-width:760px){.film.pin .film-plan::after{background:linear-gradient(0deg,rgba(20,26,23,.92) 0%,rgba(20,26,23,.75) 45%,transparent 80%)}}
+
 /* The rest of the page is a sheet that rises over the film. */
 .curtain{position:relative;z-index:2;background:var(--bg);border-radius:28px 28px 0 0;box-shadow:0 -30px 80px rgba(20,26,23,.28)}
 .curtain>.chapter:first-child{border-radius:28px 28px 0 0}
