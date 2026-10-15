@@ -47,7 +47,8 @@
 .fp-svg .g{stroke-width:calc(var(--sw,1.2) * 2.4)}
 .fp-lb{opacity:calc(var(--pd,1) * (1 - var(--zl,0)))}
 .fp-lb text{fill:#E7EEE9;font:500 13px var(--mono);letter-spacing:.14em}
-.fp-lb .v{font-size:11px}
+.fp-lb .v{font-size:5px;letter-spacing:.2em}
+.fp-lb .sm{font-size:11px}
 /* The copy keeps a dark wash behind it over the plan too. */
 .film.pin .film-plan::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(20,26,23,.82) 0%,rgba(20,26,23,.55) 38%,transparent 62%),linear-gradient(0deg,rgba(20,26,23,.6) 0%,transparent 45%)}
 @media (max-width:760px){.film.pin .film-plan::after{background:linear-gradient(0deg,rgba(20,26,23,.92) 0%,rgba(20,26,23,.75) 45%,transparent 80%)}}

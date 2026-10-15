@@ -32,7 +32,12 @@
   heroVideo.src = heroVideo.canPlayType('video/mp4; codecs="avc1.640028"') ? heroSrc : heroSrc.replace(/\.mp4$/, '.webm');
   const clamp = v => Math.min(1, Math.max(0, v));
   const ease = v => v * v * (3 - 2 * v);
-  const ZOOM = 8; // at this scale the centre aisle and its two roofs fill the frame like the clip
+  // The camera starts on the whole site (s0) and ends over the drive aisle (s1, focus fx/fy),
+  // framed like the clip's first frame.
+  const vb = fpSvg.viewBox.baseVal, vcx = vb.x + vb.width / 2, vcy = vb.y + vb.height / 2;
+  const [s0, s1, fx, fy, cx0, cy0] = ['s0', 's1', 'fx', 'fy', 'cx0', 'cy0'].map(k => +fpSvg.dataset[k]);
+  // Where the aisle sits on screen in the opening view; it glides to the centre as the camera closes in.
+  const ax0 = vcx + s0 * (fx - cx0), ay0 = vcy + s0 * (fy - cy0);
   let heroPinned = false, fpDraw = 0, fpStarted = false;
   function setHeroPin() {
     heroPinned = motion.matches && innerHeight >= 600;
@@ -50,16 +55,18 @@
     let filmShown = true, fade = scrollY / H;
     if (heroPinned) {
       const p = scrollY / (2 * H);                     // 0..1 while the stage holds
-      const z = ease(clamp((p - 0.04) / 0.56)), s = Math.pow(ZOOM, z);
-      fpG.setAttribute('transform', `translate(800 500) scale(${s.toFixed(4)}) translate(-800 -500)`);
-      const ppu = Math.max(fpSvg.clientWidth / 1600, fpSvg.clientHeight / 1000) || 1;
+      const z = ease(clamp((p - 0.04) / 0.56)), s = s0 * Math.pow(s1 / s0, z);
+      const sx = ax0 + (vcx - ax0) * z, sy = ay0 + (vcy - ay0) * z;
+      fpG.setAttribute('transform', `translate(${sx.toFixed(2)} ${sy.toFixed(2)}) scale(${s.toFixed(4)}) translate(${-fx} ${-fy})`);
+      const ppu = Math.max(fpSvg.clientWidth / vb.width, fpSvg.clientHeight / vb.height) || 1;
       const fo = clamp((p - 0.56) / 0.2), st = film.style;
       st.setProperty('--sw', (1.2 / (s * ppu)).toFixed(4));
       st.setProperty('--pd', fpDraw.toFixed(3));
       st.setProperty('--zl', clamp(z * 2.5).toFixed(3));
-      st.setProperty('--zs', clamp((z - 0.45) / 0.3).toFixed(3));
+      st.setProperty('--zs', clamp((z - 0.55) / 0.3).toFixed(3));
       st.setProperty('--fo', fo.toFixed(3));
-      filmShown = fo > 0.05;
+      // The clip starts only once it has fully replaced the drawing, so the hand-over shows frame one.
+      filmShown = heroVideo.paused ? fo > 0.9 : fo > 0.05;
       // Before the hand-over the clip waits on its first frame, which matches the drawn aisle.
       if (fo < 0.02 && heroVideo.currentTime > 0.1 && !userPaused.has(heroVideo)) { heroVideo.pause(); heroVideo.currentTime = 0; }
       fade = (scrollY - 2.2 * H) / H;                  // the copy leaves as the page slides over
