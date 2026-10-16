@@ -11,7 +11,7 @@
   function syncBtn(btn, video) {
     const paused = video.paused;
     btn.setAttribute('aria-pressed', paused);
-    btn.setAttribute('aria-label', (paused ? 'Play ' : 'Pause ') + (video.id === 'heroVideo' ? 'background video' : 'construction video'));
+    btn.setAttribute('aria-label', (paused ? 'Play ' : 'Pause ') + (video.id === 'heroVideo' ? 'background video' : 'facility video'));
   }
   $$('.vid-btn[data-video]').forEach(btn => {
     const video = document.getElementById(btn.dataset.video);
@@ -242,15 +242,57 @@
     slot.style.setProperty('--g', g.toFixed(3));
   }
 
-  /* ---------- 5 Site plan draws itself ---------- */
+  /* ---------- 5 Investment focus: the four points turn over the drawing ---------- */
   const bp = $('#bp');
-  $$('.plan .d', bp).forEach(p => p.style.setProperty('--len', Math.ceil(p.getTotalLength())));
   if (motion.matches) {
     bp.classList.add('armed');
     new IntersectionObserver(([e], o) => {
       if (e.isIntersecting) { bp.classList.add('drawn'); o.disconnect(); }
     }, { rootMargin: '0px 0px -25% 0px' }).observe(bp);
   }
+  const fxItems = $$('#fxList li'), fxPause = $('#fxPause');
+  let fxOn = 0, fxTimer = 0, fxHeld = false, fxStopped = false;
+  function fxPlace(li, o, still) {
+    const a = Math.abs(o);
+    if (still) li.style.transition = 'none';
+    li.style.setProperty('--y', (o * 2.1) + 'em');
+    li.style.setProperty('--sc', a ? 0.86 : 1);
+    li.style.setProperty('--op', a === 0 ? 1 : a === 1 ? 0.64 : 0);
+    li.toggleAttribute('data-on', !o);
+    if (still) { li.offsetWidth; li.style.transition = ''; }
+  }
+  function fxShow(first) {
+    fxItems.forEach((li, k) => {
+      const o = ((k - fxOn + fxItems.length + 1) % fxItems.length) - 1;
+      // The point leaving the top fades on upward, then waits out of sight at the bottom.
+      if (!first && o === fxItems.length - 2) {
+        fxPlace(li, -2);
+        setTimeout(() => fxPlace(li, o, true), 700);
+      } else fxPlace(li, o, first);
+    });
+  }
+  function fxRun() {
+    clearInterval(fxTimer);
+    if (fxStopped || fxHeld || !bp.classList.contains('rot')) return;
+    fxTimer = setInterval(() => { fxOn = (fxOn + 1) % fxItems.length; fxShow(); }, 2600);
+  }
+  function fxSetup() {
+    const rot = motion.matches;
+    bp.classList.toggle('rot', rot);
+    fxPause.hidden = !rot;
+    if (rot) fxShow(true); else fxItems.forEach(li => { li.removeAttribute('style'); li.removeAttribute('data-on'); });
+    fxRun();
+  }
+  fxPause.addEventListener('click', () => {
+    fxStopped = !fxStopped;
+    fxPause.setAttribute('aria-pressed', fxStopped);
+    fxRun();
+  });
+  const fxTick = $('.fx-tick', bp);
+  ['pointerenter', 'focusin'].forEach(ev => fxTick.addEventListener(ev, () => { fxHeld = true; fxRun(); }));
+  ['pointerleave', 'focusout'].forEach(ev => fxTick.addEventListener(ev, () => { fxHeld = false; fxRun(); }));
+  motion.addEventListener('change', fxSetup);
+  fxSetup();
 
   /* ---------- One scroll loop for everything tied to position ---------- */
   let ticking = false;

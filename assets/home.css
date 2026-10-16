@@ -147,22 +147,51 @@
 @media (max-width:640px){.slot-in{aspect-ratio:4/5}}
 
 /* ---------- 5 Investment focus: the site plan draws itself ---------- */
-.bp-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,5vw,80px);align-items:center}
-.bp h2{font-size:var(--t-h2);max-width:16ch;margin-top:22px}
-.bp-list{margin-top:36px;counter-reset:none}
-.bp-list li{display:flex;gap:16px;align-items:baseline;padding:16px 0;border-top:1px solid var(--line);font-size:var(--t-lede);line-height:1.35}
-.bp-list .label{color:var(--accent)}
-.plan{width:100%;height:auto;color:var(--accent)}
-.plan .d{fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:square}
-.plan .d.door{stroke-width:2.2;stroke-linecap:butt;opacity:.8}
-.plan-grid{opacity:.07}
-@media (max-width:600px){.plan text{font-size:15px;letter-spacing:.06em}}
-.plan .aisle{fill:none;stroke:currentColor;stroke-width:.8;stroke-dasharray:10 8;opacity:.35}
-.plan .swing{fill:none;stroke:currentColor;stroke-width:.8;stroke-dasharray:3 3;opacity:.6}
-.plan .tree,.plan .tree circle{fill:none;stroke:currentColor;stroke-width:.8;opacity:.5}
-.plan .van rect,.plan .van path{fill:none;stroke:currentColor;stroke-width:1}
-.plan .d.thin{stroke-width:.8;opacity:.55}
-.plan text{fill:var(--fg-2);font:500 9px var(--mono);letter-spacing:.1em}
+/* Investment focus: the Frankfort site in isometric, one building picked out, the four points turning over it. */
+.fx-stage{position:relative;margin-top:28px;aspect-ratio:1200/620;max-width:100%}
+.fx-art{position:absolute;inset:0;width:100%;height:100%}
+.fx-art .i-lot{fill:var(--bg-2);stroke:none}
+.fx-art .i-road{fill:none;stroke:var(--bg-4);stroke-width:10;stroke-linecap:round}
+.fx-art .i-drive{fill:var(--bg-3);stroke:none}
+.fx-art .i-pond{fill:var(--bg-3);stroke:var(--bg-4);stroke-width:1}
+.fx-art .i-ctx{fill:var(--bg);stroke:var(--bg-4);stroke-width:1;stroke-linejoin:round}
+.fx-art .i-ctx.f-long{fill:var(--bg-2)}.fx-art .i-ctx.f-end{fill:var(--bg-3)}.fx-art .i-ctx.f-ridge{fill:none}
+.fx-art .i-b{fill:var(--bg);stroke:var(--fg-2);stroke-width:.9;stroke-linejoin:round}
+.fx-art .i-b.f-long{fill:var(--bg-2)}.fx-art .i-b.f-end{fill:var(--bg-3)}
+.fx-art .i-b.f-ridge,.fx-art .i-b.f-door{fill:none;stroke-width:.6;opacity:.7}
+.fx-art .i-hl{stroke:var(--accent);stroke-width:1;stroke-linejoin:round}
+.fx-art .i-hl.f-top{fill:var(--accent-hi)}.fx-art .i-hl.f-long{fill:var(--accent)}.fx-art .i-hl.f-end{fill:#0F1714}
+.fx-art .i-hl.f-ridge{fill:none;stroke:var(--bg-4);stroke-width:.7}
+.fx-art .i-hl.f-door{fill:none;stroke:#FFFFFF;stroke-width:.8;opacity:.85}
+.fx-art .i-van{fill:#FFFFFF;stroke:var(--fg-2);stroke-width:.8}
+.fx-art .i-tree{fill:var(--bg-3);stroke:var(--bg-4);stroke-width:.8}.fx-art .i-trunk{stroke:var(--bg-4);stroke-width:1.2}
+.fx-art .fx-dot{fill:#FFFFFF;stroke:var(--accent);stroke-width:2}
+.fx-h{position:absolute;left:0;bottom:0;font-size:var(--t-h2);max-width:15ch;margin:0;text-shadow:0 0 18px var(--bg),0 0 6px var(--bg)}
+.fx-ask{position:absolute;right:0;bottom:0}
+.fx-tick{position:absolute;left:var(--ax);bottom:calc(100% - var(--ay));display:grid;justify-items:start}
+.fx-pin{order:2;width:1px;height:clamp(40px,8vw,96px);background:var(--accent);margin-left:0}
+.fx-list{order:1;transform:translateX(-14px);padding:14px 16px;border-radius:12px;background:color-mix(in srgb,var(--bg) 88%,transparent);box-shadow:0 0 0 1px var(--hair),0 12px 30px -14px rgba(20,26,23,.35);backdrop-filter:blur(6px)}
+.fx-list li{display:flex;gap:10px;align-items:baseline;font-size:15px;line-height:1.5;color:var(--fg)}
+.fx-list .label{color:var(--fg-2)}
+.fx-pause{order:0;justify-self:end;margin:0 0 6px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--bg);box-shadow:0 0 0 1px var(--hair);color:var(--fg)}
+.fx-pause svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.6}
+.fx-pause .i-play{display:none;fill:currentColor;stroke:none}.fx-pause[aria-pressed="true"] .i-play{display:block}.fx-pause[aria-pressed="true"] .i-pause{display:none}
+/* Rotating version: one point at a time in front, the neighbours fading above and below. */
+.fx.rot .fx-list{position:relative;width:min(27rem,60vw);height:6.6em;overflow:hidden;padding:0 16px}
+.fx.rot .fx-list li{position:absolute;left:16px;right:16px;top:50%;margin-top:-.8em;white-space:nowrap;transform:translateY(var(--y,0)) scale(var(--sc,1));transform-origin:left center;opacity:var(--op,0);transition:transform .7s var(--spring),opacity .5s var(--ease),font-size .5s var(--ease)}
+.fx.rot .fx-list li[data-on]{font-size:18px;font-weight:500}
+.fx.rot .fx-list .label{color:inherit}
+@media (max-width:760px){
+  .fx-stage{aspect-ratio:auto;display:grid}
+  .fx-art{position:relative;grid-row:1;height:auto;aspect-ratio:1200/620;margin-inline:-16px;width:calc(100% + 32px)}
+  .fx-tick{position:relative;left:auto;bottom:auto;grid-row:2;margin-top:12px;justify-items:stretch}
+  .fx-pin{display:none}
+  .fx-list{transform:none}
+  .fx.rot .fx-list{width:100%}
+  .fx.rot .fx-list li{font-size:14px}.fx.rot .fx-list li[data-on]{font-size:15.5px}
+  .fx-h{position:relative;grid-row:3;margin-top:24px;text-shadow:none}
+  .fx-ask{position:relative;grid-row:4}
+}
 .tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:clamp(48px,6vw,80px)}
 .tiles li{display:grid;gap:12px;align-content:start;padding:22px;border-radius:14px;background:var(--bg);box-shadow:0 0 0 1px var(--hair)}
 .t-l{color:var(--fg-2);font-size:15px;line-height:1.4}
@@ -170,17 +199,11 @@
 .t-v:not(.on){font:500 var(--t-label)/1.3 var(--mono);letter-spacing:.16em;text-transform:uppercase;padding-block:14px}
 .t-v.on{color:var(--fg)}
 .tiles .ask-tag{margin-left:0}
-@media (max-width:900px){.bp-grid{grid-template-columns:1fr}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
 /* Motion version, switched on by script once the section is near. */
-.js .bp.armed .plan .d{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);transition:stroke-dashoffset 2.4s var(--ease)}
-.js .bp.armed .plan-labels{opacity:0;transition:opacity .8s var(--ease) 1.8s}
-.js .bp.armed .bp-list li{opacity:.2;transform:translateX(-12px);transition:opacity .7s var(--ease),transform .9s var(--spring)}
 .js .bp.armed .tiles li{opacity:0;transform:translateY(16px);transition:opacity .7s var(--ease),transform .9s var(--spring)}
-.js .bp.armed.drawn .plan .d{stroke-dashoffset:0}
-.js .bp.armed.drawn .plan-labels{opacity:1}
-.js .bp.armed.drawn .bp-list li,.js .bp.armed.drawn .tiles li{opacity:1;transform:none}
-.bp.drawn .bp-list li:nth-child(2){transition-delay:.25s}.bp.drawn .bp-list li:nth-child(3){transition-delay:.5s}.bp.drawn .bp-list li:nth-child(4){transition-delay:.75s}
-.bp.drawn .tiles li:nth-child(1){transition-delay:1.3s}.bp.drawn .tiles li:nth-child(2){transition-delay:1.42s}.bp.drawn .tiles li:nth-child(3){transition-delay:1.54s}.bp.drawn .tiles li:nth-child(4){transition-delay:1.66s}
+.js .bp.armed.drawn .tiles li{opacity:1;transform:none}
+.bp.drawn .tiles li:nth-child(1){transition-delay:0.00s}.bp.drawn .tiles li:nth-child(2){transition-delay:0.12s}.bp.drawn .tiles li:nth-child(3){transition-delay:0.24s}.bp.drawn .tiles li:nth-child(4){transition-delay:0.36s}
 
 /* ---------- 6 Portfolio map ---------- */
 .map-grid{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:clamp(32px,5vw,72px);align-items:center}
@@ -349,13 +372,13 @@ dialog.sheet[open]{animation:sheet-in .6s var(--spring)}
 
 .chapters.pin{height:480svh}
 .chapters.pin .ch-stage{grid-template-rows:auto minmax(0,1fr) auto;padding-block:92px 32px}
-.chapters.pin .ch-head{grid-area:1/1/2/3;margin:0 0 clamp(16px,2.5vh,32px);align-items:end}
+.chapters.pin .ch-head{grid-area:1/1/2/3;margin:0 0 clamp(36px,7vh,80px);align-items:end}
 .chapters.pin .ch-head h2{font-size:clamp(30px,1rem + 2.2vw,52px);margin-top:12px;max-width:20ch}
 .chapters.pin .ch-head p{font-size:16px}
 .chapters.pin .ch-copy{grid-area:2/1}
 .chapters.pin .ch-fig{grid-area:2/2}
 .chapters.pin .ch-progress{grid-area:3/1/4/3;margin-top:20px}
-.chapters.pin .sk-fig .sk-card,.chapters.pin .op-fig .op-card{width:min(100%,calc((100svh - 400px) * 4 / 3));margin-inline:auto}
+.chapters.pin .sk-fig .sk-card,.chapters.pin .op-fig .op-card{width:min(100%,calc((100svh - 450px) * 4 / 3));margin-inline:auto}
 .why .ch-head{margin-bottom:clamp(40px,5vw,72px)}
 .op-card .vid-btn[hidden]{display:none}
 @media (prefers-reduced-motion:reduce){.op-card .vid-btn{display:none}}
