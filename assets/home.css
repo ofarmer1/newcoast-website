@@ -158,6 +158,13 @@
 .fx-art .i-ctx.f-long{fill:var(--bg-2)}.fx-art .i-ctx.f-end{fill:var(--bg-3)}.fx-art .i-ctx.f-ridge{fill:none}
 .fx-art .i-house{fill:var(--bg);stroke:var(--bg-4);stroke-width:.8;stroke-linejoin:round}
 .fx-art .i-house.w-long{fill:var(--bg-2)}.fx-art .i-house.w-end{fill:var(--bg-3)}.fx-art .i-house.r-back{fill:var(--bg-2)}
+.fx-art .i-house.r-front{fill:var(--bg)}
+.fx-art .i-win{fill:var(--bg-4);stroke:none;opacity:.75}.fx-art .i-door,.fx-art .i-gdoor{fill:var(--bg-3);stroke:var(--bg-4);stroke-width:.6}
+.fx-art .i-chim{fill:var(--bg-2);stroke:var(--bg-4);stroke-width:.7}.fx-art .i-chim.w-end{fill:var(--bg-3)}
+.fx-art .i-sh{fill:var(--fg);stroke:none;opacity:.05}
+.fx-art .i-dw{fill:var(--bg-3);stroke:none}
+.fx-art .i-lane{fill:none;stroke:var(--bg);stroke-width:1;stroke-dasharray:8 10}
+.fx-art .i-car{fill:var(--bg);stroke:var(--bg-4);stroke-width:.7;stroke-linejoin:round}.fx-art .i-car.w-long{fill:var(--bg-2)}.fx-art .i-car.w-end{fill:var(--bg-3)}
 .fx-art .i-b{fill:var(--bg);stroke:var(--fg-2);stroke-width:.9;stroke-linejoin:round}
 .fx-art .i-b.f-long{fill:var(--bg-2)}.fx-art .i-b.f-end{fill:var(--bg-3)}
 .fx-art .i-b.f-ridge,.fx-art .i-b.f-door{fill:none;stroke-width:.6;opacity:.7}
