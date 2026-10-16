@@ -1,6 +1,6 @@
 """Source checks, not a browser audit or conformance certification."""
 from html.parser import HTMLParser
-V="r3s"  # asset version in every ?v= link
+V="r3t"  # asset version in every ?v= link
 from pathlib import Path
 import re,json
 root=Path(__file__).resolve().parent.parent
@@ -57,7 +57,7 @@ for page,current in PAGES.items():
  for t,d in a.nodes:
   if t=='video':
    for k in ('data-src','data-src-sm','poster'):
-    if k in d: assert (root/d[k]).is_file(),(page,k)
+    if k in d: assert (root/d[k].split('?')[0]).is_file(),(page,k)
  # Every themed section names one of the two token sets.
  assert set(re.findall(r'data-theme="(\w+)"',html))<={'light','dark'},page
  # Draft media boxes: every photo or video slot is tagged for Myles.

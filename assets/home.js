@@ -29,7 +29,7 @@
   const film = $('#film'), heroVideo = $('#heroVideo'), filmCopy = $('#filmCopy'), fpSvg = $('.fp-svg', film), fpG = $('.fp-g', film);
   // MP4 (H.264) everywhere it plays; WebM for the few browsers without it.
   const heroSrc = matchMedia('(max-width: 760px)').matches ? heroVideo.dataset.srcSm : heroVideo.dataset.src;
-  heroVideo.src = heroVideo.canPlayType('video/mp4; codecs="avc1.640028"') ? heroSrc : heroSrc.replace(/\.mp4$/, '.webm');
+  heroVideo.src = heroVideo.canPlayType('video/mp4; codecs="avc1.640028"') ? heroSrc : heroSrc.replace(/\.mp4(?=\?|$)/, '.webm');
   const clamp = v => Math.min(1, Math.max(0, v));
   const ease = v => v * v * (3 - 2 * v);
   // The camera starts on the whole site (s0) and ends over the drive aisle (s1, focus fx/fy),
@@ -228,7 +228,7 @@
 
   /* ---------- 4b Film: grows to full width, plays only while on screen ---------- */
   const slot = $('#slot'), slotVideo = $('#slotVideo');
-  slotVideo.src = slotVideo.canPlayType('video/mp4; codecs="avc1.640028"') ? slotVideo.dataset.src : slotVideo.dataset.src.replace(/\.mp4$/, '.webm');
+  slotVideo.src = slotVideo.canPlayType('video/mp4; codecs="avc1.640028"') ? slotVideo.dataset.src : slotVideo.dataset.src.replace(/\.mp4(?=\?|$)/, '.webm');
   new IntersectionObserver(([e]) => {
     if (e.isIntersecting && motion.matches && !saveData && !userPaused.has(slotVideo)) slotVideo.play().catch(() => {});
     else if (!e.isIntersecting && !slotVideo.paused) slotVideo.pause();
@@ -265,14 +265,14 @@
       // The point leaving the top fades on upward, then waits out of sight at the bottom.
       if (!first && o === fxItems.length - 2) {
         fxPlace(li, -2);
-        setTimeout(() => fxPlace(li, o, true), 700);
+        setTimeout(() => fxPlace(li, o, true), 450);
       } else fxPlace(li, o, first);
     });
   }
   function fxRun() {
     clearInterval(fxTimer);
     if (fxStopped || fxHeld || !bp.classList.contains('rot')) return;
-    fxTimer = setInterval(() => { fxOn = (fxOn + 1) % fxItems.length; fxShow(); }, 2600);
+    fxTimer = setInterval(() => { fxOn = (fxOn + 1) % fxItems.length; fxShow(); }, 1700);
   }
   function fxSetup() {
     const rot = motion.matches;

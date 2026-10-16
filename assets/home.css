@@ -180,7 +180,7 @@
 .fx-pause .i-play{display:none;fill:currentColor;stroke:none}.fx-pause[aria-pressed="true"] .i-play{display:block}.fx-pause[aria-pressed="true"] .i-pause{display:none}
 /* Rotating version: one point at a time in front, the neighbours fading above and below. */
 .fx.rot .fx-list{position:relative;width:min(27rem,60vw);height:6.6em;overflow:hidden;padding:0 16px}
-.fx.rot .fx-list li{position:absolute;left:16px;right:16px;top:50%;margin-top:-.8em;white-space:nowrap;transform:translateY(var(--y,0)) scale(var(--sc,1));transform-origin:left center;opacity:var(--op,0);transition:transform .7s var(--spring),opacity .5s var(--ease),font-size .5s var(--ease)}
+.fx.rot .fx-list li{position:absolute;left:16px;right:16px;top:50%;margin-top:-.8em;white-space:nowrap;transform:translateY(var(--y,0)) scale(var(--sc,1));transform-origin:left center;opacity:var(--op,0);transition:transform .42s var(--spring),opacity .32s var(--ease),font-size .32s var(--ease)}
 .fx.rot .fx-list li[data-on]{font-size:18px;font-weight:500}
 .fx.rot .fx-list .label{color:inherit}
 @media (max-width:760px){

@@ -8,7 +8,7 @@
   const btn = document.querySelector('[data-video="pfVideo"]');
   let userPaused = false;
   // MP4 (H.264) everywhere it plays; WebM for the few browsers without it.
-  video.src = video.canPlayType('video/mp4; codecs="avc1.640028"') ? video.dataset.src : video.dataset.src.replace(/\.mp4$/, '.webm');
+  video.src = video.canPlayType('video/mp4; codecs="avc1.640028"') ? video.dataset.src : video.dataset.src.replace(/\.mp4(?=\?|$)/, '.webm');
   const sync = () => {
     btn.setAttribute('aria-pressed', video.paused);
     btn.setAttribute('aria-label', (video.paused ? 'Play' : 'Pause') + ' facility video');
