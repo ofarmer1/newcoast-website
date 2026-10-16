@@ -32,11 +32,11 @@
   heroVideo.src = heroVideo.canPlayType('video/mp4; codecs="avc1.640028"') ? heroSrc : heroSrc.replace(/\.mp4$/, '.webm');
   const clamp = v => Math.min(1, Math.max(0, v));
   const ease = v => v * v * (3 - 2 * v);
-  // The camera starts on the whole site (s0) and ends over the drive aisle (s1, focus fx/fy),
-  // framed like the clip's first frame.
+  // The camera starts on the whole site (s0) and ends in the pose of the clip's first frame:
+  // turned (th), tilted (the stretch q) and scaled (s1), with the new buildings (fx/fy) at tx/ty.
   const vb = fpSvg.viewBox.baseVal, vcx = vb.x + vb.width / 2, vcy = vb.y + vb.height / 2;
-  const [s0, s1, fx, fy, cx0, cy0] = ['s0', 's1', 'fx', 'fy', 'cx0', 'cy0'].map(k => +fpSvg.dataset[k]);
-  // Where the aisle sits on screen in the opening view; it glides to the centre as the camera closes in.
+  const [s0, s1, fx, fy, cx0, cy0, th, qa, qb, qc, tx, ty] = ['s0', 's1', 'fx', 'fy', 'cx0', 'cy0', 'th', 'qa', 'qb', 'qc', 'tx', 'ty'].map(k => +fpSvg.dataset[k]);
+  // Where the buildings sit on screen in the opening view; they glide to their place in the clip.
   const ax0 = vcx + s0 * (fx - cx0), ay0 = vcy + s0 * (fy - cy0);
   let heroPinned = false, fpDraw = 0, fpStarted = false;
   function setHeroPin() {
@@ -56,8 +56,10 @@
     if (heroPinned) {
       const p = scrollY / (2 * H);                     // 0..1 while the stage holds
       const z = ease(clamp((p - 0.04) / 0.56)), s = s0 * Math.pow(s1 / s0, z);
-      const sx = ax0 + (vcx - ax0) * z, sy = ay0 + (vcy - ay0) * z;
-      fpG.setAttribute('transform', `translate(${sx.toFixed(2)} ${sy.toFixed(2)}) scale(${s.toFixed(4)}) translate(${-fx} ${-fy})`);
+      const px = ax0 + (tx - ax0) * z, py = ay0 + (ty - ay0) * z, r = th * z, c = Math.cos(r), n = Math.sin(r);
+      const m00 = 1 + (qa - 1) * z, m01 = qb * z, m11 = 1 + (qc - 1) * z;
+      const a = s * (c * m00 - n * m01), b = s * (n * m00 + c * m01), cc = s * (c * m01 - n * m11), d = s * (n * m01 + c * m11);
+      fpG.setAttribute('transform', `matrix(${a.toFixed(5)} ${b.toFixed(5)} ${cc.toFixed(5)} ${d.toFixed(5)} ${(px - a * fx - cc * fy).toFixed(2)} ${(py - b * fx - d * fy).toFixed(2)})`);
       const ppu = Math.max(fpSvg.clientWidth / vb.width, fpSvg.clientHeight / vb.height) || 1;
       const fo = clamp((p - 0.56) / 0.2), st = film.style;
       st.setProperty('--sw', (1.2 / (s * ppu)).toFixed(4));
@@ -67,7 +69,7 @@
       st.setProperty('--fo', fo.toFixed(3));
       // The clip starts only once it has fully replaced the drawing, so the hand-over shows frame one.
       filmShown = heroVideo.paused ? fo > 0.9 : fo > 0.05;
-      // Before the hand-over the clip waits on its first frame, which matches the drawn aisle.
+      // Before the hand-over the clip waits on its first frame, which matches the turned plan.
       if (fo < 0.02 && heroVideo.currentTime > 0.1 && !userPaused.has(heroVideo)) { heroVideo.pause(); heroVideo.currentTime = 0; }
       fade = (scrollY - 2.2 * H) / H;                  // the copy leaves as the page slides over
     }
