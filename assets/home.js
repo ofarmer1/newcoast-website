@@ -88,7 +88,13 @@
   const opCard = $('#opCard'), opSvg = $('#opSvg'), opPlan = $('.op-plan', opSvg), opBtn = $('#opBtn');
   const opAnims = $$('.op-a', opSvg), isoT = opPlan.getAttribute('transform');
   const [u0, u1, tx0, ty0] = ['u0', 'u1', 'tx0', 'ty0'].map(k => +opSvg.dataset[k]);
-  const vbW = opSvg.viewBox.baseVal.width;
+  const vbW = opSvg.viewBox.baseVal.width, opVb = opSvg.viewBox.baseVal, opZoom = $('.op-zoom', opSvg);
+  const zcx = opVb.x + opVb.width / 2, zcy = opVb.y + opVb.height / 2, zfx = +opSvg.dataset.zx, zfy = +opSvg.dataset.zy;
+  // The closing shot moves in on the north drive and first aisle, where the car runs.
+  function opZoomTo(w) {
+    const Z = 1 + 0.9 * w, fx = zcx + (zfx - zcx) * w, fy = zcy + (zfy - zcy) * w;
+    opZoom.setAttribute('transform', `translate(${zcx.toFixed(1)} ${zcy.toFixed(1)}) scale(${Z.toFixed(4)}) translate(${(-fx).toFixed(1)} ${(-fy).toFixed(1)})`);
+  }
   let intro = 0, introStarted = false, loopOn = false, loopStarted = false, opUserPaused = false, opSeen = false;
   opSvg.pauseAnimations();
   function syncOpBtn() {
@@ -108,26 +114,35 @@
   // Outside the pinned stage the drawing sits finished and plays only while on screen.
   new IntersectionObserver(([e]) => { opSeen = e.isIntersecting; opScene(); }, { threshold: 0.3 }).observe(opCard);
   let chQ = 0;
+  // One film across the four chapters (q runs 0 to 4): the construction plan with its notes,
+  // the notes clear for the unit plan, the plan tilts and the buildings rise, then a car arrives.
+  const opSheet = $('#opSheet'), SHEETS = ['Sheet 01 · Construction plan', 'Sheet 02 · Unit plan', 'Sheet 03 · Facility', 'Sheet 04 · In operation'];
   function opScene() {
     const pinned = chWrap.classList.contains('pin');
     opCard.classList.toggle('pin', pinned);
     if (!pinned) {
       opPlan.setAttribute('transform', isoT);
+      opSheet.textContent = SHEETS[3];
+      opZoomTo(0.6);
       opLoop(opSeen);
       return;
     }
-    const q = chQ, t = ease(clamp((q - 0.08) / 0.3));
+    const q = chQ, t = ease(clamp((q - 2) / 0.45));
     const u = u0 + (u1 - u0) * t, sy = 1 - (1 - 0.57735) * t;
     opPlan.setAttribute('transform', `translate(${(tx0 * (1 - t)).toFixed(2)} ${(ty0 * (1 - t)).toFixed(2)}) scale(1 ${sy.toFixed(4)}) rotate(${(45 * t).toFixed(2)}) scale(${u.toFixed(4)})`);
-    const st = opCard.style, lv = clamp((q - 0.58) / 0.08);
+    opZoomTo(ease(clamp((q - 3) / 0.45)));
+    const st = opCard.style, lv = clamp((q - 3) / 0.12);
     st.setProperty('--sw', (1.3 / (u * (opSvg.clientWidth / vbW || 1))).toFixed(3));
     st.setProperty('--pd', intro.toFixed(3));
-    st.setProperty('--lb', (intro * (1 - clamp(t * 3))).toFixed(3));
-    st.setProperty('--io', clamp((q - 0.24) / 0.05).toFixed(3));
-    st.setProperty('--id', clamp((q - 0.26) / 0.25).toFixed(3));
-    st.setProperty('--if', clamp((q - 0.42) / 0.14).toFixed(3));
+    st.setProperty('--nt', (intro * (1 - clamp((q - 1) / 0.3))).toFixed(3));
+    st.setProperty('--um', (clamp((q - 1.05) / 0.3) * (1 - clamp((q - 2.1) / 0.25))).toFixed(3));
+    st.setProperty('--io', clamp((q - 2.2) / 0.08).toFixed(3));
+    st.setProperty('--id', clamp((q - 2.25) / 0.45).toFixed(3));
+    st.setProperty('--if', clamp((q - 2.5) / 0.3).toFixed(3));
     st.setProperty('--lv', lv.toFixed(3));
-    opLoop(lv > 0.5 && chCur === 0 && opSeen);
+    const label = SHEETS[Math.min(3, Math.floor(q + 0.02))];
+    if (opSheet.textContent !== label) opSheet.textContent = label;
+    opLoop(lv > 0.5 && opSeen);
   }
   function opIntro() {
     // The plan draws itself once as the section arrives; scrolling then takes over.
@@ -159,8 +174,8 @@
   const chWrap = $('#chapters'), chs = $$('.ch', chWrap), bars = $$('.ch-progress i', chWrap);
   let chCur = -1;
   const canPin = () => motion.matches && innerWidth >= 768 && innerHeight >= 680;
-  // Chapter 01 holds for 2.5 steps of scroll (plan, building, film); the others for one each.
-  const W0 = 2.5, UNITS = W0 + 3;
+  // Each chapter holds for one step of scroll while the film advances underneath.
+  const UNITS = 4;
   function setPin() {
     chWrap.classList.toggle('pin', canPin());
     chCur = -1;
@@ -175,16 +190,14 @@
     const r = chWrap.getBoundingClientRect();
     if (r.top < innerHeight * 0.5) opIntro();
     const p = Math.min(1, Math.max(0, -r.top / (r.height - innerHeight))) * UNITS;
-    const i = p < W0 ? 0 : Math.min(3, Math.floor(p - W0) + 1);
+    const i = Math.min(3, Math.floor(p));
     if (i !== chCur) {
       chCur = i;
       chs.forEach((c, k) => { c.classList.toggle('on', k === i); c.classList.toggle('past', k < i); });
-      const card = $('.sk-card', chs[i]);
-      if (card) card.classList.add('drawn');
     }
-    chQ = Math.min(1, p / W0);
+    chQ = p;
     opScene();
-    bars.forEach((b, k) => b.style.setProperty('--p', (k ? clamp(p - W0 - k + 1) : clamp(p / W0)).toFixed(3)));
+    bars.forEach((b, k) => b.style.setProperty('--p', clamp(p - k).toFixed(3)));
   }
 
   /* ---------- 4 Panels: opening one widens it, the others become strips ---------- */

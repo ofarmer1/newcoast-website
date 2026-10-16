@@ -91,11 +91,10 @@
 .chapters.pin{height:330svh}
 .chapters.pin .ch-stage{position:sticky;top:0;height:100svh;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);grid-template-rows:1fr auto;gap:0 clamp(24px,5vw,80px);align-items:center;padding-block:96px 40px}
 .chapters.pin .ch{display:contents}
-.chapters.pin .ch-copy{grid-area:1/1;opacity:0;transform:translateY(32px);transition:opacity .7s var(--ease),transform .9s var(--spring)}
-.chapters.pin .ch.past .ch-copy{transform:translateY(-32px)}
-.chapters.pin .ch.on .ch-copy{opacity:1;transform:none}
-.chapters.pin .ch-fig{grid-area:1/2;max-height:calc(100svh - 220px);width:100%;opacity:0;transform:scale(1.04);transition:opacity .9s var(--ease),transform 1.4s var(--spring)}
-.chapters.pin .ch.on .ch-fig{opacity:1;transform:none;z-index:1}
+/* One film runs through all four reasons: the drawing stays put while the copy cross-fades in place. */
+.chapters.pin .ch-copy{grid-area:1/1;align-self:center;align-content:start;min-height:19rem;opacity:0;transition:opacity .45s var(--ease)}
+.chapters.pin .ch.on .ch-copy{opacity:1;transition:opacity .6s var(--ease) .15s}
+.chapters.pin .ch-fig{grid-area:1/2;max-height:calc(100svh - 220px);width:100%}
 .chapters.pin .ch-progress{display:grid;grid-area:2/1/3/3;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:32px}
 .ch-progress i{height:2px;background:var(--line);position:relative;overflow:hidden;border-radius:2px}
 .ch-progress i::after{content:"";position:absolute;inset:0;background:var(--accent);transform:scaleX(var(--p,0));transform-origin:left}
@@ -276,31 +275,72 @@ dialog.sheet[open]{animation:sheet-in .6s var(--spring)}
 .op-card{margin:0}
 .op-frame{position:relative;aspect-ratio:4/3;border-radius:var(--r-shell);overflow:hidden;background-color:var(--bg-2);background-image:radial-gradient(color-mix(in srgb,var(--fg) 16%,transparent) 1px,transparent 1.4px);background-size:22px 22px;box-shadow:0 0 0 1px color-mix(in srgb,var(--fg) 40%,transparent),0 40px 80px -56px rgba(20,26,23,.5)}
 .op-svg{position:absolute;inset:3% 3% 12%;width:94%;height:85%;-webkit-mask-image:none;mask-image:none;overflow:hidden}
-.op-plan path,.op-plan circle{fill:none;stroke:var(--accent);stroke-width:var(--sw,.4);stroke-opacity:.85}
-.op-plan .t,.op-plan .rd{stroke-opacity:.45}
-.op-plan .rd.c,.op-plan .lot{stroke-dasharray:.006 .008}
-.op-plan .tc{stroke-opacity:.5}
-.op-plan .hl{stroke-width:calc(var(--sw,.4) * .55);stroke-opacity:.6}
-.op-plan .rd.hl{stroke-opacity:.35}
-.op-plan .c:not(.rd){stroke-dasharray:.008 .01}
-.op-labels{opacity:0}
-.op-labels text{fill:var(--accent);font:500 3.6px var(--mono);letter-spacing:.3px}
+/* Plan layers are drawn in the source sheet's pixels, scaled by 1/1.86 into feet. */
+.op-px{--s:calc(var(--sw,.4) * 1.86)}
+.op-px path,.op-px rect{fill:none;stroke:var(--accent);stroke-width:var(--s);stroke-opacity:.85}
+.op-px .c{stroke-dasharray:.006 .008}
+.op-px .h,.op-px .t,.op-px .dt{stroke-width:calc(var(--s) * .55);stroke-opacity:.5}
+.op-px .rdp{fill:color-mix(in srgb,var(--accent) 10%,transparent);stroke-opacity:.6}
+.op-px .rw,.op-px .rd,.op-px .sb{stroke-opacity:.5}
+.op-px .pl{stroke-width:calc(var(--s) * 1.3)}
+.op-px .pv{fill:color-mix(in srgb,var(--accent) 8%,transparent);stroke-opacity:.5}
+.op-px .ap{fill:color-mix(in srgb,var(--accent) 20%,transparent)}
+.op-px .nw{fill:var(--bg)}
+.op-px .nw.t{fill:none}
+.op-px .ex{fill:color-mix(in srgb,var(--accent) 6%,var(--bg))}
+.op-px .ss{fill:var(--accent)}
+.op-px .gt,.op-px .rw2{stroke-width:calc(var(--s) * 1.8)}
+.op-px .ar,.op-px .fe{stroke-opacity:.55}
+.op-px text{fill:var(--accent);font:500 12px/1 var(--mono);letter-spacing:.5px}
+.op-px .nt.b{font-size:11px;letter-spacing:.8px}
+.op-px .rdn{font-size:13px;letter-spacing:2px}
+.op-px .fb{fill:var(--bg-2);stroke:none}
+.op-px .ld,.op-px .dm{stroke-width:calc(var(--s) * .6);stroke-opacity:.8}
+.op-px .na.nf{fill:var(--accent)}
+.op-units path{stroke-width:calc(var(--s) * .5);stroke-opacity:.7}
+.op-units .up{fill:color-mix(in srgb,var(--accent) 6%,var(--bg))}
+.op-units .ug{fill:color-mix(in srgb,var(--accent) 12%,var(--bg))}
+.op-units .ur{fill:color-mix(in srgb,var(--accent) 20%,var(--bg))}
+.op-units .uc{fill:color-mix(in srgb,var(--accent) 30%,var(--bg))}
+.op-units .uy{fill:color-mix(in srgb,var(--accent) 42%,var(--bg))}
+.op-units .uo{fill:color-mix(in srgb,var(--accent) 56%,var(--bg))}
+.op-units .uh{fill:color-mix(in srgb,var(--accent) 22%,var(--bg))}
+.op-units .ub{fill:color-mix(in srgb,var(--accent) 72%,var(--bg))}
+.op-units .hall{fill:var(--bg)}
+.op-units .dp{fill:var(--accent)}
+.op-units .dk{stroke-width:calc(var(--s) * 1.6)}
+.op-units text{font-size:9px}
+/* Outside the pinned film the drawing rests as the finished facility. */
+.op-notes,.op-units{opacity:0}
+/* The car and gate in the live layer. */
+.op-live .car.ft{fill:color-mix(in srgb,var(--accent) 70%,var(--bg))}
+.op-live .car.fl{fill:color-mix(in srgb,var(--accent) 85%,var(--bg))}
+.op-live .car.fr{fill:var(--accent)}
+.op-live .cab.ft{fill:color-mix(in srgb,var(--accent) 30%,var(--bg))}
+.op-live .cab.fl,.op-live .cab.fr{fill:color-mix(in srgb,var(--accent) 45%,var(--bg))}
+.op-live .car,.op-live .cab{stroke:var(--accent);stroke-width:.9}
+.op-live .cw{fill:var(--fg);stroke:none}
+.op-live .csh{fill:var(--fg);fill-opacity:.12;stroke:none}
+.op-live .lamp{fill:var(--bg);stroke:none}
+.op-live .gt{fill:var(--bg);fill-opacity:.6}
 .op-gap{fill:color-mix(in srgb,var(--fg) 72%,var(--bg));stroke:none}
 .op-svg:not(.running) .op-car{display:none}
 .op-svg.running .op-car-still{display:none}
 .op-card .sh-tb{right:72px}
 .op-card .sk-src{margin-top:14px}
 .op-card .vid-btn.small{right:12px;bottom:10px}
-.op-card.pin .op-plan path:not(.c):not(.lot),.op-card.pin .op-plan circle{stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--pd,0))}
-.op-card.pin .op-plan .c:not(.rd),.op-card.pin .op-plan .lot{opacity:var(--pd,0)}
-.op-card.pin .op-labels{opacity:var(--lb,0)}
+.op-card.pin .op-px path:not(.c),.op-card.pin .op-px rect{stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--pd,0))}
+.op-card.pin .op-px rect{stroke-dasharray:none}
+.op-card.pin .op-px .c,.op-card.pin .op-px text,.op-card.pin .op-px .fb,.op-card.pin .op-base .nw,.op-card.pin .op-px .pv{opacity:var(--pd,0)}
+.op-card.pin .op-notes{opacity:var(--nt,0)}
+.op-card.pin .op-units{opacity:var(--um,0)}
 .op-card.pin .op-iso{opacity:var(--io,0)}
 .op-card.pin .op-iso path:not(.c):not(.fn){stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--id,0))}
 .op-card.pin .op-iso path{fill-opacity:var(--if,0)}
 .op-card.pin .op-live{opacity:var(--lv,0)}
 .ch-fig.op-fig{aspect-ratio:auto;overflow:visible;background:none;box-shadow:none;border-radius:0}
 
-.chapters.pin{height:440svh}
+.chapters.pin{height:560svh}
 .chapters.pin .ch-stage{grid-template-rows:auto minmax(0,1fr) auto;padding-block:92px 32px}
 .chapters.pin .ch-head{grid-area:1/1/2/3;margin:0 0 clamp(16px,2.5vh,32px);align-items:end}
 .chapters.pin .ch-head h2{font-size:clamp(30px,1rem + 2.2vw,52px);margin-top:12px;max-width:20ch}
