@@ -11,7 +11,7 @@
   video.src = video.canPlayType('video/mp4; codecs="avc1.640028"') ? video.dataset.src : video.dataset.src.replace(/\.mp4$/, '.webm');
   const sync = () => {
     btn.setAttribute('aria-pressed', video.paused);
-    btn.setAttribute('aria-label', (video.paused ? 'Play' : 'Pause') + ' construction video');
+    btn.setAttribute('aria-label', (video.paused ? 'Play' : 'Pause') + ' facility video');
   };
   btn.hidden = false;
   btn.addEventListener('click', () => {

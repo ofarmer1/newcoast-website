@@ -273,6 +273,9 @@ html{scroll-padding-top:110px}
 html[data-nav="light"] .nav.scrolled{background:color-mix(in srgb,var(--bg) 90%,transparent)}
 html[data-nav="dark"] .nav.scrolled{background:color-mix(in srgb,var(--bg) 90%,transparent)}
 .wordmark{display:inline-flex;align-items:center;min-height:44px}
+/* Newcoast's own wordmark (from their Illustrator file), brand green #7DA29B; white over dark sections. */
+.wordmark .logo{display:block;height:19px;width:auto;fill:#7DA29B;transition:fill .4s var(--ease,ease)}
+html[data-nav="dark"] .nav .wordmark .logo{fill:currentColor}
 .nav-links a{opacity:1;display:inline-flex;align-items:center;min-height:44px}
 .nav-links.open{max-height:calc(100dvh - 72px);overflow-y:auto;gap:8px}
 a,button{touch-action:manipulation}

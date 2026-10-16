@@ -156,6 +156,8 @@
 .fx-art .i-pond{fill:var(--bg-3);stroke:var(--bg-4);stroke-width:1}
 .fx-art .i-ctx{fill:var(--bg);stroke:var(--bg-4);stroke-width:1;stroke-linejoin:round}
 .fx-art .i-ctx.f-long{fill:var(--bg-2)}.fx-art .i-ctx.f-end{fill:var(--bg-3)}.fx-art .i-ctx.f-ridge{fill:none}
+.fx-art .i-house{fill:var(--bg);stroke:var(--bg-4);stroke-width:.8;stroke-linejoin:round}
+.fx-art .i-house.w-long{fill:var(--bg-2)}.fx-art .i-house.w-end{fill:var(--bg-3)}.fx-art .i-house.r-back{fill:var(--bg-2)}
 .fx-art .i-b{fill:var(--bg);stroke:var(--fg-2);stroke-width:.9;stroke-linejoin:round}
 .fx-art .i-b.f-long{fill:var(--bg-2)}.fx-art .i-b.f-end{fill:var(--bg-3)}
 .fx-art .i-b.f-ridge,.fx-art .i-b.f-door{fill:none;stroke-width:.6;opacity:.7}
