@@ -8,7 +8,7 @@
 <title>Newcoast Real Estate | Self-storage investment</title>
 <meta name="description" content="Newcoast acquires value-add self-storage investments nationwide, combining a differentiated sourcing strategy with institutional-grade expertise.">
 <meta name="theme-color" content="#FFFFFF">
-<link rel="icon" href="assets/img/favicon.svg?v=r3m" type="image/svg+xml">
+<link rel="icon" href="assets/img/favicon.svg?v=r3n" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Newcoast Real Estate">
 <meta property="og:title" content="Newcoast Real Estate | Self-storage investment">
@@ -20,8 +20,8 @@
 <script>document.documentElement.classList.add('js')</script>
 <link rel="preload" as="image" href="assets/video/frankfort-complete-poster.jpg" fetchpriority="high">
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/Geist-Variable.woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=r3m">
-<link rel="stylesheet" href="assets/home.css?v=r3m">
+<link rel="stylesheet" href="assets/site.css?v=r3n">
+<link rel="stylesheet" href="assets/home.css?v=r3n">
 </head>
 <body class="home">
 <noscript>
@@ -204,8 +204,10 @@
             <li><span class="label">04</span>Superior returns</li>
           </ol>
         </div>
-        <svg class="plan" viewBox="0 0 640 420" role="img" aria-label="Line drawing of a self-storage site plan: a fenced lot with four rows of unit buildings, drive aisles, a climate-controlled building, an office and a gate.">
-          <rect class="d" x="20" y="20" width="600" height="380" rx="4"/>
+        <svg class="plan" viewBox="0 0 640 420" aria-label="Line drawing of a self-storage site plan: a fenced lot with four rows of unit buildings, drive aisles, a climate-controlled building, an office and a gate.">
+          <defs><pattern id="planGrid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="currentColor" stroke-width=".5"/></pattern></defs>
+          <rect class="plan-grid" x="20" y="20" width="600" height="380" fill="url(#planGrid)"/>
+          <path class="d" d="M566 400H20V20H620V400H610"/>
           <rect class="d" x="60" y="60" width="380" height="44"/>
           <rect class="d" x="60" y="146" width="380" height="44"/>
           <rect class="d" x="60" y="232" width="380" height="44"/>
@@ -214,8 +216,14 @@
           <rect class="d" x="480" y="318" width="64" height="44"/>
           <path class="d thin" d="M60 82H440M60 168H440M60 254H440M60 340H440M530 60V276"/>
           <path class="d thin" d="M90 60V104M120 60V104M150 60V104M180 60V104M210 60V104M240 60V104M270 60V104M300 60V104M330 60V104M360 60V104M390 60V104M420 60V104M90 146V190M120 146V190M150 146V190M180 146V190M210 146V190M240 146V190M270 146V190M300 146V190M330 146V190M360 146V190M390 146V190M420 146V190M90 232V276M120 232V276M150 232V276M180 232V276M210 232V276M240 232V276M270 232V276M300 232V276M330 232V276M360 232V276M390 232V276M420 232V276M90 318V362M120 318V362M150 318V362M180 318V362M210 318V362M240 318V362M270 318V362M300 318V362M330 318V362M360 318V362M390 318V362M420 318V362"/>
-          <path class="d thin" d="M580 400V376H620"/>
-          <g class="plan-labels" aria-hidden="true"><text x="62" y="128">DRIVE AISLE</text><text x="484" y="300">CLIMATE</text><text x="484" y="384">OFFICE</text><text x="560" y="414">GATE</text></g>
+          <path class="d door" d="M67 59H83M97 59H113M127 59H143M157 59H173M187 59H203M217 59H233M247 59H263M277 59H293M307 59H323M337 59H353M367 59H383M397 59H413M67 105H83M97 105H113M127 105H143M157 105H173M187 105H203M217 105H233M247 105H263M277 105H293M307 105H323M337 105H353M367 105H383M397 105H413M67 145H83M97 145H113M127 145H143M157 145H173M187 145H203M217 145H233M247 145H263M277 145H293M307 145H323M337 145H353M367 145H383M397 145H413M67 191H83M97 191H113M127 191H143M157 191H173M187 191H203M217 191H233M247 191H263M277 191H293M307 191H323M337 191H353M367 191H383M397 191H413M67 231H83M97 231H113M127 231H143M157 231H173M187 231H203M217 231H233M247 231H263M277 231H293M307 231H323M337 231H353M367 231H383M397 231H413M67 277H83M97 277H113M127 277H143M157 277H173M187 277H203M217 277H233M247 277H263M277 277H293M307 277H323M337 277H353M367 277H383M397 277H413M67 317H83M97 317H113M127 317H143M157 317H173M187 317H203M217 317H233M247 317H263M277 317H293M307 317H323M337 317H353M367 317H383M397 317H413M67 363H83M97 363H113M127 363H143M157 363H173M187 363H203M217 363H233M247 363H263M277 363H293M307 363H323M337 363H353M367 363H383M397 363H413"/>
+          <path class="d" d="M566 400V364"/>
+          <g class="plan-labels" aria-hidden="true">
+            <path class="aisle" d="M160 125H440M60 211H440M60 297H440M60 381H440"/>
+            <path class="swing" d="M566 364A36 36 0 0 1 602 400"/>
+            <g class="north" transform="translate(592 336)"><circle r="13"/><path d="M0 -9L4 6L0 3L-4 6Z"/><text x="0" y="-17" text-anchor="middle">N</text></g>
+            <text x="62" y="128">DRIVE AISLE</text><text x="484" y="300">CLIMATE</text><text x="484" y="384">OFFICE</text><text x="566" y="414">GATE</text>
+          </g>
         </svg>
       </div>
       <ul class="tiles" aria-label="Self-storage market figures">
@@ -301,8 +309,8 @@
   </div>
 </footer>
 
-<script src="assets/vendor/lenis.min.js?v=r3m" defer></script>
-<script src="assets/site.js?v=r3m" defer></script>
-<script src="assets/home.js?v=r3m" defer></script>
+<script src="assets/vendor/lenis.min.js?v=r3n" defer></script>
+<script src="assets/site.js?v=r3n" defer></script>
+<script src="assets/home.js?v=r3n" defer></script>
 </body>
 </html>

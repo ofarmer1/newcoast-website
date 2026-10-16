@@ -115,7 +115,17 @@
   opBtn.addEventListener('click', () => { opUserPaused = !opUserPaused; syncOpBtn(); opScene(); });
   // Outside the pinned stage the drawing sits finished and plays only while on screen.
   new IntersectionObserver(([e]) => { opSeen = e.isIntersecting; opScene(); }, { threshold: 0.3 }).observe(opCard);
-  let chQ = 0;
+  let chQ = 0, chP = 0;
+  // Scroll position (0-4) to film time. Each change plays across the chapter boundary, starting
+  // a little before the words switch and settling just after, so the drawing answers every bit of
+  // scroll near a switch and holds still while a chapter is being read.
+  function filmTime(p) {
+    const k = Math.min(3, Math.max(1, Math.round(p))), span = [0, 0.45, 0.8, 0.45][k];
+    const a = k - 0.32, b = k + 0.28;
+    if (p <= a) return k === 1 ? 0 : k - 1 + [0, 0.45, 0.8][k - 1];
+    if (p < b) return k + span * (p - a) / (b - a);
+    return k + span + (k === 3 ? (4 - k - span) * clamp((p - b) / (4 - b)) : 0);
+  }
   // One film across the four chapters (q runs 0 to 4): the construction plan with its notes,
   // the notes clear for the unit plan, the plan tilts and the buildings rise, then a car arrives.
   const opSheet = $('#opSheet'), SHEETS = ['Sheet 01 · Construction plan', 'Sheet 02 · Unit plan', 'Sheet 03 · Facility', 'Sheet 04 · In operation'];
@@ -142,7 +152,7 @@
     st.setProperty('--id', clamp((q - 2.25) / 0.45).toFixed(3));
     st.setProperty('--if', clamp((q - 2.5) / 0.3).toFixed(3));
     st.setProperty('--lv', lv.toFixed(3));
-    const label = SHEETS[Math.min(3, Math.floor(q + 0.02))];
+    const label = SHEETS[pinned ? Math.min(3, Math.floor(chP)) : 3];
     if (opSheet.textContent !== label) opSheet.textContent = label;
     opLoop(lv > 0.5 && opSeen);
   }
@@ -197,7 +207,8 @@
       chCur = i;
       chs.forEach((c, k) => { c.classList.toggle('on', k === i); c.classList.toggle('past', k < i); });
     }
-    chQ = p;
+    chP = p;
+    chQ = filmTime(p);
     opScene();
     bars.forEach((b, k) => b.style.setProperty('--p', clamp(p - k).toFixed(3)));
   }
