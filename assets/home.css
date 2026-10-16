@@ -159,7 +159,8 @@
 @media (max-width:600px){.plan text{font-size:15px;letter-spacing:.06em}}
 .plan .aisle{fill:none;stroke:currentColor;stroke-width:.8;stroke-dasharray:10 8;opacity:.35}
 .plan .swing{fill:none;stroke:currentColor;stroke-width:.8;stroke-dasharray:3 3;opacity:.6}
-.plan .north circle{fill:none;stroke:currentColor;stroke-width:.8;opacity:.6}.plan .north path{fill:currentColor}
+.plan .tree,.plan .tree circle{fill:none;stroke:currentColor;stroke-width:.8;opacity:.5}
+.plan .van rect,.plan .van path{fill:none;stroke:currentColor;stroke-width:1}
 .plan .d.thin{stroke-width:.8;opacity:.55}
 .plan text{fill:var(--fg-2);font:500 9px var(--mono);letter-spacing:.1em}
 .tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:clamp(48px,6vw,80px)}
