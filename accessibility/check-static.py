@@ -83,11 +83,11 @@ assert re.search(r'@keyframes beat-focus\{0%,100%\{opacity:\.6\}',css)
 # The shared script has no scroll listener (nav state comes from an observer); the home page batches
 # all position-linked motion into one listener drawn once per frame.
 assert js.count("addEventListener('scroll'")==0 and "addEventListener('scrollend'" in js
-assert homejs.count("addEventListener('scroll'")==1 and 'requestAnimationFrame(() => { ticking = false;' in homejs
+assert homejs.count("addEventListener('scroll'")==1 and 'requestAnimationFrame(() => { ticking = false; update(); });' in homejs and "window.ncLenis.on('scroll', update)" in homejs
 # Smooth scrolling never runs for people who ask for reduced motion.
-assert "if (!reduce && window.Lenis)" in js
+assert "if (!reduce && !safari && window.Lenis)" in js
 # Home motion has a still version: pinning, the site-plan drawing and the film slot check reduced motion.
-assert 'const canPin = () => motion.matches' in homejs and "if (motion.matches) {\n    bp.classList.add('armed')" in homejs and "if (!motion.matches) { slot.style.setProperty('--g', 1)" in homejs
+assert 'const canPin = () => motion.matches' in homejs and "if (motion.matches) {\n    bp.classList.add('armed')" in homejs and "if (!motion.matches) { setVar(slot.style, '--g', '1')" in homejs
 assert '@media (prefers-reduced-motion:reduce)' in homecss
 # Map: only the eight Newcoast states are focusable buttons, and each names its facility count.
 home=(root/'index.html').read_text()

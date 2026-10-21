@@ -5,6 +5,23 @@
   const saveData = !!(navigator.connection && navigator.connection.saveData);
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  // Scroll-tied writes skip values that have not changed. Each write restyles the whole
+  // drawing beneath it, so a chapter that is only being read now costs nothing per frame.
+  const setVar = (st, k, v) => { if (st.getPropertyValue(k) !== v) st.setProperty(k, v); };
+  const setAttr = (el, k, v) => { if (el.getAttribute(k) !== v) el.setAttribute(k, v); };
+  const setStyle = (el, k, v) => { if (el.style[k] !== v) el.style[k] = v; };
+  // Scroll maths use the small viewport height (100svh), which the pinned sections are built
+  // from. innerHeight changes while a phone's address bar slides away, which made the hero
+  // jump mid-scroll and could switch the pinning off and on.
+  const svhProbe = document.createElement('div');
+  svhProbe.style.cssText = 'position:fixed;top:0;left:0;width:0;height:100svh;visibility:hidden;pointer-events:none';
+  svhProbe.setAttribute('aria-hidden', 'true');
+  document.body.append(svhProbe);
+  let VH = svhProbe.offsetHeight || innerHeight;
+  // Drawing sizes come from observers, so the scroll loop never forces a layout to read them.
+  const sizes = new Map();
+  const sizeRO = new ResizeObserver(es => { es.forEach(e => sizes.set(e.target, e.contentRect)); onScroll(); });
+  const sizeOf = el => sizes.get(el) || { width: 0, height: 0 };
 
   /* ---------- Video buttons (WCAG 2.2.2: anything that moves can be paused) ---------- */
   const userPaused = new Set();
@@ -45,7 +62,7 @@
   // glides to the centre as the camera closes in.
   let s0 = 1, ax0 = vcx, ay0 = vcy, planB = 0;
   function fitPlan() {
-    const W = innerWidth, H = innerHeight, ppu = Math.max(W / vb.width, H / vb.height);
+    const W = innerWidth, H = VH, ppu = Math.max(W / vb.width, H / vb.height);
     const toVb = (x, y) => [vb.x + (x - (W - vb.width * ppu) / 2) / ppu, vb.y + (y - (H - vb.height * ppu) / 2) / ppu];
     const copy = $$('.film-copy > *').map(e => e.getBoundingClientRect());
     const navB = $('.nav').getBoundingClientRect().bottom, g = W > 760 ? 40 : 16;
@@ -61,7 +78,7 @@
   }
   let heroPinned = false, fpDraw = 0, fpStarted = false;
   function setHeroPin() {
-    heroPinned = motion.matches && innerHeight >= 600;
+    heroPinned = motion.matches && VH >= 600;
     film.classList.toggle('pin', heroPinned);
     fitPlan();
     if (heroPinned && !fpStarted) {
@@ -73,23 +90,23 @@
     }
   }
   function heroScroll() {
-    const H = innerHeight;
+    const H = VH;
     let filmShown = true, fade = scrollY / H;
     if (heroPinned) {
       const p = scrollY / (2 * H);                     // 0..1 while the stage holds
       const z = ease(clamp((p - 0.04) / 0.56)), s = s0 * Math.pow(s1 / s0, z);
       const sx = ax0 + (vcx - ax0) * z, sy = ay0 + (vcy - ay0) * z;
       const w = ease(clamp((z - 0.55) / 0.45));
-      fpG.setAttribute('transform', `translate(${sx.toFixed(2)} ${sy.toFixed(2)}) rotate(${(th * w).toFixed(2)}) scale(${s.toFixed(4)}) translate(${-fx} ${-fy})`);
-      fpSvg.style.transform = w ? `perspective(1200px) rotateX(${(tilt * w).toFixed(2)}deg)` : '';
-      const ppu = Math.max(fpSvg.clientWidth / vb.width, fpSvg.clientHeight / vb.height) || 1;
+      setAttr(fpG, 'transform', `translate(${sx.toFixed(2)} ${sy.toFixed(2)}) rotate(${(th * w).toFixed(2)}) scale(${s.toFixed(4)}) translate(${-fx} ${-fy})`);
+      setStyle(fpSvg, 'transform', w ? `perspective(1200px) rotateX(${+(tilt * w).toFixed(2)}deg)` : '');
+      const fpBox = sizeOf(fpSvg), ppu = Math.max(fpBox.width / vb.width, fpBox.height / vb.height) || 1;
       const fo = clamp((p - 0.56) / 0.2), st = film.style;
-      st.setProperty('--sw', (1.2 / (s * ppu)).toFixed(4));
-      st.setProperty('--pd', fpDraw.toFixed(3));
-      st.setProperty('--zl', clamp(z * 2.5).toFixed(3));
-      st.setProperty('--zs', clamp((z - 0.55) / 0.3).toFixed(3));
-      st.setProperty('--fo', fo.toFixed(3));
-      if (planB) st.setProperty('--mb', `${(planB + (H - planB + 80) * clamp(z * 3)).toFixed(0)}px`);
+      setVar(st, '--sw', (1.2 / (s * ppu)).toFixed(4));
+      setVar(st, '--pd', fpDraw.toFixed(3));
+      setVar(st, '--zl', clamp(z * 2.5).toFixed(3));
+      setVar(st, '--zs', clamp((z - 0.55) / 0.3).toFixed(3));
+      setVar(st, '--fo', fo.toFixed(3));
+      if (planB) setVar(st, '--mb', `${(planB + (H - planB + 80) * clamp(z * 3)).toFixed(0)}px`);
       // The clip starts only once it has fully replaced the drawing, so the hand-over shows frame one.
       filmShown = heroVideo.paused ? fo > 0.9 : fo > 0.05;
       // Before the hand-over the clip waits on its first frame, which matches the drawn aisle.
@@ -98,8 +115,8 @@
     }
     if (motion.matches) {
       const q = Math.max(0, fade);
-      filmCopy.style.opacity = Math.max(0, 1 - q * 1.25).toFixed(3);
-      filmCopy.style.transform = `translate3d(0,${(-q * 80).toFixed(1)}px,0)`;
+      setStyle(filmCopy, 'opacity', String(+Math.max(0, 1 - q * 1.25).toFixed(3)));
+      setStyle(filmCopy, 'transform', `translate3d(0px, ${+(-q * 80).toFixed(1)}px, 0px)`);
     }
     // The film plays only while it can be seen: never under reduced motion or data saver,
     // and not once the page has covered it.
@@ -118,7 +135,7 @@
   // The closing shot moves in on the north drive and first aisle, where the car runs.
   function opZoomTo(w) {
     const Z = 1 + 0.9 * w, fx = zcx + (zfx - zcx) * w, fy = zcy + (zfy - zcy) * w;
-    opZoom.setAttribute('transform', `translate(${zcx.toFixed(1)} ${zcy.toFixed(1)}) scale(${Z.toFixed(4)}) translate(${(-fx).toFixed(1)} ${(-fy).toFixed(1)})`);
+    setAttr(opZoom, 'transform', `translate(${zcx.toFixed(1)} ${zcy.toFixed(1)}) scale(${Z.toFixed(4)}) translate(${(-fx).toFixed(1)} ${(-fy).toFixed(1)})`);
   }
   let intro = 0, introStarted = false, loopOn = false, loopStarted = false, opUserPaused = false, opSeen = false;
   opSvg.pauseAnimations();
@@ -151,30 +168,35 @@
   }
   // One film across the four chapters (q runs 0 to 4): the construction plan with its notes,
   // the notes clear for the unit plan, the plan tilts and the buildings rise, then a car arrives.
+  // Each stage's value goes on its own layer rather than the card, so a change restyles only
+  // that layer and not all 2,400 lines of the drawing.
+  const opLayers = { '--nt': '.op-notes', '--um': '.op-units', '--io': '.op-iso', '--id': '.op-iso', '--if': '.op-iso', '--lv': '.op-live' };
+  Object.keys(opLayers).forEach(k => { opLayers[k] = $$(opLayers[k], opSvg); });
+  const setOp = (k, v) => opLayers[k].forEach(el => setVar(el.style, k, v));
   const opSheet = $('#opSheet'), SHEETS = ['Sheet 01 · Construction plan', 'Sheet 02 · Unit plan', 'Sheet 03 · Facility', 'Sheet 04 · In operation'];
   function opScene() {
     const pinned = chWrap.classList.contains('pin');
     opCard.classList.toggle('pin', pinned);
     if (!pinned) {
-      opPlan.setAttribute('transform', isoT);
-      opSheet.textContent = SHEETS[3];
+      setAttr(opPlan, 'transform', isoT);
+      if (opSheet.textContent !== SHEETS[3]) opSheet.textContent = SHEETS[3];
       opZoomTo(0.6);
       opLoop(opSeen);
       return;
     }
     const q = chQ, t = ease(clamp((q - 2) / 0.45));
     const u = u0 + (u1 - u0) * t, sy = 1 - (1 - 0.57735) * t;
-    opPlan.setAttribute('transform', `translate(${(tx0 * (1 - t)).toFixed(2)} ${(ty0 * (1 - t)).toFixed(2)}) scale(1 ${sy.toFixed(4)}) rotate(${(45 * t).toFixed(2)}) scale(${u.toFixed(4)})`);
+    setAttr(opPlan, 'transform', `translate(${(tx0 * (1 - t)).toFixed(2)} ${(ty0 * (1 - t)).toFixed(2)}) scale(1 ${sy.toFixed(4)}) rotate(${(45 * t).toFixed(2)}) scale(${u.toFixed(4)})`);
     opZoomTo(ease(clamp((q - 3) / 0.45)));
     const st = opCard.style, lv = clamp((q - 3) / 0.12);
-    st.setProperty('--sw', (1.3 / (u * (opSvg.clientWidth / vbW || 1))).toFixed(3));
-    st.setProperty('--pd', intro.toFixed(3));
-    st.setProperty('--nt', (intro * (1 - clamp((q - 1) / 0.3))).toFixed(3));
-    st.setProperty('--um', (clamp((q - 1.05) / 0.3) * (1 - clamp((q - 2.1) / 0.25))).toFixed(3));
-    st.setProperty('--io', clamp((q - 2.2) / 0.08).toFixed(3));
-    st.setProperty('--id', clamp((q - 2.25) / 0.45).toFixed(3));
-    st.setProperty('--if', clamp((q - 2.5) / 0.3).toFixed(3));
-    st.setProperty('--lv', lv.toFixed(3));
+    setVar(st, '--sw', (1.3 / (u * (sizeOf(opSvg).width / vbW || 1))).toFixed(3));
+    setVar(st, '--pd', intro.toFixed(3));
+    setOp('--nt', (intro * (1 - clamp((q - 1) / 0.3))).toFixed(3));
+    setOp('--um', (clamp((q - 1.05) / 0.3) * (1 - clamp((q - 2.1) / 0.25))).toFixed(3));
+    setOp('--io', clamp((q - 2.2) / 0.08).toFixed(3));
+    setOp('--id', clamp((q - 2.25) / 0.45).toFixed(3));
+    setOp('--if', clamp((q - 2.5) / 0.3).toFixed(3));
+    setOp('--lv', lv.toFixed(3));
     const label = SHEETS[pinned ? Math.min(3, Math.floor(chP)) : 3];
     if (opSheet.textContent !== label) opSheet.textContent = label;
     opLoop(lv > 0.5 && opSeen);
@@ -208,7 +230,7 @@
   /* ---------- 3 Chapters: the section holds still and steps through four reasons ---------- */
   const chWrap = $('#chapters'), chs = $$('.ch', chWrap), bars = $$('.ch-progress i', chWrap);
   let chCur = -1;
-  const canPin = () => motion.matches && innerWidth >= 768 && innerHeight >= 680;
+  const canPin = () => motion.matches && innerWidth >= 768 && VH >= 680;
   // Each chapter holds for one step of scroll while the film advances underneath.
   const UNITS = 4;
   function setPin() {
@@ -223,8 +245,8 @@
   function chScroll() {
     if (!chWrap.classList.contains('pin')) return;
     const r = chWrap.getBoundingClientRect();
-    if (r.top < innerHeight * 0.5) opIntro();
-    const p = Math.min(1, Math.max(0, -r.top / (r.height - innerHeight))) * UNITS;
+    if (r.top < VH * 0.5) opIntro();
+    const p = Math.min(1, Math.max(0, -r.top / (r.height - VH))) * UNITS;
     const i = Math.min(3, Math.floor(p));
     if (i !== chCur) {
       chCur = i;
@@ -233,7 +255,7 @@
     chP = p;
     chQ = filmTime(p);
     opScene();
-    bars.forEach((b, k) => b.style.setProperty('--p', clamp(p - k).toFixed(3)));
+    bars.forEach((b, k) => setVar(b.style, '--p', clamp(p - k).toFixed(3)));
   }
 
   /* ---------- 4 Panels: opening one widens it, the others become strips ---------- */
@@ -259,10 +281,10 @@
     else if (!e.isIntersecting && !slotVideo.paused) slotVideo.pause();
   }, { threshold: 0.25 }).observe(slotVideo);
   function slotScroll() {
-    if (!motion.matches) { slot.style.setProperty('--g', 1); return; }
+    if (!motion.matches) { setVar(slot.style, '--g', '1'); return; }
     const r = slot.getBoundingClientRect();
-    const g = 1 - Math.min(1, Math.max(0, (r.top - innerHeight * 0.2) / (innerHeight * 0.6)));
-    slot.style.setProperty('--g', g.toFixed(3));
+    const g = 1 - Math.min(1, Math.max(0, (r.top - VH * 0.2) / (VH * 0.6)));
+    setVar(slot.style, '--g', g.toFixed(3));
   }
 
   /* ---------- 5 Investment focus: the four points turn over the drawing ---------- */
@@ -304,7 +326,7 @@
   }
   function fxRun() {
     clearInterval(fxTimer);
-    if (fxStopped || fxHeld || !bp.classList.contains('rot')) return;
+    if (fxStopped || fxHeld || !bp.classList.contains('rot') || !bp.classList.contains('seen')) return;
     fxTimer = setInterval(() => { fxOn = (fxOn + 1) % fxItems.length; fxShow(); }, 1700);
   }
   function fxSetup() {
@@ -315,7 +337,8 @@
     fxRun();
   }
   // The street traffic runs only while the drawing is on screen, and the pause button stops it too.
-  new IntersectionObserver(([e]) => bp.classList.toggle('seen', e.isIntersecting)).observe($('.fx-art', bp));
+  // The points turn over only while on screen too.
+  new IntersectionObserver(([e]) => { bp.classList.toggle('seen', e.isIntersecting); fxRun(); }).observe($('.fx-art', bp));
   fxPause.addEventListener('click', () => {
     fxStopped = !fxStopped;
     bp.classList.toggle('still', fxStopped);
@@ -330,13 +353,25 @@
 
   /* ---------- One scroll loop for everything tied to position ---------- */
   let ticking = false;
+  const update = () => { heroScroll(); chScroll(); slotScroll(); };
   function onScroll() {
     if (ticking) return;
     ticking = true;
-    requestAnimationFrame(() => { ticking = false; heroScroll(); chScroll(); slotScroll(); });
+    requestAnimationFrame(() => { ticking = false; update(); });
   }
-  addEventListener('scroll', onScroll, { passive: true });
-  addEventListener('resize', () => { setHeroPin(); setPin(); onScroll(); });
+  // With smooth scrolling on, Lenis reports each position in the same frame it scrolls, so the
+  // pinned scenes move with the page rather than a frame behind it. Without it, native scroll.
+  if (window.ncLenis) window.ncLenis.on('scroll', update);
+  else addEventListener('scroll', onScroll, { passive: true });
+  let lastW = innerWidth, lastVH = VH;
+  addEventListener('resize', () => {
+    VH = svhProbe.offsetHeight || innerHeight;
+    // A phone's address bar showing or hiding changes neither, so nothing is refitted mid-scroll.
+    if (innerWidth === lastW && VH === lastVH) return;
+    lastW = innerWidth; lastVH = VH;
+    setHeroPin(); setPin(); onScroll();
+  });
+  sizeRO.observe(fpSvg); sizeRO.observe(opSvg);
   motion.addEventListener('change', () => {
     setHeroPin(); setPin();
     opBtn.hidden = !motion.matches;

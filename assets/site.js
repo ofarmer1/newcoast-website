@@ -4,20 +4,31 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------- Smooth inertia scrolling on every page (Lenis, self-hosted) ----------
-     Off for reduced motion; the page then scrolls natively. */
-  if (!reduce && window.Lenis) {
+     Off for reduced motion; the page then scrolls natively. Off in Safari too: Safari runs
+     scripts at 60 frames a second while its own scrolling runs at up to 120 on a ProMotion
+     screen, so the script-driven scroll felt steppy and lagged the trackpad there. Every
+     browser on an iPhone or iPad is Safari underneath and scrolls natively by touch anyway. */
+  const safari = navigator.vendor === 'Apple Computer, Inc.';
+  if (!reduce && !safari && window.Lenis) {
     window.ncLenis = new Lenis({ autoRaf: true, lerp: 0.09, anchors: true });
   }
 
   /* ---------- Nav colour follows the section beneath it ---------- */
   const nav = document.getElementById('nav');
   const themed = document.querySelectorAll('[data-theme]');
-  const navIO = new IntersectionObserver(es => es.forEach(e => {
-    if (!e.isIntersecting) return;
-    document.documentElement.dataset.nav = e.target.dataset.theme;
+  // Every section under the bar is tracked, and the last one in page order wins: later
+  // sections slide over the pinned home hero, and a nested dark block sits inside its section.
+  // (Reacting only to a section arriving left the bar white over the hero after scrolling back up,
+  // because the hero never leaves the top of the screen.)
+  const underNav = new Set();
+  const navIO = new IntersectionObserver(es => {
+    es.forEach(e => underNav[e.isIntersecting ? 'add' : 'delete'](e.target));
+    const top = [...themed].filter(s => underNav.has(s)).pop();
+    if (!top) return;
+    document.documentElement.dataset.nav = top.dataset.theme;
     // Over the home hero the bar stays clear; anywhere else it gets a solid ground.
-    document.documentElement.classList.toggle('nav-over-film', e.target.id === 'film');
-  }), { rootMargin: '0px 0px -96% 0px' });
+    document.documentElement.classList.toggle('nav-over-film', top.id === 'film');
+  }, { rootMargin: '0px 0px -96% 0px' });
   themed.forEach(s => navIO.observe(s));
 
   const menuBtn = document.getElementById('menuBtn'), links = document.getElementById('navLinks');
@@ -50,7 +61,9 @@
     el.style.transitionDelay = (reduce ? 0 : Math.min(sib.indexOf(el), 5) * 70) + 'ms';
     el.classList.add('in');
     revealIO.unobserve(el);
-  }), { threshold: 0 });
+  // The observed area reaches far above the screen, so anything a jump skips past counts as
+  // seen and appears. That covers Safari before 26 too, which has no scrollend for the sweep below.
+  }), { threshold: 0, rootMargin: '100000px 0px 0px 0px' });
   // Anything already on screen when the page opens appears straight away, even
   // if only its top edge shows, so no slot on the first screen sits empty.
   document.querySelectorAll('.rv').forEach(el => revealIO.observe(el));
