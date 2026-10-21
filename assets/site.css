@@ -786,3 +786,42 @@ html:not(.js) .bio-toggle{display:none}
 .record-copy .stats-row.three{grid-template-columns:repeat(3,1fr)}
 .record-copy .stats-row.three>div:nth-child(3){padding-left:24px;border-left:1px solid var(--line)}
 @media (max-width:760px){.record-copy .stats-row.three{grid-template-columns:1fr 1fr}.record-copy .stats-row.three>div:nth-child(3){padding-left:0;border-left:0}}
+
+/* =================================================================
+   Round 4 (Myles, feedback 2)
+   ================================================================= */
+/* Nav: no floating pill. A full-width bar that is clear over the hero film and
+   becomes a plain light bar with a hairline once the page is underneath. */
+.nav,.nav.scrolled,.nav:not(.scrolled),html[data-nav="dark"] .nav.scrolled{inset:0 0 auto;max-width:none;margin:0;padding:14px var(--gutter);border-radius:0;box-shadow:none;background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none}
+html[data-nav="light"] .nav.scrolled{background:color-mix(in srgb,var(--bg) 94%,transparent);box-shadow:0 1px 0 var(--hair);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+html[data-nav="dark"]:not(.nav-over-film) .nav.scrolled{background:color-mix(in srgb,var(--bg) 94%,transparent);box-shadow:0 1px 0 var(--hair)}
+@media (max-width:900px){.nav,.nav.scrolled,.nav:not(.scrolled){padding:10px 10px 10px var(--gutter)}}
+
+/* Team page: the track record opens the page, the team follows, and the team's
+   experience closes it under the photos. */
+.record h1{font-size:var(--t-h2);max-width:14ch}
+.record-lede{color:var(--fg-2);font-size:var(--t-lede);line-height:1.5;max-width:44ch}
+.team .team-head h2{font:400 clamp(34px,1.4rem + 2.6vw,60px)/1.12 var(--display);letter-spacing:-.01em;max-width:18ch}
+.team-exp{margin-top:clamp(64px,8vw,112px);display:grid;gap:20px;max-width:900px}
+.team-exp .stats-row.three{grid-template-columns:repeat(3,1fr)}
+@media (max-width:760px){.team-exp .stats-row.three{grid-template-columns:1fr 1fr}.team-exp .stats-row>div:nth-child(3){padding-left:0;border-left:0}}
+
+/* Portfolio page: photos sit flush with the names under them (no inset tray), with a
+   plain hairline border; the header film gets the same border. */
+.facilities figure{padding:0;border-radius:var(--r-media);background:var(--bg-3);box-shadow:none;border:1px solid var(--line);position:relative}
+.facilities img{border-radius:0}
+.pf-film{border-radius:var(--r-media);box-shadow:none;border:1px solid var(--line)}
+/* Size and status read together on the left, clear of the next column. */
+.facilities .meta{justify-content:flex-start;gap:10px}
+.facilities .meta .status::before{content:"·";margin-right:10px;color:var(--fg-2)}
+/* Filtered, the Frankfort card is a normal tile, so its name drops to the normal size. */
+.facilities.filtered li.lead .city{font-size:20px}
+/* Realized facilities are greyed over in the full view so they read as sold. */
+.facilities [data-s="realized"] figure::before{content:"";position:absolute;inset:0;z-index:1;background:rgba(120,124,121,.55);pointer-events:none}
+.facilities [data-s="realized"] img{filter:grayscale(1)}
+.pf-totals .lead dt{color:var(--accent)}
+
+/* Review marks: no dashed boxes (they read as unfinished). Each photo or video
+   keeps only its small tag; tags in running text are plain pills. */
+[data-review] .ask{outline:0}
+[data-review] .ask-tag::after{border-style:solid;border-color:var(--hair)}

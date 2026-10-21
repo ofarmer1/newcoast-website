@@ -13,7 +13,10 @@
   const nav = document.getElementById('nav');
   const themed = document.querySelectorAll('[data-theme]');
   const navIO = new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) document.documentElement.dataset.nav = e.target.dataset.theme;
+    if (!e.isIntersecting) return;
+    document.documentElement.dataset.nav = e.target.dataset.theme;
+    // Over the home hero the bar stays clear; anywhere else it gets a solid ground.
+    document.documentElement.classList.toggle('nav-over-film', e.target.id === 'film');
   }), { rootMargin: '0px 0px -96% 0px' });
   themed.forEach(s => navIO.observe(s));
 

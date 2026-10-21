@@ -349,6 +349,14 @@
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openState(g.dataset.st, g); }
     });
   });
+  // Map or list: one button swaps them inside the same box, so the copy beside it and the
+  // section below never move. Without the script the list simply sits under the map.
+  const mapWrap = $('#mapWrap'), mapToggle = $('#mapToggle');
+  mapToggle.hidden = false;
+  mapToggle.addEventListener('click', () => {
+    const list = mapWrap.classList.toggle('as-list');
+    mapToggle.textContent = list ? 'View the map' : 'View as a list';
+  });
   $('#sheetX').addEventListener('click', () => sheet.close());
   sheet.addEventListener('click', e => { if (e.target === sheet) sheet.close(); });
   sheet.addEventListener('close', () => {

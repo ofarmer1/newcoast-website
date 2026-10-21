@@ -391,3 +391,47 @@ dialog.sheet[open]{animation:sheet-in .6s var(--spring)}
 .why .ch-head{margin-bottom:clamp(40px,5vw,72px)}
 .op-card .vid-btn[hidden]{display:none}
 @media (prefers-reduced-motion:reduce){.op-card .vid-btn{display:none}}
+
+/* =================================================================
+   Round 4 (Myles, feedback 2)
+   ================================================================= */
+/* Why Newcoast: each pillar reads title, description, then drawing. */
+.panel .sum{margin-top:0;padding:0 28px 20px}
+@media (min-width:901px){
+  .panel{grid-template-rows:auto auto minmax(0,1fr)}
+  .panel:not(.open) .pn-fig{padding-bottom:20px}
+}
+
+/* Why self storage: the heading sits closer to the chapters, the chapter titles step
+   down a size so the two stay distinct, and the drawing moves in towards the copy. */
+.chapters.pin .ch-head{margin-bottom:clamp(16px,3vh,32px)}
+.ch-copy h3{font-size:clamp(22px,1rem + 1.1vw,34px);line-height:1.12}
+.chapters.pin .ch-stage{column-gap:clamp(24px,3vw,48px)}
+.chapters.pin .op-fig .op-card{margin-inline:0 auto}
+.op-card .op-cap{text-align:center;max-width:none}
+
+/* Portfolio snapshot: map and list share one box. */
+.map-acts{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
+.map-toggle{min-height:44px;padding:0 4px;font:500 var(--t-label)/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--fg);text-decoration:underline;text-decoration-color:var(--hair);text-underline-offset:6px}
+.map-toggle:hover{text-decoration-color:currentColor}
+.map-toggle[hidden]{display:none}
+.js .map-wrap{display:grid;align-items:center}
+.js .map-wrap>*{grid-area:1/1}
+.js .map-wrap:not(.as-list) .map-list{visibility:hidden}
+.js .map-wrap.as-list .usmap{visibility:hidden}
+.js .map-list{margin:0;padding:clamp(20px,3vw,40px);border-radius:16px;background:var(--bg);box-shadow:0 0 0 1px var(--hair)}
+.js .map-list ul{margin:0}
+.map-grid{align-items:start}
+
+/* Closer: the copy on the left, the two ways in on the right. */
+.closer .cl-grid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(40px,6vw,96px);align-items:start;justify-items:stretch}
+.cl-copy{display:grid;gap:28px;justify-items:start}
+.cl-doors{display:grid;gap:0}
+.cl-doors li{display:grid;gap:12px;justify-items:start;padding:28px 0;border-top:1px solid var(--line)}
+.cl-doors li:last-child{border-bottom:1px solid var(--line)}
+.cl-doors .label{color:var(--fg-2)}
+.cl-doors h3{font:500 var(--t-h3)/1.15 var(--display);letter-spacing:-.02em}
+.cl-doors p{color:var(--fg-2);max-width:40ch}
+.cl-doors .btn{margin-top:6px}
+.cl-doors .btn-row .btn{margin-top:6px}
+@media (max-width:900px){.closer .cl-grid{grid-template-columns:1fr}}

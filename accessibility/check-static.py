@@ -1,6 +1,6 @@
 """Source checks, not a browser audit or conformance certification."""
 from html.parser import HTMLParser
-V="r3t"  # asset version in every ?v= link
+V="r4a"  # asset version in every ?v= link
 from pathlib import Path
 import re,json
 root=Path(__file__).resolve().parent.parent
@@ -8,7 +8,7 @@ css=(root/'assets/site.css').read_text()
 js=(root/'assets/site.js').read_text()
 homejs=(root/'assets/home.js').read_text()
 homecss=(root/'assets/home.css').read_text()
-PAGES={'index.html':None,'about.html':'about','portfolio.html':'portfolio','team.html':'team','contact.html':'contact'}
+PAGES={'index.html':None,'portfolio.html':'portfolio','team.html':'team','contact.html':'contact'}
 class Audit(HTMLParser):
  def __init__(self): super().__init__();self.stack=[];self.nodes=[];self.errors=[]
  def handle_starttag(self,t,a):

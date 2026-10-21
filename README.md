@@ -6,7 +6,7 @@ Draft redesign of the Newcoast Real Estate website (newcoastre.com), a self-stor
 
 A static site with no build step: plain HTML, CSS and JavaScript.
 
-- Six pages in the root: `index.html`, `about.html`, `portfolio.html`, `team.html`, `contact.html` and `accessibility.html`
+- Five pages in the root: `index.html`, `portfolio.html`, `team.html`, `contact.html` and `accessibility.html`
 - `assets/` holds the shared styles (`site.css`, `home.css`), scripts, images, the Newcoast logo and the compressed web videos
 - `accessibility/` holds the checks the site is held to (WCAG 2.2 AA, reduced motion)
 
