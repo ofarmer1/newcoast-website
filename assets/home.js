@@ -35,16 +35,35 @@
   // The camera starts on the whole site (s0) and ends over the drive aisle (s1, focus fx/fy),
   // framed like the clip's first frame.
   const vb = fpSvg.viewBox.baseVal, vcx = vb.x + vb.width / 2, vcy = vb.y + vb.height / 2;
-  const [s0, s1, fx, fy, cx0, cy0] = ['s0', 's1', 'fx', 'fy', 'cx0', 'cy0'].map(k => +fpSvg.dataset[k]);
+  const [s1, fx, fy] = ['s1', 'fx', 'fy'].map(k => +fpSvg.dataset[k]);
+  const box = fpSvg.dataset.box.split(' ').map(Number);
   // In the last stretch the plan turns (th, degrees) and tips away (tilt) the way the drone's
   // camera sees the aisle, so the drawing lies over the clip's first frame.
   const th = +fpSvg.dataset.th || 0, tilt = +fpSvg.dataset.tilt || 0;
-  // Where the aisle sits on screen in the opening view; it glides to the centre as the camera closes in.
-  const ax0 = vcx + s0 * (fx - cx0), ay0 = vcy + s0 * (fy - cy0);
+  // The opening view fits the whole site (box) into the clear space beside the copy, or above it
+  // on phones, so no line runs under the text. ax0/ay0: where the aisle sits on screen then; it
+  // glides to the centre as the camera closes in.
+  let s0 = 1, ax0 = vcx, ay0 = vcy, planB = 0;
+  function fitPlan() {
+    const W = innerWidth, H = innerHeight, ppu = Math.max(W / vb.width, H / vb.height);
+    const toVb = (x, y) => [vb.x + (x - (W - vb.width * ppu) / 2) / ppu, vb.y + (y - (H - vb.height * ppu) / 2) / ppu];
+    const copy = $$('.film-copy > *').map(e => e.getBoundingClientRect());
+    const navB = $('.nav').getBoundingClientRect().bottom, g = W > 760 ? 40 : 16;
+    const [l, t, r, b] = W > 760
+      ? [Math.max(...copy.map(c => c.right)) + g, navB + 24, W - 48, H - 40]
+      : [g, navB + 16, W - g, Math.min(...copy.map(c => c.top)) - 24];
+    planB = W > 760 ? 0 : b;                          // phones: the plan fades out above the copy
+    const [x0, y0] = toVb(l, t), [x1, y1] = toVb(r, b);
+    s0 = Math.min((x1 - x0) / (box[2] - box[0]), (y1 - y0) / (box[3] - box[1]));
+    // Centre the box across the space and keep it under the nav.
+    const bx = (box[0] + box[2]) / 2, rx = (x0 + x1) / 2, ry = y0 + s0 * (box[3] - box[1]) / 2;
+    ax0 = rx + s0 * (fx - bx); ay0 = ry + s0 * (fy - (box[1] + box[3]) / 2);
+  }
   let heroPinned = false, fpDraw = 0, fpStarted = false;
   function setHeroPin() {
     heroPinned = motion.matches && innerHeight >= 600;
     film.classList.toggle('pin', heroPinned);
+    fitPlan();
     if (heroPinned && !fpStarted) {
       // The plan draws itself once on arrival; scrolling then takes over.
       fpStarted = true;
@@ -70,6 +89,7 @@
       st.setProperty('--zl', clamp(z * 2.5).toFixed(3));
       st.setProperty('--zs', clamp((z - 0.55) / 0.3).toFixed(3));
       st.setProperty('--fo', fo.toFixed(3));
+      if (planB) st.setProperty('--mb', `${(planB + (H - planB + 80) * clamp(z * 3)).toFixed(0)}px`);
       // The clip starts only once it has fully replaced the drawing, so the hand-over shows frame one.
       filmShown = heroVideo.paused ? fo > 0.9 : fo > 0.05;
       // Before the hand-over the clip waits on its first frame, which matches the drawn aisle.
@@ -325,6 +345,8 @@
   });
   opBtn.hidden = !motion.matches; syncOpBtn();
   setHeroPin(); setPin(); onScroll();
+  // The copy's width settles once the fonts load; refit the plan to it.
+  document.fonts?.ready.then(() => { fitPlan(); onScroll(); });
 
   /* ---------- 6 Map: only states with a facility open the sheet ---------- */
   const STATES = {
