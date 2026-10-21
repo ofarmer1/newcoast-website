@@ -361,7 +361,7 @@ dialog.sheet[open]{animation:sheet-in .6s var(--spring)}
 .op-live .cw{fill:var(--fg);stroke:none}
 .op-live .csh{fill:var(--fg);fill-opacity:.12;stroke:none}
 .op-live .lamp{fill:var(--bg);stroke:none}
-.op-live .gt{fill:var(--bg);fill-opacity:.6}
+.op-live .gt{fill:var(--bg);fill-opacity:1}
 .op-gap{fill:color-mix(in srgb,var(--fg) 72%,var(--bg));stroke:none}
 .op-svg:not(.running) .op-car{display:none}
 .op-svg.running .op-car-still{display:none}
@@ -435,3 +435,39 @@ dialog.sheet[open]{animation:sheet-in .6s var(--spring)}
 .cl-doors .btn{margin-top:6px}
 .cl-doors .btn-row .btn{margin-top:6px}
 @media (max-width:900px){.closer .cl-grid{grid-template-columns:1fr}}
+
+/* Institutional expertise drawing: a real-looking facility (office joined to a sliding
+   gate, drive in from the street, fence), each point lighting its own building, and
+   cars that drive the streets and fade out at the edges. */
+.fx-art .i-road{fill:var(--bg-3);stroke:none}
+.fx-art .i-road-e{fill:none;stroke:var(--bg-4);stroke-width:.8}
+.fx-art .i-lane{stroke:var(--bg);stroke-width:1.2}
+.fx-art .i-house.r-flat{fill:none;stroke:none}
+.fx-art .i-house.r-back{fill:var(--bg-2)}.fx-art .i-house.r-front{fill:var(--bg)}
+.fx-art .i-of{fill:var(--bg);stroke:var(--fg-2);stroke-width:.9;stroke-linejoin:round}
+.fx-art .i-of.f-long{fill:var(--bg-2)}.fx-art .i-of.f-end{fill:var(--bg-3)}
+.fx-art .i-glass{fill:var(--bg-4);stroke:var(--fg-2);stroke-width:.6}
+.fx-art .i-sign{fill:var(--accent);stroke:none}
+.fx-art .i-fence{fill:none;stroke:var(--fg-2);stroke-width:.6;opacity:.6}
+.fx-art .i-gate{fill:var(--bg);fill-opacity:.7;stroke:var(--fg-2);stroke-width:.9}
+.fx-art .i-gate-p{fill:none;stroke:var(--fg-2);stroke-width:.5;opacity:.7}
+.fx-art .i-post{stroke:var(--fg-2);stroke-width:1}
+.fx-art .i-key{fill:var(--fg-2);stroke:none}
+.fx-art .i-pond{fill:var(--bg-3);stroke:var(--bg-4)}
+.fx-art .fx-bld .i-b{transition:fill .5s var(--ease),stroke .5s var(--ease)}
+.fx-art .fx-bld.on .i-b{stroke:var(--accent)}
+.fx-art .fx-bld.on .i-b.f-top{fill:var(--accent-hi)}
+.fx-art .fx-bld.on .i-b.f-long{fill:var(--accent)}
+.fx-art .fx-bld.on .i-b.f-end{fill:#0F1714}
+.fx-art .fx-bld.on .i-b.f-ridge{stroke:var(--bg-4)}
+.fx-art .fx-bld.on .i-b.f-door{stroke:#FFFFFF;opacity:.85}
+.fx-tick{transition:left .6s var(--spring),bottom .6s var(--spring)}
+.fx-mv{animation:fx-drive var(--t) linear var(--d) infinite}
+@keyframes fx-drive{0%{transform:translate(0,0);opacity:0}8%,88%{opacity:1}100%{transform:translate(var(--dx),var(--dy));opacity:0}}
+.bp.still .fx-mv,.bp:not(.seen) .fx-mv{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){
+  .fx-mv{animation:none;transform:translate(calc(var(--dx) * .45),calc(var(--dy) * .45))}
+  .fx-tick{transition:none}
+}
+/* Why Newcoast sheets: the tag text that sits on a filled label. */
+.sheet text.inv{fill:var(--bg)}

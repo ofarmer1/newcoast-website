@@ -259,7 +259,15 @@
     li.toggleAttribute('data-on', !o);
     if (still) { li.offsetWidth; li.style.transition = ''; }
   }
+  // Each point lights its own building, and the pointer moves over to it.
+  const fxTickEl = $('#fxTick'), fxBlds = $$('.fx-bld', bp), fxAnchors = JSON.parse(fxTickEl.dataset.anchors);
+  function fxPick(i) {
+    fxBlds.forEach((b, k) => b.classList.toggle('on', k === i));
+    fxTickEl.style.setProperty('--ax', fxAnchors[i][0] + '%');
+    fxTickEl.style.setProperty('--ay', fxAnchors[i][1] + '%');
+  }
   function fxShow(first) {
+    fxPick(fxOn);
     fxItems.forEach((li, k) => {
       const o = ((k - fxOn + fxItems.length + 1) % fxItems.length) - 1;
       // The point leaving the top fades on upward, then waits out of sight at the bottom.
@@ -278,11 +286,14 @@
     const rot = motion.matches;
     bp.classList.toggle('rot', rot);
     fxPause.hidden = !rot;
-    if (rot) fxShow(true); else fxItems.forEach(li => { li.removeAttribute('style'); li.removeAttribute('data-on'); });
+    if (rot) fxShow(true); else { fxItems.forEach(li => { li.removeAttribute('style'); li.removeAttribute('data-on'); }); fxPick(0); }
     fxRun();
   }
+  // The street traffic runs only while the drawing is on screen, and the pause button stops it too.
+  new IntersectionObserver(([e]) => bp.classList.toggle('seen', e.isIntersecting)).observe($('.fx-art', bp));
   fxPause.addEventListener('click', () => {
     fxStopped = !fxStopped;
+    bp.classList.toggle('still', fxStopped);
     fxPause.setAttribute('aria-pressed', fxStopped);
     fxRun();
   });
