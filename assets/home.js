@@ -36,6 +36,9 @@
   // framed like the clip's first frame.
   const vb = fpSvg.viewBox.baseVal, vcx = vb.x + vb.width / 2, vcy = vb.y + vb.height / 2;
   const [s0, s1, fx, fy, cx0, cy0] = ['s0', 's1', 'fx', 'fy', 'cx0', 'cy0'].map(k => +fpSvg.dataset[k]);
+  // In the last stretch the plan turns (th, degrees) and tips away (tilt) the way the drone's
+  // camera sees the aisle, so the drawing lies over the clip's first frame.
+  const th = +fpSvg.dataset.th || 0, tilt = +fpSvg.dataset.tilt || 0;
   // Where the aisle sits on screen in the opening view; it glides to the centre as the camera closes in.
   const ax0 = vcx + s0 * (fx - cx0), ay0 = vcy + s0 * (fy - cy0);
   let heroPinned = false, fpDraw = 0, fpStarted = false;
@@ -57,7 +60,9 @@
       const p = scrollY / (2 * H);                     // 0..1 while the stage holds
       const z = ease(clamp((p - 0.04) / 0.56)), s = s0 * Math.pow(s1 / s0, z);
       const sx = ax0 + (vcx - ax0) * z, sy = ay0 + (vcy - ay0) * z;
-      fpG.setAttribute('transform', `translate(${sx.toFixed(2)} ${sy.toFixed(2)}) scale(${s.toFixed(4)}) translate(${-fx} ${-fy})`);
+      const w = ease(clamp((z - 0.55) / 0.45));
+      fpG.setAttribute('transform', `translate(${sx.toFixed(2)} ${sy.toFixed(2)}) rotate(${(th * w).toFixed(2)}) scale(${s.toFixed(4)}) translate(${-fx} ${-fy})`);
+      fpSvg.style.transform = w ? `perspective(1200px) rotateX(${(tilt * w).toFixed(2)}deg)` : '';
       const ppu = Math.max(fpSvg.clientWidth / vb.width, fpSvg.clientHeight / vb.height) || 1;
       const fo = clamp((p - 0.56) / 0.2), st = film.style;
       st.setProperty('--sw', (1.2 / (s * ppu)).toFixed(4));

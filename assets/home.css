@@ -471,3 +471,11 @@ dialog.sheet[open]{animation:sheet-in .6s var(--spring)}
 }
 /* Why Newcoast sheets: the tag text that sits on a filled label. */
 .sheet text.inv{fill:var(--bg)}
+
+/* Hero blueprint, round 4: larger lettering, the new buildings a touch brighter, the car. */
+.fp-lb .sm{font-size:13px;letter-spacing:.18em}
+.fp-lb .xs{font-size:8px;letter-spacing:.2em}
+.fp-svg .nb{stroke-opacity:.95}
+.fp-svg .car{stroke-opacity:.9}
+/* The tilt pivots on the aisle's left wall, so that wall stays upright and the right one leans in, as in the clip. */
+.fp-svg{transform-origin:21.7% 50%}
