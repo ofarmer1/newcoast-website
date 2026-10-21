@@ -825,3 +825,5 @@ html[data-nav="dark"]:not(.nav-over-film) .nav.scrolled{background:color-mix(in 
    keeps only its small tag; tags in running text are plain pills. */
 [data-review] .ask{outline:0}
 [data-review] .ask-tag::after{border-style:solid;border-color:var(--hair)}
+/* The "1 / 5" count spans the bottom of the popup; it must never sit on top of the arrows. */
+.md-count{pointer-events:none}
