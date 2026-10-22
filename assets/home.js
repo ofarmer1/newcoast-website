@@ -24,7 +24,9 @@
   const sizeOf = el => sizes.get(el) || { width: 0, height: 0 };
 
   /* ---------- Video buttons (WCAG 2.2.2: anything that moves can be paused) ---------- */
-  const userPaused = new Set();
+  // A video the user paused stays paused; one they started stays playing, even under reduced
+  // motion or data saver, until it scrolls out of sight.
+  const userPaused = new Set(), userPlayed = new Set();
   function syncBtn(btn, video) {
     const paused = video.paused;
     btn.setAttribute('aria-pressed', paused);
@@ -34,8 +36,8 @@
     const video = document.getElementById(btn.dataset.video);
     btn.hidden = false;
     btn.addEventListener('click', () => {
-      if (video.paused) { userPaused.delete(video); video.play().catch(() => {}); }
-      else { userPaused.add(video); video.pause(); }
+      if (video.paused) { userPaused.delete(video); userPlayed.add(video); video.play().catch(() => {}); }
+      else { userPaused.add(video); userPlayed.delete(video); video.pause(); }
     });
     video.addEventListener('play', () => syncBtn(btn, video));
     video.addEventListener('pause', () => syncBtn(btn, video));
@@ -43,7 +45,7 @@
   });
 
   /* ---------- 1 Hero: blueprint, push down the drive aisle, then the film ---------- */
-  const film = $('#film'), heroVideo = $('#heroVideo'), filmCopy = $('#filmCopy'), fpSvg = $('.fp-svg', film), fpG = $('.fp-g', film);
+  const film = $('#film'), heroVideo = $('#heroVideo'), heroBtn = $('[data-video="heroVideo"]'), filmCopy = $('#filmCopy'), fpSvg = $('.fp-svg', film), fpG = $('.fp-g', film);
   // MP4 (H.264) everywhere it plays; WebM for the few browsers without it.
   const heroSrc = matchMedia('(max-width: 760px)').matches ? heroVideo.dataset.srcSm : heroVideo.dataset.src;
   heroVideo.src = heroVideo.canPlayType('video/mp4; codecs="avc1.640028"') ? heroSrc : heroSrc.replace(/\.mp4(?=\?|$)/, '.webm');
@@ -121,6 +123,10 @@
       if (planB) setVar(st, '--mb', `${(planB + (H - planB + 80) * clamp(z * 3)).toFixed(0)}px`);
       // The clip starts only once it has fully replaced the drawing, so the hand-over shows frame one.
       filmShown = heroVideo.paused ? fo > 0.9 : fo > 0.05;
+      // While the drawing fills the screen there is no video to play or pause, so its button waits
+      // until the clip shows (it stays put if it has focus, so keyboard users are never dropped).
+      const noFilm = fo < 0.05 && document.activeElement !== heroBtn;
+      if (heroBtn.hidden !== noFilm) heroBtn.hidden = noFilm;
       // Before the hand-over the clip waits on its first frame, which matches the drawn aisle.
       if (fo < 0.02 && heroVideo.currentTime > 0.1 && !userPaused.has(heroVideo)) { heroVideo.pause(); heroVideo.currentTime = 0; }
       // iPhones ignore preload, so the first scroll starts the clip and stops it straight away,
@@ -139,7 +145,7 @@
     // The film plays only while it can be seen: never under reduced motion or data saver,
     // and not once the page has covered it.
     const covered = scrollY >= (heroPinned ? 3 : 1) * H;
-    const play = filmShown && !covered && motion.matches && !saveData && !userPaused.has(heroVideo);
+    const play = filmShown && !covered && ((motion.matches && !saveData) || userPlayed.has(heroVideo)) && !userPaused.has(heroVideo);
     if (play && heroVideo.paused) heroVideo.play().catch(() => {});
     else if (!play && !heroVideo.paused && !userPaused.has(heroVideo)) heroVideo.pause();
   }
@@ -300,7 +306,7 @@
     if (e.isIntersecting && !saveData) { slotVideo.preload = 'auto'; slotVideo.load(); o.disconnect(); }
   }, { rootMargin: '100% 0px' }).observe(slotVideo);
   new IntersectionObserver(([e]) => {
-    if (e.isIntersecting && motion.matches && !saveData && !userPaused.has(slotVideo)) slotVideo.play().catch(() => {});
+    if (e.isIntersecting && ((motion.matches && !saveData) || userPlayed.has(slotVideo)) && !userPaused.has(slotVideo)) slotVideo.play().catch(() => {});
     else if (!e.isIntersecting && !slotVideo.paused) slotVideo.pause();
   }, { threshold: 0.25 }).observe(slotVideo);
   function slotScroll() {
@@ -433,7 +439,7 @@
         <dl>
           <dt>Location</dt><dd>${city}, ${name}</dd>
           <dt>Size</dt><dd>${sf.toLocaleString('en-US')} SF</dd>
-          <dt>Status</dt><dd>${realized ? 'Realized' : 'Owned'}</dd>
+          <dt>Status</dt><dd>${realized ? 'Realized' : 'Active'}</dd>
         </dl>
         <span class="ask-tag" data-ask="Overview · ask Myles"></span>
       </li>`).join('');

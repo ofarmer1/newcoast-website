@@ -678,6 +678,7 @@ html:not(.js) .bio-toggle{display:none}
 .vid-btn[aria-pressed="true"] .i-pause{display:none}
 .vid-btn[aria-pressed="true"] .i-play{display:block}
 .vid-btn.small{right:14px;bottom:14px;width:44px;height:44px}
+.vid-btn[hidden]{display:none}
 
 /* Portfolio header: the title on the left, a film to its right. */
 .pf-head{grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(32px,5vw,88px);align-items:end}
@@ -799,7 +800,8 @@ html:not(.js) .bio-toggle{display:none}
    becomes a plain light bar with a hairline once the page is underneath. */
 .nav,.nav.scrolled,.nav:not(.scrolled),html[data-nav="dark"] .nav.scrolled{inset:0 0 auto;max-width:none;margin:0;padding:14px var(--gutter);border-radius:0;box-shadow:none;background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none}
 html[data-nav="light"] .nav.scrolled{background:color-mix(in srgb,var(--bg) 94%,transparent);box-shadow:0 1px 0 var(--hair);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
-html[data-nav="dark"]:not(.nav-over-film) .nav.scrolled{background:color-mix(in srgb,var(--bg) 94%,transparent);box-shadow:0 1px 0 var(--hair)}
+/* Solid over the dark contact band and footer: see-through, their large headings showed through the bar. */
+html[data-nav="dark"]:not(.nav-over-film) .nav.scrolled{background:var(--bg);box-shadow:0 1px 0 var(--hair)}
 @media (max-width:900px){.nav,.nav.scrolled,.nav:not(.scrolled){padding:10px 10px 10px var(--gutter)}}
 
 /* Team page: the track record opens the page, the team follows, and the team's
@@ -819,6 +821,8 @@ html[data-nav="dark"]:not(.nav-over-film) .nav.scrolled{background:color-mix(in 
 /* Size and status read together on the left, clear of the next column. */
 .facilities .meta{justify-content:flex-start;gap:10px}
 .facilities .meta .status::before{content:"·";margin-right:10px;color:var(--fg-2)}
+/* Phones stack size over status, so the separator dot would start a line on its own. */
+@media (max-width:520px){.facilities .meta .status::before{content:none}}
 /* Filtered, the Frankfort card is a normal tile, so its name drops to the normal size. */
 .facilities.filtered li.lead .city{font-size:20px}
 /* Realized facilities are greyed over in the full view so they read as sold. */
