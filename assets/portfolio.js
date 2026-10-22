@@ -8,7 +8,10 @@
   const btn = document.querySelector('[data-video="pfVideo"]');
   let userPaused = false;
   // MP4 (H.264) everywhere it plays; WebM for the few browsers without it.
-  video.src = video.canPlayType('video/mp4; codecs="avc1.640028"') ? video.dataset.src : video.dataset.src.replace(/\.mp4(?=\?|$)/, '.webm');
+  // Phones get the 720p file.
+  const src = matchMedia('(max-width: 760px)').matches ? video.dataset.srcSm : video.dataset.src;
+  video.src = video.canPlayType('video/mp4; codecs="avc1.640028"') ? src : src.replace(/\.mp4(?=\?|$)/, '.webm');
+  if (!saveData) video.preload = 'auto';
   const sync = () => {
     btn.setAttribute('aria-pressed', video.paused);
     btn.setAttribute('aria-label', (video.paused ? 'Play' : 'Pause') + ' facility video');

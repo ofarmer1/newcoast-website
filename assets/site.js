@@ -90,6 +90,27 @@
     sketches.forEach(c => { c.classList.add('armed'); skIO.observe(c); });
   }
 
+  /* ---------- Counters: figures count up once when they come into view ----------
+     The final figure stays in the HTML (and in a screen-reader copy beside it); only
+     the aria-hidden visual copy counts. Reduced motion: the final figure, no count. */
+  const counters = document.querySelectorAll('[data-countup]');
+  if (!reduce && counters.length && 'IntersectionObserver' in window) {
+    const countIO = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      countIO.unobserve(e.target);
+      const el = e.target, n = +el.dataset.countup, pre = el.dataset.prefix || '', suf = el.dataset.suffix || '', end = el.textContent;
+      const t0 = performance.now();
+      const step = t => {
+        const k = Math.min(1, (t - t0) / 1400), eased = 1 - Math.pow(1 - k, 4);
+        el.textContent = k < 1 ? pre + Math.round(n * eased) + suf : end;
+        if (k < 1) requestAnimationFrame(step);
+      };
+      el.textContent = pre + '0' + suf;
+      requestAnimationFrame(step);
+    }), { threshold: 0.6 });
+    counters.forEach(el => countIO.observe(el));
+  }
+
   /* ---------- Scroll state, from observers ---------- */
   // Nav: solid once the top 40px have scrolled away (an observer, not a scroll listener).
   const navSentinel = document.createElement('div');

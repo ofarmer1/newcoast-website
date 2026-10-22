@@ -148,6 +148,8 @@
 
 /* ---------- 5 Investment focus: the site plan draws itself ---------- */
 /* Investment focus: the Frankfort site in isometric, one building picked out, the four points turning over it. */
+/* Less space above, so the heading sits clear of the bottom of the screen once the section is in view. */
+.chapter.fx{padding-top:clamp(64px,7vw,104px)}
 .fx-stage{position:relative;margin-top:28px;aspect-ratio:1200/620;max-width:100%}
 .fx-art{position:absolute;inset:0;width:100%;height:100%}
 .fx-art .i-lot{fill:var(--bg-2);stroke:none}
@@ -162,7 +164,7 @@
 .fx-art .i-win{fill:var(--bg-4);stroke:none;opacity:.75}.fx-art .i-door,.fx-art .i-gdoor{fill:var(--bg-3);stroke:var(--bg-4);stroke-width:.6}
 .fx-art .i-chim{fill:var(--bg-2);stroke:var(--bg-4);stroke-width:.7}.fx-art .i-chim.w-end{fill:var(--bg-3)}
 .fx-art .i-sh{fill:var(--fg);stroke:none;opacity:.05}
-.fx-art .i-dw{fill:var(--bg-3);stroke:none}
+.fx-art .i-dw{fill:var(--bg-3);stroke:var(--bg-4);stroke-width:.6}
 .fx-art .i-lane{fill:none;stroke:var(--bg);stroke-width:1;stroke-dasharray:8 10}
 .fx-art .i-car{fill:var(--bg);stroke:var(--bg-4);stroke-width:.7;stroke-linejoin:round}.fx-art .i-car.w-long{fill:var(--bg-2)}.fx-art .i-car.w-end{fill:var(--bg-3)}
 .fx-art .i-b{fill:var(--bg);stroke:var(--fg-2);stroke-width:.9;stroke-linejoin:round}
@@ -175,7 +177,7 @@
 .fx-art .i-van{fill:#FFFFFF;stroke:var(--fg-2);stroke-width:.8}
 .fx-art .i-tree{fill:var(--bg-3);stroke:var(--bg-4);stroke-width:.8}.fx-art .i-trunk{stroke:var(--bg-4);stroke-width:1.2}
 .fx-art .fx-dot{fill:#FFFFFF;stroke:var(--accent);stroke-width:2}
-.fx-h{position:absolute;left:0;bottom:0;font-size:var(--t-h2);max-width:15ch;margin:0;text-shadow:0 0 18px var(--bg),0 0 6px var(--bg)}
+.fx-h{position:absolute;left:0;bottom:clamp(40px,9%,110px);font-size:var(--t-h2);max-width:15ch;margin:0;text-shadow:0 0 18px var(--bg),0 0 6px var(--bg)}
 .fx-ask{position:absolute;right:0;bottom:0}
 .fx-tick{position:absolute;left:var(--ax);bottom:calc(100% - var(--ay));display:grid;justify-items:start}
 .fx-pin{order:2;width:1px;height:clamp(40px,8vw,96px);background:var(--accent);margin-left:0}
@@ -198,7 +200,7 @@
   .fx-list{transform:none}
   .fx.rot .fx-list{width:100%}
   .fx.rot .fx-list li{font-size:14px}.fx.rot .fx-list li[data-on]{font-size:15.5px}
-  .fx-h{position:relative;grid-row:3;margin-top:24px;text-shadow:none}
+  .fx-h{position:relative;bottom:auto;grid-row:3;margin-top:24px;text-shadow:none}
   .fx-ask{position:relative;grid-row:4}
 }
 .tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:clamp(48px,6vw,80px)}
@@ -382,13 +384,14 @@ dialog.sheet[open]{animation:sheet-in .6s var(--spring)}
 .chapters.pin{height:480svh}
 .chapters.pin .ch-stage{grid-template-rows:auto minmax(0,1fr) auto;padding-block:92px 32px}
 .chapters.pin .ch-head{grid-area:1/1/2/3;margin:0 0 clamp(36px,7vh,80px);align-items:end}
-.chapters.pin .ch-head h2{font-size:clamp(30px,1rem + 2.2vw,52px);margin-top:12px;max-width:20ch}
+.chapters.pin .ch-head h2{font-size:clamp(30px,1rem + 2.2vw,52px);margin-top:20px;max-width:20ch}
 .chapters.pin .ch-head p{font-size:16px}
 .chapters.pin .ch-copy{grid-area:2/1}
 .chapters.pin .ch-fig{grid-area:2/2}
 .chapters.pin .ch-progress{grid-area:3/1/4/3;margin-top:20px}
 .chapters.pin .sk-fig .sk-card,.chapters.pin .op-fig .op-card{width:min(100%,calc((100svh - 450px) * 4 / 3));margin-inline:auto}
 .why .ch-head{margin-bottom:clamp(40px,5vw,72px)}
+.why .ch-head h2{margin-top:20px}
 .op-card .vid-btn[hidden]{display:none}
 @media (prefers-reduced-motion:reduce){.op-card .vid-btn{display:none}}
 
@@ -404,7 +407,7 @@ dialog.sheet[open]{animation:sheet-in .6s var(--spring)}
 
 /* Why self storage: the heading sits closer to the chapters, the chapter titles step
    down a size so the two stay distinct, and the drawing moves in towards the copy. */
-.chapters.pin .ch-head{margin-bottom:clamp(16px,3vh,32px)}
+.chapters.pin .ch-head{margin-bottom:clamp(28px,4.5vh,52px)}
 .ch-copy h3{font-size:clamp(22px,1rem + 1.1vw,34px);line-height:1.12}
 .chapters.pin .ch-stage{column-gap:clamp(24px,3vw,48px)}
 .chapters.pin .op-fig .op-card{margin-inline:0 auto}
@@ -439,9 +442,14 @@ dialog.sheet[open]{animation:sheet-in .6s var(--spring)}
 /* Institutional expertise drawing: a real-looking facility (office joined to a sliding
    gate, drive in from the street, fence), each point lighting its own building, and
    cars that drive the streets and fade out at the edges. */
-.fx-art .i-road{fill:var(--bg-3);stroke:none}
-.fx-art .i-road-e{fill:none;stroke:var(--bg-4);stroke-width:.8}
-.fx-art .i-lane{stroke:var(--bg);stroke-width:1.2}
+/* Asphalt: streets, the drive, the forecourt and the aisles inside the fence, a cool grey
+   darker than the lawn, with white lane and stall markings. */
+.fx-art{--asphalt:color-mix(in srgb,var(--bg-4) 86%,var(--fg-2))}
+.fx-art .i-road,.fx-art .i-pave{fill:var(--asphalt);stroke:none}
+.fx-art .i-lane{fill:none;stroke:var(--bg);stroke-width:1.2;stroke-dasharray:8 10}
+.fx-art .i-stall{fill:none;stroke:var(--bg);stroke-width:1.1;stroke-linecap:round}
+.fx-art .i-walk{fill:none;stroke:var(--bg-3);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.fx-art .i-mull{stroke:var(--fg-2);stroke-width:.6}
 .fx-art .i-house.r-flat{fill:none;stroke:none}
 .fx-art .i-house.r-back{fill:var(--bg-2)}.fx-art .i-house.r-front{fill:var(--bg)}
 .fx-art .i-of{fill:var(--bg);stroke:var(--fg-2);stroke-width:.9;stroke-linejoin:round}
@@ -479,6 +487,8 @@ dialog.sheet[open]{animation:sheet-in .6s var(--spring)}
 .fp-svg .car{stroke-opacity:.9}
 /* The tilt pivots on the aisle's left wall, so that wall stays upright and the right one leans in, as in the clip. */
 .fp-svg{transform-origin:21.7% 50%}
+/* While the drawing fades, it shrinks with the clip (which settles from 1.14 to 1), so the drawn car stays on the filmed one. */
+.film.pin .film-plan{transform:scale(calc(1 - .1228 * var(--fo,0)))}
 /* Hero blueprint, line cleanup: the lede wraps sooner so the whole site fits beside it, and on
    phones the plan fades out above the copy (--mb, set as the camera moves). */
 @media (min-width:761px){.film.pin .film-lede{max-width:42ch}}

@@ -47,27 +47,37 @@
   // MP4 (H.264) everywhere it plays; WebM for the few browsers without it.
   const heroSrc = matchMedia('(max-width: 760px)').matches ? heroVideo.dataset.srcSm : heroVideo.dataset.src;
   heroVideo.src = heroVideo.canPlayType('video/mp4; codecs="avc1.640028"') ? heroSrc : heroSrc.replace(/\.mp4(?=\?|$)/, '.webm');
+  // Fetch the clip while the drawing is on screen, so it is ready on its first frame at the
+  // hand-over instead of only starting to download then (it showed late or froze on slow links).
+  if (motion.matches && !saveData) { heroVideo.preload = 'auto'; heroVideo.load(); }
+  let heroWarm = false;
   const clamp = v => Math.min(1, Math.max(0, v));
   const ease = v => v * v * (3 - 2 * v);
   // The camera starts on the whole site (s0) and ends over the drive aisle (s1, focus fx/fy),
   // framed like the clip's first frame.
   const vb = fpSvg.viewBox.baseVal, vcx = vb.x + vb.width / 2, vcy = vb.y + vb.height / 2;
   const [s1, fx, fy] = ['s1', 'fx', 'fy'].map(k => +fpSvg.dataset[k]);
-  const box = fpSvg.dataset.box.split(' ').map(Number);
+  // Desktop opens on the whole parcel with room around it; phones, with less height, on the buildings.
+  const boxL = fpSvg.dataset.box.split(' ').map(Number), boxS = (fpSvg.dataset.boxSm || fpSvg.dataset.box).split(' ').map(Number);
+  let box = boxL;
   // In the last stretch the plan turns (th, degrees) and tips away (tilt) the way the drone's
   // camera sees the aisle, so the drawing lies over the clip's first frame.
   const th = +fpSvg.dataset.th || 0, tilt = +fpSvg.dataset.tilt || 0;
+  // The clip's aisle is narrower than the drawn one, so the last stretch also narrows the plan
+  // across the aisle (kx, about its west edge px) and the drawn car lands on the filmed car.
+  const kx = +fpSvg.dataset.kx || 1, px = +fpSvg.dataset.px || 0;
   // The opening view fits the whole site (box) into the clear space beside the copy, or above it
   // on phones, so no line runs under the text. ax0/ay0: where the aisle sits on screen then; it
   // glides to the centre as the camera closes in.
   let s0 = 1, ax0 = vcx, ay0 = vcy, planB = 0;
   function fitPlan() {
+    box = innerWidth > 760 ? boxL : boxS;
     const W = innerWidth, H = VH, ppu = Math.max(W / vb.width, H / vb.height);
     const toVb = (x, y) => [vb.x + (x - (W - vb.width * ppu) / 2) / ppu, vb.y + (y - (H - vb.height * ppu) / 2) / ppu];
     const copy = $$('.film-copy > *').map(e => e.getBoundingClientRect());
     const navB = $('.nav').getBoundingClientRect().bottom, g = W > 760 ? 40 : 16;
     const [l, t, r, b] = W > 760
-      ? [Math.max(...copy.map(c => c.right)) + g, navB + 24, W - 48, H - 40]
+      ? [Math.max(...copy.map(c => c.right)) + g, navB + 72, W - 64, H - 132]   // room above and below, so the plan doesn't fill the screen top to bottom
       : [g, navB + 16, W - g, Math.min(...copy.map(c => c.top)) - 24];
     planB = W > 760 ? 0 : b;                          // phones: the plan fades out above the copy
     const [x0, y0] = toVb(l, t), [x1, y1] = toVb(r, b);
@@ -75,6 +85,8 @@
     // Centre the box across the space and keep it under the nav.
     const bx = (box[0] + box[2]) / 2, rx = (x0 + x1) / 2, ry = y0 + s0 * (box[3] - box[1]) / 2;
     ax0 = rx + s0 * (fx - bx); ay0 = ry + s0 * (fy - (box[1] + box[3]) / 2);
+    // The tilt pivots on the aisle's west wall wherever it lands on this screen, so phones tip like desktops.
+    setStyle(fpSvg, 'transformOrigin', `${(W / 2 + (px - fx) * s1 * ppu).toFixed(1)}px 50%`);
   }
   let heroPinned = false, fpDraw = 0, fpStarted = false;
   function setHeroPin() {
@@ -97,7 +109,7 @@
       const z = ease(clamp((p - 0.04) / 0.56)), s = s0 * Math.pow(s1 / s0, z);
       const sx = ax0 + (vcx - ax0) * z, sy = ay0 + (vcy - ay0) * z;
       const w = ease(clamp((z - 0.55) / 0.45));
-      setAttr(fpG, 'transform', `translate(${sx.toFixed(2)} ${sy.toFixed(2)}) rotate(${(th * w).toFixed(2)}) scale(${s.toFixed(4)}) translate(${-fx} ${-fy})`);
+      setAttr(fpG, 'transform', `translate(${sx.toFixed(2)} ${sy.toFixed(2)}) rotate(${(th * w).toFixed(2)}) scale(${s.toFixed(4)}) translate(${-fx} ${-fy}) translate(${px} 0) scale(${(1 + (kx - 1) * w).toFixed(4)} 1) translate(${-px} 0)`);
       setStyle(fpSvg, 'transform', w ? `perspective(1200px) rotateX(${+(tilt * w).toFixed(2)}deg)` : '');
       const fpBox = sizeOf(fpSvg), ppu = Math.max(fpBox.width / vb.width, fpBox.height / vb.height) || 1;
       const fo = clamp((p - 0.56) / 0.2), st = film.style;
@@ -111,6 +123,12 @@
       filmShown = heroVideo.paused ? fo > 0.9 : fo > 0.05;
       // Before the hand-over the clip waits on its first frame, which matches the drawn aisle.
       if (fo < 0.02 && heroVideo.currentTime > 0.1 && !userPaused.has(heroVideo)) { heroVideo.pause(); heroVideo.currentTime = 0; }
+      // iPhones ignore preload, so the first scroll starts the clip and stops it straight away,
+      // which makes it buffer.
+      if (!heroWarm && z > 0 && heroVideo.readyState < 3 && !saveData) {
+        heroWarm = true;
+        heroVideo.play().then(() => { if (fo < 0.02) { heroVideo.pause(); heroVideo.currentTime = 0; } }).catch(() => {});
+      }
       fade = (scrollY - 2.2 * H) / H;                  // the copy leaves as the page slides over
     }
     if (motion.matches) {
@@ -275,7 +293,12 @@
 
   /* ---------- 4b Film: grows to full width, plays only while on screen ---------- */
   const slot = $('#slot'), slotVideo = $('#slotVideo');
-  slotVideo.src = slotVideo.canPlayType('video/mp4; codecs="avc1.640028"') ? slotVideo.dataset.src : slotVideo.dataset.src.replace(/\.mp4(?=\?|$)/, '.webm');
+  const slotSrc = matchMedia('(max-width: 760px)').matches ? slotVideo.dataset.srcSm : slotVideo.dataset.src;
+  slotVideo.src = slotVideo.canPlayType('video/mp4; codecs="avc1.640028"') ? slotSrc : slotSrc.replace(/\.mp4(?=\?|$)/, '.webm');
+  // Start downloading a screen before it scrolls into view, so it is playing when it arrives.
+  new IntersectionObserver(([e], o) => {
+    if (e.isIntersecting && !saveData) { slotVideo.preload = 'auto'; slotVideo.load(); o.disconnect(); }
+  }, { rootMargin: '100% 0px' }).observe(slotVideo);
   new IntersectionObserver(([e]) => {
     if (e.isIntersecting && motion.matches && !saveData && !userPaused.has(slotVideo)) slotVideo.play().catch(() => {});
     else if (!e.isIntersecting && !slotVideo.paused) slotVideo.pause();
@@ -306,10 +329,11 @@
     li.toggleAttribute('data-on', !o);
     if (still) { li.offsetWidth; li.style.transition = ''; }
   }
-  // Each point lights its own building, and the pointer moves over to it.
+  // Each point lights its own building, and the pointer moves over to it. The buildings are
+  // numbered left to right on screen (data-i), so the highlight steps across from left to right.
   const fxTickEl = $('#fxTick'), fxBlds = $$('.fx-bld', bp), fxAnchors = JSON.parse(fxTickEl.dataset.anchors);
   function fxPick(i) {
-    fxBlds.forEach((b, k) => b.classList.toggle('on', k === i));
+    fxBlds.forEach(b => b.classList.toggle('on', +b.dataset.i === i));
     fxTickEl.style.setProperty('--ax', fxAnchors[i][0] + '%');
     fxTickEl.style.setProperty('--ay', fxAnchors[i][1] + '%');
   }
@@ -327,7 +351,7 @@
   function fxRun() {
     clearInterval(fxTimer);
     if (fxStopped || fxHeld || !bp.classList.contains('rot') || !bp.classList.contains('seen')) return;
-    fxTimer = setInterval(() => { fxOn = (fxOn + 1) % fxItems.length; fxShow(); }, 1700);
+    fxTimer = setInterval(() => { fxOn = (fxOn + 1) % fxItems.length; fxShow(); }, 1200);
   }
   function fxSetup() {
     const rot = motion.matches;
