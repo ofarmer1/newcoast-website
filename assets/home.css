@@ -179,8 +179,8 @@
 .fx-art .fx-dot{fill:#FFFFFF;stroke:var(--accent);stroke-width:2}
 .fx-h{position:absolute;left:0;bottom:clamp(40px,9%,110px);font-size:var(--t-h2);max-width:15ch;margin:0;text-shadow:0 0 18px var(--bg),0 0 6px var(--bg)}
 .fx-ask{position:absolute;right:0;bottom:0}
-.fx-tick{position:absolute;left:var(--ax);bottom:calc(100% - var(--ay));display:grid;justify-items:start}
-.fx-pin{order:2;width:1px;height:clamp(40px,8vw,96px);background:var(--accent);margin-left:0}
+.fx-tick{position:absolute;left:calc(var(--ax) - var(--shift,0px));bottom:calc(100% - var(--ay));display:grid;justify-items:start}
+.fx-pin{order:2;width:1px;height:clamp(40px,8vw,96px);background:var(--accent);margin-left:var(--shift,0px)}
 .fx-list{order:1;transform:translateX(-14px);padding:14px 16px;border-radius:12px;background:color-mix(in srgb,var(--bg) 88%,transparent);box-shadow:0 0 0 1px var(--hair),0 12px 30px -14px rgba(20,26,23,.35);backdrop-filter:blur(6px)}
 .fx-list li{display:flex;gap:10px;align-items:baseline;font-size:15px;line-height:1.5;color:var(--fg)}
 .fx-list .label{color:var(--fg-2)}
@@ -470,12 +470,13 @@ dialog.sheet[open]{animation:sheet-in .6s var(--spring)}
 .fx-art .fx-bld.on .i-b.f-ridge{stroke:var(--bg-4)}
 .fx-art .fx-bld.on .i-b.f-door{stroke:#FFFFFF;opacity:.85}
 .fx-tick{transition:left .6s var(--spring),bottom .6s var(--spring)}
+.fx-pin{transition:margin-left .6s var(--spring)}
 .fx-mv{animation:fx-drive var(--t) linear var(--d) infinite}
 @keyframes fx-drive{0%{transform:translate(0,0);opacity:0}8%,88%{opacity:1}100%{transform:translate(var(--dx),var(--dy));opacity:0}}
 .bp.still .fx-mv,.bp:not(.seen) .fx-mv{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){
   .fx-mv{animation:none;transform:translate(calc(var(--dx) * .45),calc(var(--dy) * .45))}
-  .fx-tick{transition:none}
+  .fx-tick,.fx-pin{transition:none}
 }
 /* Why Newcoast sheets: the tag text that sits on a filled label. */
 .sheet text.inv{fill:var(--bg)}

@@ -342,7 +342,21 @@
     fxBlds.forEach(b => b.classList.toggle('on', +b.dataset.i === i));
     fxTickEl.style.setProperty('--ax', fxAnchors[i][0] + '%');
     fxTickEl.style.setProperty('--ay', fxAnchors[i][1] + '%');
+    fxFit(i);
   }
+  // On tablets the card would run past the drawing's right edge (and make the page scroll
+  // sideways), so it slides left by the overhang while the pin stays on the building.
+  // Worked out from the target anchor, not the tick's box, which may still be moving.
+  let fxAt = 0;
+  function fxFit(i = fxAt) {
+    fxAt = i;
+    const cb = fxTickEl.offsetParent;
+    if (!cb || getComputedStyle(fxTickEl).position !== 'absolute') { fxTickEl.style.setProperty('--shift', '0px'); return; }
+    const box = cb.getBoundingClientRect(), stage = $('.fx-stage', bp).getBoundingClientRect();
+    const over = box.width * fxAnchors[i][0] / 100 - 14 + $('.fx-list', bp).offsetWidth - (stage.right - 8 - box.left);
+    fxTickEl.style.setProperty('--shift', `${Math.max(0, Math.ceil(over))}px`);
+  }
+  new ResizeObserver(() => fxFit()).observe($('.fx-stage', bp));
   function fxShow(first) {
     fxPick(fxOn);
     fxItems.forEach((li, k) => {
