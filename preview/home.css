@@ -44,6 +44,16 @@
 .fp-svg .rd{stroke-opacity:.5}
 .fp-svg .c{stroke-dasharray:.004 .006;stroke-dashoffset:0;opacity:var(--pd,1)}
 .fp-svg .tc{stroke-opacity:.55}
+/* Hero car: a filled top-down model of the filmed SUV. The outline draws with the plan, the
+   paint and glass fade in as the camera closes in. */
+.fp-svg .carm path{stroke-dasharray:none;stroke-dashoffset:0;stroke-linejoin:round}
+.fp-svg .carm{opacity:var(--pd,1)}
+.fp-svg .cm-body{fill:#D5DBD8;fill-opacity:calc(.12 + .78 * var(--zs,0));stroke-opacity:.9;stroke-width:calc(var(--sw,1.2) * .8)}
+.fp-svg .cm-mir{fill:#D5DBD8;fill-opacity:calc(.12 + .78 * var(--zs,0));stroke-opacity:.8;stroke-width:calc(var(--sw,1.2) * .6)}
+.fp-svg .cm-glass{fill:#141b19;fill-opacity:calc(.9 * var(--zs,0));stroke-opacity:.7;stroke-width:calc(var(--sw,1.2) * .6)}
+.fp-svg .cm-roof{fill:#C4CBC8;fill-opacity:calc(.9 * var(--zs,0));stroke-opacity:.6;stroke-width:calc(var(--sw,1.2) * .5)}
+.fp-svg .cm-ln{stroke:#8E9894;stroke-opacity:.8;stroke-width:calc(var(--sw,1.2) * .45)}
+.fp-svg .cm-lt{stroke-opacity:.7;stroke-width:calc(var(--sw,1.2) * .6)}
 .fp-svg .g{stroke-width:calc(var(--sw,1.2) * 2.4)}
 .fp-lb{opacity:calc(var(--pd,1) * (1 - var(--zl,0)))}
 .fp-lb text{fill:#E7EEE9;font:500 13px var(--mono);letter-spacing:.14em}
