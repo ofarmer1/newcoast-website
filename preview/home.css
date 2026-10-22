@@ -177,8 +177,8 @@
 .fx-art .i-van{fill:#FFFFFF;stroke:var(--fg-2);stroke-width:.8}
 .fx-art .i-tree{fill:var(--bg-3);stroke:var(--bg-4);stroke-width:.8}.fx-art .i-trunk{stroke:var(--bg-4);stroke-width:1.2}
 .fx-art .fx-dot{fill:#FFFFFF;stroke:var(--accent);stroke-width:2}
-/* The heading sits above the drawing, clear of it (Oliver, 2026-10-22). */
-.fx-h{font-size:var(--t-h2);max-width:22ch;margin:20px 0 0}
+/* The heading sits over the drawing's lower left, lifted clear of the bottom of the screen (Myles, round 3). */
+.fx-h{position:absolute;left:0;bottom:clamp(72px,16%,170px);font-size:var(--t-h2);max-width:15ch;margin:0;text-shadow:0 0 22px var(--bg),0 0 10px var(--bg),0 0 4px var(--bg)}
 .fx-ask{position:absolute;right:0;bottom:0}
 .fx-tick{position:absolute;left:var(--ax);bottom:calc(100% - var(--ay));display:grid;justify-items:start}
 .fx-pin{order:2;width:1px;height:clamp(40px,8vw,96px);background:var(--accent);margin-left:0}
