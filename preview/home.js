@@ -341,6 +341,17 @@
     fxTickEl.style.setProperty('--ax', fxAnchors[i][0] + '%');
     fxTickEl.style.setProperty('--ay', fxAnchors[i][1] + '%');
   }
+  // On tablets the card would run past the drawing's right edge (and make the page scroll
+  // sideways), so it slides left by the overhang while the pin stays on the building.
+  function fxFit() {
+    fxTickEl.style.setProperty('--shift', '0px');
+    const list = $('.fx-list', bp);
+    if (getComputedStyle(fxTickEl).position !== 'absolute') return;
+    const stage = $('.fx-stage', bp).getBoundingClientRect(), l = fxTickEl.getBoundingClientRect().left;
+    const over = l - 14 + list.offsetWidth - (stage.right - 8);
+    if (over > 0) fxTickEl.style.setProperty('--shift', `${Math.ceil(over)}px`);
+  }
+  new ResizeObserver(fxFit).observe($('.fx-stage', bp));
   function fxShow(first) {
     fxPick(fxOn);
     fxItems.forEach((li, k) => {
