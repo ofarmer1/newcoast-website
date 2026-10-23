@@ -4,13 +4,13 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------- Smooth inertia scrolling on every page (Lenis, self-hosted) ----------
-     Off for reduced motion; the page then scrolls natively. Off in Safari too: Safari runs
-     scripts at 60 frames a second while its own scrolling runs at up to 120 on a ProMotion
-     screen, so the script-driven scroll felt steppy and lagged the trackpad there. Every
-     browser on an iPhone or iPad is Safari underneath and scrolls natively by touch anyway. */
+     Off for reduced motion; the page then scrolls natively. On in every browser, Safari
+     included (per Oliver, 2026-10-23). Safari may run scripts at 60 frames a second on a
+     120Hz ProMotion screen, so there the glide settles a little sooner (higher lerp) to keep
+     each step small. Touch scrolling on phones and tablets stays native in every browser. */
   const safari = navigator.vendor === 'Apple Computer, Inc.';
-  if (!reduce && !safari && window.Lenis) {
-    window.ncLenis = new Lenis({ autoRaf: true, lerp: 0.09, anchors: true });
+  if (!reduce && window.Lenis) {
+    window.ncLenis = new Lenis({ autoRaf: true, lerp: safari ? 0.14 : 0.09, anchors: true });
   }
 
   /* ---------- Nav colour follows the section beneath it ---------- */
