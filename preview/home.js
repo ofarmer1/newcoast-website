@@ -45,8 +45,11 @@
   /* ---------- 1 Hero: blueprint, push down the drive aisle, then the film ---------- */
   const film = $('#film'), heroVideo = $('#heroVideo'), filmCopy = $('#filmCopy'), fpSvg = $('.fp-svg', film), fpG = $('.fp-g', film);
   // MP4 (H.264) everywhere it plays; WebM for the few browsers without it.
-  const heroSrc = matchMedia('(max-width: 760px)').matches ? heroVideo.dataset.srcSm : heroVideo.dataset.src;
-  heroVideo.src = heroVideo.canPlayType('video/mp4; codecs="avc1.640028"') ? heroSrc : heroSrc.replace(/\.mp4(?=\?|$)/, '.webm');
+  // Both are re-cut from the 4K original (no plate blur). Phones get 1080p, since the hero crops
+  // and enlarges the frame on a tall screen; large or Retina desktops get 1440p.
+  const heroBig = !saveData && innerWidth * devicePixelRatio > 2200;
+  const heroSrc = matchMedia('(max-width: 760px)').matches ? heroVideo.dataset.srcSm : heroBig ? heroVideo.dataset.srcLg : heroVideo.dataset.src;
+  heroVideo.src = heroVideo.canPlayType('video/mp4; codecs="avc1.64002A"') ? heroSrc : heroSrc.replace(/\.mp4(?=\?|$)/, '.webm');
   // Fetch the clip while the drawing is on screen, so it is ready on its first frame at the
   // hand-over instead of only starting to download then (it showed late or froze on slow links).
   if (motion.matches && !saveData) { heroVideo.preload = 'auto'; heroVideo.load(); }
@@ -332,7 +335,7 @@
   // Each point lights its own building, and the pointer moves over to it. The buildings are
   // numbered left to right on screen (data-i), so the highlight steps across from left to right.
   const fxTickEl = $('#fxTick'), fxBlds = $$('.fx-bld', bp), fxAnchors = JSON.parse(fxTickEl.dataset.anchors);
-  // Per Oliver (2026-10-23): the highlight steps left to right, one building a second, and the
+  // Per Oliver (2026-10-23): the highlight steps left to right, one building every two seconds, and the
   // card glides over with it (a transform, so nothing reflows), then loops back to the first.
   let fxAt = 0;
   function fxPick(i = fxAt) {
@@ -361,14 +364,14 @@
       // The point leaving the top fades on upward, then waits out of sight at the bottom.
       if (!first && o === fxItems.length - 2) {
         fxPlace(li, -2);
-        setTimeout(() => fxPlace(li, o, true), 620);
+        setTimeout(() => fxPlace(li, o, true), 850);
       } else fxPlace(li, o, first);
     });
   }
   function fxRun() {
     clearInterval(fxTimer);
     if (fxStopped || fxHeld || !bp.classList.contains('rot') || !bp.classList.contains('seen')) return;
-    fxTimer = setInterval(() => { fxOn = (fxOn + 1) % fxItems.length; fxShow(); }, 1000);
+    fxTimer = setInterval(() => { fxOn = (fxOn + 1) % fxItems.length; fxShow(); }, 2000);
   }
   function fxSetup() {
     const rot = motion.matches;

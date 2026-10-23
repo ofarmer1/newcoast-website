@@ -192,7 +192,7 @@
 .fx-ask{position:absolute;right:0;bottom:0}
 /* The card glides from building to building on transform alone (no layout, cheap in Safari).
    --tx/--ty are the lit building's anchor in px, set by home.js; --shift keeps the card on screen. */
-.fx-tick{--glide:.7s cubic-bezier(.65,0,.35,1);position:absolute;left:0;top:0;transform:translate(calc(var(--tx,0px) - var(--shift,0px)),calc(var(--ty,0px) - 100%));transition:transform var(--glide);display:grid;justify-items:start}
+.fx-tick{--glide:1s cubic-bezier(.65,0,.35,1);position:absolute;left:0;top:0;transform:translate(calc(var(--tx,0px) - var(--shift,0px)),calc(var(--ty,0px) - 100%));transition:transform var(--glide);display:grid;justify-items:start}
 .fx-pin{order:2;width:1px;height:clamp(40px,8vw,96px);background:var(--accent);transform:translateX(var(--shift,0px));transition:transform var(--glide)}
 .fx-list{order:1;transform:translateX(-14px);padding:14px 16px;border-radius:12px;background:color-mix(in srgb,var(--bg) 88%,transparent);box-shadow:0 0 0 1px var(--hair),0 12px 30px -14px rgba(20,26,23,.35);backdrop-filter:blur(6px)}
 .fx-list li{display:flex;gap:10px;align-items:baseline;font-size:15px;line-height:1.5;color:var(--fg)}
@@ -202,7 +202,7 @@
 .fx-pause .i-play{display:none;fill:currentColor;stroke:none}.fx-pause[aria-pressed="true"] .i-play{display:block}.fx-pause[aria-pressed="true"] .i-pause{display:none}
 /* Rotating version: one point at a time in front, the neighbours fading above and below. */
 .fx.rot .fx-list{position:relative;width:min(27rem,60vw);height:6.6em;overflow:hidden;padding:0 16px}
-.fx.rot .fx-list li{position:absolute;left:16px;right:16px;top:50%;margin-top:-.8em;white-space:nowrap;transform:translateY(var(--y,0)) scale(var(--sc,1));transform-origin:left center;opacity:var(--op,0);font-size:18px;transition:transform .6s cubic-bezier(.65,0,.35,1),opacity .6s cubic-bezier(.65,0,.35,1)}
+.fx.rot .fx-list li{position:absolute;left:16px;right:16px;top:50%;margin-top:-.8em;white-space:nowrap;transform:translateY(var(--y,0)) scale(var(--sc,1));transform-origin:left center;opacity:var(--op,0);font-size:18px;transition:transform .8s cubic-bezier(.65,0,.35,1),opacity .8s cubic-bezier(.65,0,.35,1)}
 .fx.rot .fx-list .label{color:inherit}
 @media (max-width:760px){
   .fx-stage{aspect-ratio:auto;display:grid}
@@ -475,7 +475,7 @@ dialog.sheet[open]{animation:sheet-in .6s var(--spring)}
 .fx-art .i-post{stroke:var(--fg-2);stroke-width:1}
 .fx-art .i-key{fill:var(--fg-2);stroke:none}
 .fx-art .i-pond{fill:var(--bg-3);stroke:var(--bg-4)}
-.fx-art .fx-bld .i-b{transition:fill .6s cubic-bezier(.65,0,.35,1),stroke .6s cubic-bezier(.65,0,.35,1)}
+.fx-art .fx-bld .i-b{transition:fill .9s cubic-bezier(.65,0,.35,1),stroke .9s cubic-bezier(.65,0,.35,1)}
 .fx-art .fx-bld.on .i-b{stroke:var(--accent)}
 .fx-art .fx-bld.on .i-b.f-top{fill:var(--accent-hi)}
 .fx-art .fx-bld.on .i-b.f-long{fill:var(--accent)}
@@ -509,3 +509,6 @@ dialog.sheet[open]{animation:sheet-in .6s var(--spring)}
    phones the plan fades out above the copy (--mb, set as the camera moves). */
 @media (min-width:761px){.film.pin .film-lede{max-width:42ch}}
 @media (max-width:760px){.film.pin .fp-svg{-webkit-mask-image:linear-gradient(180deg,#000 calc(var(--mb,100vh) - 40px),transparent var(--mb,100vh));mask-image:linear-gradient(180deg,#000 calc(var(--mb,100vh) - 40px),transparent var(--mb,100vh))}}
+
+/* Preview (Oliver, 2026-10-23): no film grain over the page, so the hero video reads clean. */
+body::before{display:none}
