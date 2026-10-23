@@ -44,11 +44,6 @@
 .fp-svg .rd{stroke-opacity:.5}
 .fp-svg .c{stroke-dasharray:.004 .006;stroke-dashoffset:0;opacity:var(--pd,1)}
 .fp-svg .tc{stroke-opacity:.55}
-/* Hero car: a filled top-down model of the filmed SUV. The outline draws with the plan, the
-   paint and glass fade in as the camera closes in. */
-.fp-svg .carm path{stroke-dasharray:none;stroke-dashoffset:0;stroke-linejoin:round}
-/* At the hand-off the drawn car clears quickly, so it never sits over the filmed one. */
-.fp-svg .carm{opacity:calc(var(--pd,1) * max(0, 1 - 2.5 * var(--fo,0)))}
 .fp-svg .cm-body{fill:#D5DBD8;fill-opacity:calc(.12 + .78 * var(--zs,0));stroke-opacity:.9;stroke-width:calc(var(--sw,1.2) * .8)}
 .fp-svg .cm-mir{fill:#D5DBD8;fill-opacity:calc(.12 + .78 * var(--zs,0));stroke-opacity:.8;stroke-width:calc(var(--sw,1.2) * .6)}
 .fp-svg .cm-glass{fill:#141b19;fill-opacity:calc(.9 * var(--zs,0));stroke-opacity:.7;stroke-width:calc(var(--sw,1.2) * .6)}
