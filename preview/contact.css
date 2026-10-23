@@ -1,0 +1,42 @@
+/* Contact fallbacks (preview, 2026-10-23). The email buttons open the visitor's mail app; when
+   there is none, the address beside them can be copied. The form below the doors sends through
+   the site once the Cloudflare handler is live, and until then hands the message to the mail app. */
+.mail-alt{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-top:4px;font:400 14px/1.4 var(--body,inherit);color:var(--fg-2)}
+.mail-alt .addr{color:var(--fg);font-family:var(--mono);font-size:13px;letter-spacing:.02em;user-select:all}
+.copy{min-height:32px;padding:0 12px;border:1px solid color-mix(in srgb,var(--fg) 30%,transparent);border-radius:var(--r-ctl);color:var(--fg);font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;background:none;cursor:pointer}
+.copy:hover{border-color:var(--fg)}
+.copy:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+.copy-ok{font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--fg)}
+.copy-ok:empty{display:none}
+
+.msg{margin-top:clamp(56px,7vw,96px);display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:32px clamp(32px,5vw,80px)}
+.msg-head h2{font:500 var(--t-h3)/1.15 var(--display);letter-spacing:-.02em}
+.msg-head p{margin-top:12px;color:var(--fg-2);max-width:36ch}
+.ct-form{display:grid;grid-template-columns:1fr 1fr;gap:20px 16px}
+.ct-form .full{grid-column:1/-1}
+.ct-form fieldset{border:0;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.ct-form legend{font:500 var(--t-label)/1.3 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--fg-2);margin-bottom:10px;padding:0}
+.ct-form .topic{position:relative}
+.ct-form .topic input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.ct-form .topic span{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border:1px solid color-mix(in srgb,var(--fg) 30%,transparent);border-radius:var(--r-ctl);font:500 var(--t-label)/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--fg-2)}
+.ct-form .topic input:checked+span{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.ct-form .topic input:focus-visible+span{outline:2px solid var(--fg);outline-offset:2px}
+.ct-form .fld{display:grid;gap:8px;align-content:start}
+.ct-form label.l{font:500 var(--t-label)/1.3 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--fg-2)}
+.ct-form .l .opt{letter-spacing:.06em;text-transform:none;font-family:inherit;opacity:.85}
+.ct-form input[type=text],.ct-form input[type=email],.ct-form input[type=tel],.ct-form textarea{width:100%;min-height:48px;padding:12px 14px;border:1px solid color-mix(in srgb,var(--fg) 30%,transparent);border-radius:var(--r-ctl);background:var(--bg);color:var(--fg);font:400 16px/1.4 inherit}
+.ct-form textarea{min-height:140px;resize:vertical}
+.ct-form input:focus-visible,.ct-form textarea:focus-visible{outline:2px solid var(--fg);outline-offset:1px;border-color:var(--fg)}
+.ct-form [aria-invalid=true]{border-color:#9B2C1F}
+.ct-form .err{font-size:14px;color:#9B2C1F}
+.ct-form .err:empty{display:none}
+.ct-form .consent{display:flex;gap:12px;align-items:flex-start;color:var(--fg-2);font-size:15px;line-height:1.5}
+.ct-form .consent input{width:20px;height:20px;margin-top:2px;flex:none;accent-color:var(--accent)}
+.ct-form .consent a{color:var(--fg);text-decoration:underline;text-underline-offset:3px}
+.ct-form .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.ct-form .send{display:flex;flex-wrap:wrap;align-items:center;gap:16px}
+.ct-form .btn{cursor:pointer;border:0}
+.ct-form .status{font-size:15px;line-height:1.5;color:var(--fg);max-width:52ch}
+.ct-form .status:empty{display:none}
+@media (max-width:900px){.msg{grid-template-columns:1fr}}
+@media (max-width:560px){.ct-form{grid-template-columns:1fr}}
