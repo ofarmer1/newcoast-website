@@ -324,7 +324,7 @@
     const a = Math.abs(o);
     if (still) li.style.transition = 'none';
     li.style.setProperty('--y', (o * 2.1) + 'em');
-    li.style.setProperty('--sc', a ? 0.86 : 1);
+    li.style.setProperty('--sc', a ? 0.82 : 1);
     li.style.setProperty('--op', a === 0 ? 1 : a === 1 ? 0.64 : 0);
     li.toggleAttribute('data-on', !o);
     if (still) { li.offsetWidth; li.style.transition = ''; }
@@ -332,26 +332,28 @@
   // Each point lights its own building, and the pointer moves over to it. The buildings are
   // numbered left to right on screen (data-i), so the highlight steps across from left to right.
   const fxTickEl = $('#fxTick'), fxBlds = $$('.fx-bld', bp), fxAnchors = JSON.parse(fxTickEl.dataset.anchors);
-  // Per Oliver (2026-10-22): one building stays lit and the card stays on it while the points
-  // turn; hopping between buildings read as jumping around.
-  const FX_ONE = 2;
-  function fxPick() {
-    const i = FX_ONE;
+  // Per Oliver (2026-10-23): the highlight steps left to right, one building a second, and the
+  // card glides over with it (a transform, so nothing reflows), then loops back to the first.
+  let fxAt = 0;
+  function fxPick(i = fxAt) {
+    fxAt = i;
     fxBlds.forEach(b => b.classList.toggle('on', +b.dataset.i === i));
-    fxTickEl.style.setProperty('--ax', fxAnchors[i][0] + '%');
-    fxTickEl.style.setProperty('--ay', fxAnchors[i][1] + '%');
+    fxFit();
   }
-  // On tablets the card would run past the drawing's right edge (and make the page scroll
-  // sideways), so it slides left by the overhang while the pin stays on the building.
+  // The anchor is turned into px for the transform. On tablets the card would run past the
+  // drawing's right edge (and make the page scroll sideways), so it slides left by the overhang
+  // while the pin stays on the building.
   function fxFit() {
-    fxTickEl.style.setProperty('--shift', '0px');
-    const list = $('.fx-list', bp);
-    if (getComputedStyle(fxTickEl).position !== 'absolute') return;
-    const stage = $('.fx-stage', bp).getBoundingClientRect(), l = fxTickEl.getBoundingClientRect().left;
-    const over = l - 14 + list.offsetWidth - (stage.right - 8);
-    if (over > 0) fxTickEl.style.setProperty('--shift', `${Math.ceil(over)}px`);
+    const cb = fxTickEl.offsetParent, s = fxTickEl.style;
+    if (!cb || getComputedStyle(fxTickEl).position !== 'absolute') { s.setProperty('--shift', '0px'); return; }
+    const box = cb.getBoundingClientRect(), stage = $('.fx-stage', bp).getBoundingClientRect();
+    const x = box.width * fxAnchors[fxAt][0] / 100, y = box.height * fxAnchors[fxAt][1] / 100;
+    const over = x - 14 + $('.fx-list', bp).offsetWidth - (stage.right - 8 - box.left);
+    s.setProperty('--tx', `${x.toFixed(1)}px`);
+    s.setProperty('--ty', `${y.toFixed(1)}px`);
+    s.setProperty('--shift', `${Math.max(0, Math.ceil(over))}px`);
   }
-  new ResizeObserver(fxFit).observe($('.fx-stage', bp));
+  new ResizeObserver(() => fxFit()).observe($('.fx-stage', bp));
   function fxShow(first) {
     fxPick(fxOn);
     fxItems.forEach((li, k) => {
@@ -359,20 +361,22 @@
       // The point leaving the top fades on upward, then waits out of sight at the bottom.
       if (!first && o === fxItems.length - 2) {
         fxPlace(li, -2);
-        setTimeout(() => fxPlace(li, o, true), 450);
+        setTimeout(() => fxPlace(li, o, true), 620);
       } else fxPlace(li, o, first);
     });
   }
   function fxRun() {
     clearInterval(fxTimer);
     if (fxStopped || fxHeld || !bp.classList.contains('rot') || !bp.classList.contains('seen')) return;
-    fxTimer = setInterval(() => { fxOn = (fxOn + 1) % fxItems.length; fxShow(); }, 1200);
+    fxTimer = setInterval(() => { fxOn = (fxOn + 1) % fxItems.length; fxShow(); }, 1000);
   }
   function fxSetup() {
     const rot = motion.matches;
     bp.classList.toggle('rot', rot);
     fxPause.hidden = !rot;
+    fxTickEl.style.transition = 'none';
     if (rot) fxShow(true); else { fxItems.forEach(li => { li.removeAttribute('style'); li.removeAttribute('data-on'); }); fxPick(0); }
+    fxTickEl.offsetWidth; fxTickEl.style.transition = '';
     fxRun();
   }
   // The street traffic runs only while the drawing is on screen, and the pause button stops it too.

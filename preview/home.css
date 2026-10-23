@@ -190,8 +190,10 @@
 /* The heading sits over the drawing's lower left, lifted clear of the bottom of the screen (Myles, round 3). */
 .fx-h{position:absolute;left:0;bottom:clamp(72px,16%,170px);font-size:var(--t-h2);max-width:15ch;margin:0;text-shadow:0 0 22px var(--bg),0 0 10px var(--bg),0 0 4px var(--bg)}
 .fx-ask{position:absolute;right:0;bottom:0}
-.fx-tick{position:absolute;left:calc(var(--ax) - var(--shift,0px));bottom:calc(100% - var(--ay));display:grid;justify-items:start}
-.fx-pin{order:2;width:1px;height:clamp(40px,8vw,96px);background:var(--accent);margin-left:var(--shift,0px)}
+/* The card glides from building to building on transform alone (no layout, cheap in Safari).
+   --tx/--ty are the lit building's anchor in px, set by home.js; --shift keeps the card on screen. */
+.fx-tick{--glide:.7s cubic-bezier(.65,0,.35,1);position:absolute;left:0;top:0;transform:translate(calc(var(--tx,0px) - var(--shift,0px)),calc(var(--ty,0px) - 100%));transition:transform var(--glide);display:grid;justify-items:start}
+.fx-pin{order:2;width:1px;height:clamp(40px,8vw,96px);background:var(--accent);transform:translateX(var(--shift,0px));transition:transform var(--glide)}
 .fx-list{order:1;transform:translateX(-14px);padding:14px 16px;border-radius:12px;background:color-mix(in srgb,var(--bg) 88%,transparent);box-shadow:0 0 0 1px var(--hair),0 12px 30px -14px rgba(20,26,23,.35);backdrop-filter:blur(6px)}
 .fx-list li{display:flex;gap:10px;align-items:baseline;font-size:15px;line-height:1.5;color:var(--fg)}
 .fx-list .label{color:var(--fg-2)}
@@ -200,18 +202,17 @@
 .fx-pause .i-play{display:none;fill:currentColor;stroke:none}.fx-pause[aria-pressed="true"] .i-play{display:block}.fx-pause[aria-pressed="true"] .i-pause{display:none}
 /* Rotating version: one point at a time in front, the neighbours fading above and below. */
 .fx.rot .fx-list{position:relative;width:min(27rem,60vw);height:6.6em;overflow:hidden;padding:0 16px}
-.fx.rot .fx-list li{position:absolute;left:16px;right:16px;top:50%;margin-top:-.8em;white-space:nowrap;transform:translateY(var(--y,0)) scale(var(--sc,1));transform-origin:left center;opacity:var(--op,0);transition:transform .42s var(--spring),opacity .32s var(--ease),font-size .32s var(--ease)}
-.fx.rot .fx-list li[data-on]{font-size:18px;font-weight:500}
+.fx.rot .fx-list li{position:absolute;left:16px;right:16px;top:50%;margin-top:-.8em;white-space:nowrap;transform:translateY(var(--y,0)) scale(var(--sc,1));transform-origin:left center;opacity:var(--op,0);font-size:18px;transition:transform .6s cubic-bezier(.65,0,.35,1),opacity .6s cubic-bezier(.65,0,.35,1)}
 .fx.rot .fx-list .label{color:inherit}
 @media (max-width:760px){
   .fx-stage{aspect-ratio:auto;display:grid}
   .fx-stage>*{grid-column:1}
   .fx-art{position:relative;grid-row:1;height:auto;aspect-ratio:1200/620;margin-inline:-16px;width:calc(100% + 32px)}
-  .fx-tick{position:relative;left:auto;bottom:auto;grid-row:2;margin-top:12px;justify-items:stretch}
+  .fx-tick{position:relative;left:auto;top:auto;transform:none;grid-row:2;margin-top:12px;justify-items:stretch}
   .fx-pin{display:none}
   .fx-list{transform:none}
   .fx.rot .fx-list{width:100%}
-  .fx.rot .fx-list li{font-size:14px}.fx.rot .fx-list li[data-on]{font-size:15.5px}
+  .fx.rot .fx-list li{font-size:15.5px}
   .fx-h{position:relative;bottom:auto;grid-row:3;margin-top:24px;text-shadow:none}
   .fx-ask{position:relative;grid-row:4}
 }
@@ -474,14 +475,13 @@ dialog.sheet[open]{animation:sheet-in .6s var(--spring)}
 .fx-art .i-post{stroke:var(--fg-2);stroke-width:1}
 .fx-art .i-key{fill:var(--fg-2);stroke:none}
 .fx-art .i-pond{fill:var(--bg-3);stroke:var(--bg-4)}
-.fx-art .fx-bld .i-b{transition:fill .5s var(--ease),stroke .5s var(--ease)}
+.fx-art .fx-bld .i-b{transition:fill .6s cubic-bezier(.65,0,.35,1),stroke .6s cubic-bezier(.65,0,.35,1)}
 .fx-art .fx-bld.on .i-b{stroke:var(--accent)}
 .fx-art .fx-bld.on .i-b.f-top{fill:var(--accent-hi)}
 .fx-art .fx-bld.on .i-b.f-long{fill:var(--accent)}
 .fx-art .fx-bld.on .i-b.f-end{fill:#0F1714}
 .fx-art .fx-bld.on .i-b.f-ridge{stroke:var(--bg-4)}
 .fx-art .fx-bld.on .i-b.f-door{stroke:#FFFFFF;opacity:.85}
-.fx-tick{transition:none}
 /* The edge fade is a CSS mask on each layer (cheap to composite), and the cars sit on their own
    layer, so Safari doesn't repaint the whole drawing on every frame. */
 .fx-art{-webkit-mask-image:radial-gradient(64% 64% at 54% 48%,#000 46%,transparent 100%);mask-image:radial-gradient(64% 64% at 54% 48%,#000 46%,transparent 100%)}
@@ -491,7 +491,7 @@ dialog.sheet[open]{animation:sheet-in .6s var(--spring)}
 .bp.still .fx-mv,.bp:not(.seen) .fx-mv{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){
   .fx-mv{animation:none;transform:translate(calc(var(--dx) * .45),calc(var(--dy) * .45))}
-  .fx-tick{transition:none}
+  .fx-tick,.fx-pin,.fx.rot .fx-list li{transition:none}
 }
 /* Why Newcoast sheets: the tag text that sits on a filled label. */
 .sheet text.inv{fill:var(--bg)}
