@@ -4,7 +4,7 @@
 // message was sent unless the handler confirmed it.
 (() => {
   const ADDR = 'contact@newcoastre.com';
-  document.querySelectorAll('.copy').forEach(btn => {
+  document.querySelectorAll('button.copy').forEach(btn => {
     const ok = btn.parentElement.querySelector('.copy-ok');
     let t;
     btn.addEventListener('click', async () => {
