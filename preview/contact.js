@@ -35,7 +35,12 @@
     el.setAttribute('aria-invalid', msg ? 'true' : 'false'); if (err) err.textContent = msg;
     return !msg;
   };
-  form.querySelectorAll('input,textarea').forEach(el => el.addEventListener('blur', () => { if (el.value) check(el); }));
+  // Errors only change while someone types in a field already marked wrong, never on blur, so
+  // nothing moves under the pointer when they click the next field or the consent box.
+  form.querySelectorAll('input,textarea').forEach(el => el.addEventListener('input', () => { if (el.getAttribute('aria-invalid') === 'true') check(el); }));
+  form.elements.consent.addEventListener('change', () => {
+    if (form.elements.consent.checked) { document.getElementById('ct-consent-err').textContent = ''; form.elements.consent.setAttribute('aria-invalid', 'false'); }
+  });
   form.addEventListener('submit', async e => {
     e.preventDefault();
     status.textContent = '';
