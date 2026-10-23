@@ -5,9 +5,8 @@
 
   /* ---------- Smooth inertia scrolling on every page (Lenis, self-hosted) ----------
      Off for reduced motion; the page then scrolls natively. Off in Safari again (2026-10-23):
-     with it on, the home page lagged badly in Safari on a Mac. Safari may run scripts at 60 frames a second on a
-     120Hz ProMotion screen, so there the glide settles a little sooner (higher lerp) to keep
-     each step small. Touch scrolling on phones and tablets stays native in every browser. */
+     with it on, the home page lagged badly in Safari on a Mac. Safari runs scripts at 60 frames a second while its own
+     scrolling runs at up to 120 on a ProMotion screen, so script-driven scroll lags there. Touch scrolling on phones and tablets stays native in every browser. */
   const safari = navigator.vendor === 'Apple Computer, Inc.';
   if (!reduce && !safari && window.Lenis) {
     window.ncLenis = new Lenis({ autoRaf: true, lerp: 0.09, anchors: true });
