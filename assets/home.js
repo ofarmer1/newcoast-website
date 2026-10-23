@@ -330,7 +330,7 @@
     const a = Math.abs(o);
     if (still) li.style.transition = 'none';
     li.style.setProperty('--y', (o * 2.1) + 'em');
-    li.style.setProperty('--sc', a ? 0.86 : 1);
+    li.style.setProperty('--sc', a ? 0.82 : 1);
     li.style.setProperty('--op', a === 0 ? 1 : a === 1 ? 0.64 : 0);
     li.toggleAttribute('data-on', !o);
     if (still) { li.offsetWidth; li.style.transition = ''; }
@@ -338,23 +338,26 @@
   // Each point lights its own building, and the pointer moves over to it. The buildings are
   // numbered left to right on screen (data-i), so the highlight steps across from left to right.
   const fxTickEl = $('#fxTick'), fxBlds = $$('.fx-bld', bp), fxAnchors = JSON.parse(fxTickEl.dataset.anchors);
-  function fxPick(i) {
-    fxBlds.forEach(b => b.classList.toggle('on', +b.dataset.i === i));
-    fxTickEl.style.setProperty('--ax', fxAnchors[i][0] + '%');
-    fxTickEl.style.setProperty('--ay', fxAnchors[i][1] + '%');
-    fxFit(i);
-  }
-  // On tablets the card would run past the drawing's right edge (and make the page scroll
-  // sideways), so it slides left by the overhang while the pin stays on the building.
-  // Worked out from the target anchor, not the tick's box, which may still be moving.
+  // Per Oliver (2026-10-23): the highlight steps left to right, one building every two seconds, and the
+  // card glides over with it (a transform, so nothing reflows), then loops back to the first.
   let fxAt = 0;
-  function fxFit(i = fxAt) {
+  function fxPick(i = fxAt) {
     fxAt = i;
-    const cb = fxTickEl.offsetParent;
-    if (!cb || getComputedStyle(fxTickEl).position !== 'absolute') { fxTickEl.style.setProperty('--shift', '0px'); return; }
+    fxBlds.forEach(b => b.classList.toggle('on', +b.dataset.i === i));
+    fxFit();
+  }
+  // The anchor is turned into px for the transform. On tablets the card would run past the
+  // drawing's right edge (and make the page scroll sideways), so it slides left by the overhang
+  // while the pin stays on the building.
+  function fxFit() {
+    const cb = fxTickEl.offsetParent, s = fxTickEl.style;
+    if (!cb || getComputedStyle(fxTickEl).position !== 'absolute') { s.setProperty('--shift', '0px'); return; }
     const box = cb.getBoundingClientRect(), stage = $('.fx-stage', bp).getBoundingClientRect();
-    const over = box.width * fxAnchors[i][0] / 100 - 14 + $('.fx-list', bp).offsetWidth - (stage.right - 8 - box.left);
-    fxTickEl.style.setProperty('--shift', `${Math.max(0, Math.ceil(over))}px`);
+    const x = box.width * fxAnchors[fxAt][0] / 100, y = box.height * fxAnchors[fxAt][1] / 100;
+    const over = x - 14 + $('.fx-list', bp).offsetWidth - (stage.right - 8 - box.left);
+    s.setProperty('--tx', `${x.toFixed(1)}px`);
+    s.setProperty('--ty', `${y.toFixed(1)}px`);
+    s.setProperty('--shift', `${Math.max(0, Math.ceil(over))}px`);
   }
   new ResizeObserver(() => fxFit()).observe($('.fx-stage', bp));
   function fxShow(first) {
@@ -364,20 +367,22 @@
       // The point leaving the top fades on upward, then waits out of sight at the bottom.
       if (!first && o === fxItems.length - 2) {
         fxPlace(li, -2);
-        setTimeout(() => fxPlace(li, o, true), 450);
+        setTimeout(() => fxPlace(li, o, true), 850);
       } else fxPlace(li, o, first);
     });
   }
   function fxRun() {
     clearInterval(fxTimer);
     if (fxStopped || fxHeld || !bp.classList.contains('rot') || !bp.classList.contains('seen')) return;
-    fxTimer = setInterval(() => { fxOn = (fxOn + 1) % fxItems.length; fxShow(); }, 1200);
+    fxTimer = setInterval(() => { fxOn = (fxOn + 1) % fxItems.length; fxShow(); }, 2000);
   }
   function fxSetup() {
     const rot = motion.matches;
     bp.classList.toggle('rot', rot);
     fxPause.hidden = !rot;
+    fxTickEl.style.transition = 'none';
     if (rot) fxShow(true); else { fxItems.forEach(li => { li.removeAttribute('style'); li.removeAttribute('data-on'); }); fxPick(0); }
+    fxTickEl.offsetWidth; fxTickEl.style.transition = '';
     fxRun();
   }
   // The street traffic runs only while the drawing is on screen, and the pause button stops it too.
