@@ -191,7 +191,7 @@
 .fx-ask{position:absolute;right:0;bottom:0}
 .fx-tick{position:absolute;left:calc(var(--ax) - var(--shift,0px));bottom:calc(100% - var(--ay));display:grid;justify-items:start}
 .fx-pin{order:2;width:1px;height:clamp(40px,8vw,96px);background:var(--accent);margin-left:var(--shift,0px)}
-.fx-list{order:1;transform:translateX(-14px);padding:14px 16px;border-radius:12px;background:color-mix(in srgb,var(--bg) 88%,transparent);box-shadow:0 0 0 1px var(--hair),0 12px 30px -14px rgba(20,26,23,.35);backdrop-filter:blur(6px)}
+.fx-list{order:1;transform:translateX(-14px);padding:14px 16px;border-radius:12px;background:color-mix(in srgb,var(--bg) 96%,transparent);box-shadow:0 0 0 1px var(--hair),0 12px 30px -14px rgba(20,26,23,.35)}
 .fx-list li{display:flex;gap:10px;align-items:baseline;font-size:15px;line-height:1.5;color:var(--fg)}
 .fx-list .label{color:var(--fg-2)}
 .fx-pause{order:0;justify-self:end;margin:0 0 6px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--bg);box-shadow:0 0 0 1px var(--hair);color:var(--fg)}
@@ -204,6 +204,7 @@
 .fx.rot .fx-list .label{color:inherit}
 @media (max-width:760px){
   .fx-stage{aspect-ratio:auto;display:grid}
+  .fx-stage>*{grid-column:1}
   .fx-art{position:relative;grid-row:1;height:auto;aspect-ratio:1200/620;margin-inline:-16px;width:calc(100% + 32px)}
   .fx-tick{position:relative;left:auto;bottom:auto;grid-row:2;margin-top:12px;justify-items:stretch}
   .fx-pin{display:none}
@@ -247,7 +248,7 @@
 
 /* Facility sheet: slides in from the side, or up from the bottom on phones. */
 dialog.sheet{border:0;padding:0;margin:0 0 0 auto;height:100dvh;max-height:100dvh;width:min(560px,100%);max-width:100%;background:var(--bg);color:var(--fg);box-shadow:-30px 0 80px rgba(20,26,23,.25);overscroll-behavior:contain}
-dialog.sheet::backdrop{background:rgba(20,26,23,.45);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+dialog.sheet::backdrop{background:rgba(20,26,23,.6)}
 dialog.sheet[open]{animation:sheet-in .6s var(--spring)}
 @keyframes sheet-in{from{transform:translateX(48px);opacity:0}}
 .sheet-in{padding:28px clamp(20px,4vw,36px) 48px;display:grid;gap:28px}
@@ -481,6 +482,10 @@ dialog.sheet[open]{animation:sheet-in .6s var(--spring)}
 .fx-art .fx-bld.on .i-b.f-door{stroke:#FFFFFF;opacity:.85}
 .fx-tick{transition:left .6s var(--spring),bottom .6s var(--spring)}
 .fx-pin{transition:margin-left .6s var(--spring)}
+/* The edge fade is a CSS mask on each layer (cheap to composite), and the cars sit on their own
+   layer, so the browser doesn't repaint the whole drawing on every frame. */
+.fx-art{-webkit-mask-image:radial-gradient(64% 64% at 54% 48%,#000 46%,transparent 100%);mask-image:radial-gradient(64% 64% at 54% 48%,#000 46%,transparent 100%)}
+.fx-cars{pointer-events:none}
 .fx-mv{animation:fx-drive var(--t) linear var(--d) infinite}
 @keyframes fx-drive{0%{transform:translate(0,0);opacity:0}8%,88%{opacity:1}100%{transform:translate(var(--dx),var(--dy));opacity:0}}
 .bp.still .fx-mv,.bp:not(.seen) .fx-mv{animation-play-state:paused}

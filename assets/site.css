@@ -310,11 +310,9 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--focus);outline-offs
 :root{--spring:cubic-bezier(.32,.72,0,1);--shell:rgba(20,26,23,.03);--hair:rgba(20,26,23,.13);--core:#FFFFFF;--r-shell:28px;--r-core:22px}
 .page-top{padding-top:clamp(150px,17vw,210px)!important}
 
-/* Film grain: one fixed, non-interactive layer, never on a scrolling element. */
-body::before{content:"";position:fixed;inset:0;z-index:150;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
 /* Floating island nav: a pill detached from the top edge. */
-.nav,.nav.scrolled,.nav:not(.scrolled),html[data-nav="dark"] .nav.scrolled{inset:16px 16px auto;margin-inline:auto;max-width:calc(var(--max) - 2 * var(--gutter));padding:8px 8px 8px 24px;border-radius:999px;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 0 0 1px var(--hair),0 18px 40px -24px rgba(20,26,23,.35);transition:background .6s var(--spring),box-shadow .6s var(--spring)}
+.nav,.nav.scrolled,.nav:not(.scrolled),html[data-nav="dark"] .nav.scrolled{inset:16px 16px auto;margin-inline:auto;max-width:calc(var(--max) - 2 * var(--gutter));padding:8px 8px 8px 24px;border-radius:999px;background:color-mix(in srgb,var(--bg) 97%,transparent);box-shadow:0 0 0 1px var(--hair),0 18px 40px -24px rgba(20,26,23,.35);transition:background .6s var(--spring),box-shadow .6s var(--spring)}
 .nav-links{gap:6px}
 .nav-links a{padding:0 14px;border-radius:999px;transition:background .5s var(--spring),color .5s var(--spring)}
 .nav-links a::after{display:none}
@@ -514,7 +512,7 @@ html:not(.js) .bio-toggle{display:none}
 /* Open: a popup over the page, as on newcoastre.com, with arrows to step
    through the team. The grid behind it never moves. */
 .m-dialog{border:0;padding:0;margin:0;width:100%;height:100%;max-width:none;max-height:none;background:transparent;color:var(--fg);overflow:hidden}
-.m-dialog::backdrop{background:rgba(229,234,230,.86);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.m-dialog::backdrop{background:rgba(229,234,230,.94)}
 .m-dialog[open]{display:grid;place-items:center}
 .m-dialog[open]::backdrop{animation:md-fade .5s var(--ease) both}
 .md-in{position:relative;width:min(1120px,calc(100% - 160px));max-height:calc(100dvh - 120px);overflow:auto;overscroll-behavior:contain;display:grid;grid-template-columns:minmax(0,4fr) minmax(0,6fr);gap:clamp(24px,4vw,56px);padding:clamp(28px,4vw,56px);background:var(--bg);box-shadow:0 0 0 1px var(--hair),0 40px 120px rgba(20,26,23,.28)}
@@ -671,7 +669,7 @@ html:not(.js) .bio-toggle{display:none}
 @media (max-width:900px){.record-grid,.pf-sum{grid-template-columns:1fr}}
 
 /* Video pause buttons (home and portfolio). */
-.vid-btn{position:absolute;z-index:3;right:var(--gutter);bottom:clamp(48px,10vh,112px);width:48px;height:48px;border-radius:999px;display:grid;place-items:center;color:var(--fg);background:color-mix(in srgb,var(--bg) 50%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--fg) 40%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:background .4s var(--spring)}
+.vid-btn{position:absolute;z-index:3;right:var(--gutter);bottom:clamp(48px,10vh,112px);width:48px;height:48px;border-radius:999px;display:grid;place-items:center;color:var(--fg);background:color-mix(in srgb,var(--bg) 72%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--fg) 40%,transparent);transition:background .4s var(--spring)}
 .vid-btn:hover{background:color-mix(in srgb,var(--bg) 75%,transparent)}
 .vid-btn svg{width:14px;height:14px;fill:currentColor}
 .vid-btn .i-play{display:none}
@@ -799,7 +797,7 @@ html:not(.js) .bio-toggle{display:none}
 /* Nav: no floating pill. A full-width bar that is clear over the hero film and
    becomes a plain light bar with a hairline once the page is underneath. */
 .nav,.nav.scrolled,.nav:not(.scrolled),html[data-nav="dark"] .nav.scrolled{inset:0 0 auto;max-width:none;margin:0;padding:14px var(--gutter);border-radius:0;box-shadow:none;background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none}
-html[data-nav="light"] .nav.scrolled{background:color-mix(in srgb,var(--bg) 94%,transparent);box-shadow:0 1px 0 var(--hair);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+html[data-nav="light"] .nav.scrolled{background:color-mix(in srgb,var(--bg) 98%,transparent);box-shadow:0 1px 0 var(--hair)}
 /* Solid over the dark contact band and footer: see-through, their large headings showed through the bar. */
 html[data-nav="dark"]:not(.nav-over-film) .nav.scrolled{background:var(--bg);box-shadow:0 1px 0 var(--hair)}
 @media (max-width:900px){.nav,.nav.scrolled,.nav:not(.scrolled){padding:10px 10px 10px var(--gutter)}}
