@@ -47,11 +47,8 @@
   /* ---------- 1 Hero: blueprint, push down the drive aisle, then the film ---------- */
   const film = $('#film'), heroVideo = $('#heroVideo'), heroBtn = $('[data-video="heroVideo"]'), filmCopy = $('#filmCopy'), fpSvg = $('.fp-svg', film), fpG = $('.fp-g', film);
   // MP4 (H.264) everywhere it plays; WebM for the few browsers without it.
-  // Both are re-cut from the 4K original (no plate blur). Phones get 1080p, since the hero crops
-  // and enlarges the frame on a tall screen; large or Retina desktops get 1440p.
-  const heroBig = !saveData && innerWidth * devicePixelRatio > 2200;
-  const heroSrc = matchMedia('(max-width: 760px)').matches ? heroVideo.dataset.srcSm : heroBig ? heroVideo.dataset.srcLg : heroVideo.dataset.src;
-  heroVideo.src = heroVideo.canPlayType('video/mp4; codecs="avc1.64002A"') ? heroSrc : heroSrc.replace(/\.mp4(?=\?|$)/, '.webm');
+  const heroSrc = matchMedia('(max-width: 760px)').matches ? heroVideo.dataset.srcSm : heroVideo.dataset.src;
+  heroVideo.src = heroVideo.canPlayType('video/mp4; codecs="avc1.640028"') ? heroSrc : heroSrc.replace(/\.mp4(?=\?|$)/, '.webm');
   // Fetch the clip while the drawing is on screen, so it is ready on its first frame at the
   // hand-over instead of only starting to download then (it showed late or froze on slow links).
   if (motion.matches && !saveData) { heroVideo.preload = 'auto'; heroVideo.load(); }
