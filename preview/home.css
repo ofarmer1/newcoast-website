@@ -513,3 +513,15 @@ dialog.sheet[open]{animation:sheet-in .6s var(--spring)}
 
 /* Preview (Oliver, 2026-10-23): no film grain over the page, so the hero video reads clean. */
 body::before{display:none}
+
+/* Why self storage (Myles and Craig, 2026-10-23): the heading comes down to sit with the
+   chapters, the type is a step larger, and the copy is centred on the drawing beside it.
+   The heading, the chapter and the progress bar now sit as one group in the middle of the screen. */
+.chapters.pin .ch-stage{grid-template-rows:auto auto auto;align-content:center;padding-block:128px 32px}
+.chapters.pin .ch-head{margin-bottom:clamp(32px,5vh,56px)}
+.chapters.pin .ch-head h2{font-size:clamp(34px,1.1rem + 2.5vw,58px);margin-top:0}
+.chapters.pin .ch-copy{align-self:center;align-content:center;min-height:0}
+.chapters.pin .ch-copy h3{font-size:clamp(24px,1.05rem + 1.3vw,38px)}
+.chapters.pin .ch-copy p{font-size:calc(var(--t-lede) * 1.06)}
+.chapters.pin .ch-fig{align-self:center}
+.chapters.pin .ch-progress{margin-top:clamp(24px,4vh,40px)}
