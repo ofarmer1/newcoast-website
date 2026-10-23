@@ -1,6 +1,6 @@
 """Source checks, not a browser audit or conformance certification."""
 from html.parser import HTMLParser
-V="r4s"  # asset version in every ?v= link
+V="r4v"  # asset version in every ?v= link
 from pathlib import Path
 import re,json
 root=Path(__file__).resolve().parent.parent
@@ -60,10 +60,8 @@ for page,current in PAGES.items():
     if k in d: assert (root/d[k].split('?')[0]).is_file(),(page,k)
  # Every themed section names one of the two token sets.
  assert set(re.findall(r'data-theme="(\w+)"',html))<={'light','dark'},page
- # Draft media boxes: every photo or video slot is tagged for Myles.
- for m in re.finditer(r'<img [^>]*src="assets/img/(?:facilities|team)/[^>]+>',html):
-  before=html[:m.start()]
-  assert before.rfind('class="') > -1 and re.search(r'class="[^"]*\bask\b[^"]*" data-ask="[^"]+"[^<]*(?:<[^>]*>[^<]*){0,1}$',before[-400:]) or 'class="faces ask"' in before[-1600:],(page,m.group(0)[:80])
+ # Publish-ready: no review mode, ask-Myles tags, media labels or source notes left in the page.
+ assert not re.search(r'data-review|data-ask|ask-tag|ask Myles|Illustration\.|<!--',html),page
  # No em or en dashes in anything a visitor reads or hears (comments excluded).
  visible=re.sub(r'<!--.*?-->|<style>.*?</style>|<script>.*?</script>|data-ask="[^"]*"','',html,flags=re.S)
  assert not re.search('[–—]',visible),(page,re.findall('.{20}[–—].{20}',visible))
