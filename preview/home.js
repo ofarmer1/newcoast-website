@@ -453,14 +453,13 @@
     facs.className = 'facs' + (list.length > 2 ? ' many' : '');
     facs.innerHTML = list.map(([city, sf, img, realized]) => `
       <li class="fac">
-        <figure class="ask" data-ask="Photo · ask Myles"><img src="../assets/img/facilities/${img}.webp" alt="Newcoast self-storage facility in ${city}, ${name}" decoding="async"></figure>
+        <figure><img src="../assets/img/facilities/${img}.webp" alt="Newcoast self-storage facility in ${city}, ${name}" decoding="async"></figure>
         <h3>${city}, ${code}</h3>
         <dl>
           <dt>Location</dt><dd>${city}, ${name}</dd>
           <dt>Size</dt><dd>${sf.toLocaleString('en-US')} SF</dd>
           <dt>Status</dt><dd>${realized ? 'Realized' : 'Active'}</dd>
         </dl>
-        <span class="ask-tag" data-ask="Overview · ask Myles"></span>
       </li>`).join('');
     sheet.showModal();
     if (window.ncLenis) window.ncLenis.stop();
