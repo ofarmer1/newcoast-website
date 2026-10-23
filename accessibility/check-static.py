@@ -1,6 +1,6 @@
 """Source checks, not a browser audit or conformance certification."""
 from html.parser import HTMLParser
-V="r4q"  # asset version in every ?v= link
+V="r4s"  # asset version in every ?v= link
 from pathlib import Path
 import re,json
 root=Path(__file__).resolve().parent.parent

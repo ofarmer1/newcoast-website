@@ -61,6 +61,8 @@ html.lenis,html.lenis body{height:auto}
 .lenis.lenis-smooth{scroll-behavior:auto!important}
 .lenis.lenis-stopped{overflow:hidden}
 body{margin:0;background:var(--bg);color:var(--fg);font:400 var(--t-body)/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+/* Short pages (Contact): the footer sits at the bottom of the screen, not partway up a tall one. */
+body.fill{min-height:100svh;display:flex;flex-direction:column}body.fill>main{flex:1 0 auto}
 h1,h2,h3,h4,p,figure,ul,ol,dl,dd{margin:0;padding:0}
 ul,ol{list-style:none}
 img,video,canvas,svg{display:block;max-width:100%}
