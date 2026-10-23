@@ -520,3 +520,14 @@ body::before{display:none}
 .chapters.pin .ch-copy p{font-size:calc(var(--t-lede) * 1.06)}
 .chapters.pin .ch-fig{align-self:center}
 .chapters.pin .ch-progress{margin-top:clamp(24px,4vh,40px)}
+/* Why self storage (Oliver, 2026-10-23): the heading and the chapter text sit together as one
+   block on the left, and the drawing is centred on that block, so the three read as a group in
+   the middle of the screen. The two flexible rows above and below keep the group centred. */
+.chapters.pin .ch-stage{grid-template-rows:minmax(0,1fr) auto auto minmax(0,1fr) auto;align-content:stretch;padding-block:88px 28px}
+.chapters.pin .ch-head{grid-area:2/1/3/2;margin:0 0 clamp(20px,3.5vh,40px);align-self:end}
+.chapters.pin .ch-head{grid-template-columns:1fr}
+.chapters.pin .ch-head h2{max-width:16ch;font-size:clamp(32px,min(1.1rem + 2.5vw,6.6vh),58px)}
+.chapters.pin .ch-copy{grid-area:3/1/4/2;align-self:start;align-content:start}
+.chapters.pin .ch-fig{grid-area:1/2/5/3;align-self:center}
+.chapters.pin .ch-progress{grid-area:5/1/6/3}
+.chapters.pin .sk-fig .sk-card,.chapters.pin .op-fig .op-card{width:min(100%,calc((100svh - 250px) * 4 / 3))}
